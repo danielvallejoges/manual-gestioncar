@@ -245,7 +245,7 @@ const SEARCH_INDEX = [
   { module: 'Roles y Permisos', title: 'Agendador', file: 'roles-permisos.html', hash: 'rol-agendador', text: 'Calendario, OTs, clientes, vehículos. Sin acceso a presupuestos, finanzas, compras ni administración.' },
   { module: 'Roles y Permisos', title: 'Mecánico', file: 'roles-permisos.html', hash: 'rol-mecanico', text: 'Solo OTs asignadas. Checklist recepción, inspección técnica, horas de trabajo, incidencias, fotos. Mover Torre Control. Sin acceso a finanzas, compras, inventario ni administración.' },
   { module: 'Roles y Permisos', title: 'Encargado de Inventario', file: 'roles-permisos.html', hash: 'rol-inventario', text: 'Inventario completo: stock, movimientos, escaneo de productos, carrito de solicitudes. Proveedores. Sin acceso a taller, finanzas ni administración.' },
-  { module: 'Roles y Permisos', title: 'Encargado de Compras', file: 'roles-permisos.html', hash: 'rol-compras', text: 'Gestión completa de órdenes de compra. Consulta inventario y OTs (lectura). Sin acceso a taller activo, finanzas ni administración.' },
+  { module: 'Roles y Permisos', title: 'Encargado de Compras', file: 'roles-permisos.html', hash: 'rol-compras', text: 'Gestión completa de listados de compra. Consulta inventario y OTs (lectura). Sin acceso a taller activo, finanzas ni administración.' },
   { module: 'Configuración', title: 'Preguntas frecuentes', file: 'configuracion.html', hash: 'faq', text: 'Respuestas a dudas comunes: repuestos, presupuestos, historial, stock mínimo, recordatorios, exportar Excel, celular, sucursales, contraseñas, OTs por mecánico.' },
 ];
 
