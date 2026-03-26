@@ -17,6 +17,15 @@ const NAV = [
     ]
   },
   {
+    id: 'calendario', label: 'Calendario', icon: '📅', file: 'calendario.html',
+    color: 'rgba(73,182,245,.1)', iconColor: '#49B6F5',
+    sections: [
+      { id: 'cal-citas',  label: 'Crear una cita' },
+      { id: 'cal-vistas', label: 'Vistas y filtros' },
+      { id: 'cal-ot',     label: 'Convertir cita en OT' },
+    ]
+  },
+  {
     id: 'taller', label: 'Taller', icon: '🔧', file: 'taller.html',
     color: 'rgba(94,153,184,.12)', iconColor: '#5E99B8',
     sections: [
@@ -106,15 +115,6 @@ const NAV = [
       { id: 'usuarios',          label: 'Usuarios' },
       { id: 'colaboradores',     label: 'Colaboradores' },
       { id: 'encuesta-nps',      label: 'Encuesta NPS' },
-    ]
-  },
-  {
-    id: 'calendario', label: 'Calendario', icon: '📅', file: 'calendario.html',
-    color: 'rgba(73,182,245,.1)', iconColor: '#49B6F5',
-    sections: [
-      { id: 'cal-citas',  label: 'Crear una cita' },
-      { id: 'cal-vistas', label: 'Vistas y filtros' },
-      { id: 'cal-ot',     label: 'Convertir cita en OT' },
     ]
   },
   {
