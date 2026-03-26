@@ -131,9 +131,10 @@
 
     /* ── Overview comparison table ── */
     .overview-table { width: 100%; border-collapse: collapse; font-size: 12px; }
-    .overview-table th, .overview-table td { padding: 8px 10px; border: 1px solid var(--border); text-align: center; }
-    .overview-table th:first-child, .overview-table td:first-child { text-align: left; font-weight: 600; white-space: nowrap; }
-    .overview-table th { background: #f5f6f8; font-weight: 700; font-size: 11px; }
+    .overview-table th, .overview-table td { padding: 7px 10px; border: 1px solid var(--border); text-align: center; }
+    .overview-table td:first-child { text-align: left; font-weight: 600; white-space: nowrap; }
+    .overview-table th { background: var(--dark); color: #fff; font-weight: 700; font-size: 11px; white-space: nowrap; }
+    .overview-table th:first-child { text-align: left; }
     .ov-y { color: #2e7d32; font-weight: 700; }
     .ov-p { color: #a05a00; font-weight: 700; }
     .ov-n { color: #c62828; }
@@ -163,7 +164,7 @@
               <th>Módulo</th>
               <th>Super Admin</th>
               <th>Admin</th>
-              <th>Jefe Taller</th>
+              <th>Jefe de Taller</th>
               <th>Vendedor</th>
               <th>Agendador</th>
               <th>Mecánico</th>
@@ -172,6 +173,10 @@
             </tr>
           </thead>
           <tbody>
+            <tr><td>OT — Pestaña General</td><td class="ov-y">✓</td><td class="ov-y">✓</td><td class="ov-y">✓</td><td class="ov-y">✓</td><td class="ov-y">✓</td><td class="ov-p">~ limitado</td><td class="ov-n">✗</td><td class="ov-p">~ lectura</td></tr>
+            <tr><td>OT — Editar Cotización</td><td class="ov-y">✓</td><td class="ov-y">✓</td><td class="ov-y">✓</td><td class="ov-y">✓</td><td class="ov-y">✓</td><td class="ov-p">~ agregar ítems</td><td class="ov-n">✗</td><td class="ov-n">✗</td></tr>
+            <tr><td>OT — Repuestos</td><td class="ov-y">✓</td><td class="ov-y">✓</td><td class="ov-y">✓</td><td class="ov-y">✓</td><td class="ov-p">~ lectura</td><td class="ov-p">~ lectura</td><td class="ov-n">✗</td><td class="ov-n">✗</td></tr>
+            <tr><td>OT — Revisión Mecánica</td><td class="ov-y">✓</td><td class="ov-y">✓</td><td class="ov-y">✓</td><td class="ov-n">✗</td><td class="ov-n">✗</td><td class="ov-y">✓</td><td class="ov-n">✗</td><td class="ov-n">✗</td></tr>
             <tr><td>Calendario</td><td class="ov-y">✓</td><td class="ov-y">✓</td><td class="ov-y">✓</td><td class="ov-y">✓</td><td class="ov-y">✓</td><td class="ov-p">~ lectura</td><td class="ov-n">✗</td><td class="ov-n">✗</td></tr>
             <tr><td>Taller — OTs</td><td class="ov-y">✓</td><td class="ov-y">✓</td><td class="ov-y">✓</td><td class="ov-y">✓</td><td class="ov-y">✓</td><td class="ov-p">~ asignadas</td><td class="ov-n">✗</td><td class="ov-p">~ lectura</td></tr>
             <tr><td>Taller — Presupuestos</td><td class="ov-y">✓</td><td class="ov-y">✓</td><td class="ov-y">✓</td><td class="ov-y">✓</td><td class="ov-n">✗</td><td class="ov-n">✗</td><td class="ov-n">✗</td><td class="ov-n">✗</td></tr>
@@ -224,6 +229,7 @@
           <h4>Capacidades</h4>
           <ul>
             <li>Acceso completo y sin restricciones a todas las funciones del sistema</li>
+            <li>OT — Pestañas: acceso completo a <strong>General</strong>, <strong>Editar Cotización</strong>, <strong>Repuestos</strong> y <strong>Revisión Mecánica</strong></li>
             <li>Único rol que puede asignar el rol de Super Administrador a otros usuarios</li>
             <li>Gestión de empresa: datos legales, logo, país, impuesto, configuración</li>
             <li>Gestión de sucursales: crear, editar y eliminar sucursales</li>
@@ -263,6 +269,7 @@
           <ul>
             <li>Acceso completo al Calendario: crear, editar y eliminar citas de cualquier tipo</li>
             <li>Acceso completo al módulo Taller: OTs, presupuestos, clientes, vehículos, historial, incidencias, horas de trabajo</li>
+            <li>OT — Pestañas: acceso completo a <strong>General</strong>, <strong>Editar Cotización</strong>, <strong>Repuestos</strong> y <strong>Revisión Mecánica</strong></li>
             <li>Gestión completa de Inventario y Compras</li>
             <li>Finanzas: Ingresos de ventas, Otros ingresos, Abonos, Cobranzas, Libros de venta, Facturas CxP, Libros de compra, Notas de crédito, Gastos</li>
             <li>Administración: ítems, trabajos, templates, categorías, checklists, cargas masivas, tipos de incidencias, historial de cambios, sucursales, usuarios, encuesta NPS</li>
@@ -310,6 +317,7 @@
           <ul>
             <li>Acceso completo al Calendario</li>
             <li>Taller: crear y gestionar OTs, presupuestos, clientes, vehículos, historial de OTs, incidencias y horas de trabajo</li>
+            <li>OT — Pestañas: acceso completo a <strong>General</strong>, <strong>Editar Cotización</strong>, <strong>Repuestos</strong> y <strong>Revisión Mecánica</strong></li>
             <li>Torre de control: mover y supervisar OTs en el tablero Kanban</li>
             <li>Aprobar descuentos en OTs y presupuestos</li>
             <li>Gestión completa de Inventario: stock, movimientos, solicitudes, toma de inventario</li>
@@ -363,6 +371,9 @@
           <ul>
             <li>Calendario: crear, editar y eliminar citas</li>
             <li>OTs: crear, ver y gestionar el ciclo completo de OTs (estados, cotización, recepción)</li>
+            <li>OT — Pestaña <strong>General</strong>: ver y editar los datos principales de la OT</li>
+            <li>OT — Pestaña <strong>Editar Cotización</strong>: agregar ítems, trabajos y precios</li>
+            <li>OT — Pestaña <strong>Repuestos</strong>: solo lectura (puede consultar pero no gestionar stock)</li>
             <li>Presupuestos: crear, editar, enviar y gestionar presupuestos</li>
             <li>Clientes: crear, editar, ver historial de OTs y vehículos</li>
             <li>Vehículos: crear y editar vehículos</li>
@@ -380,6 +391,7 @@
             <li class="no">No puede acceder a Finanzas</li>
             <li class="no">No puede gestionar Ítems, Trabajos ni configuración del sistema</li>
             <li class="no">No puede ver Reportes ni Dashboard</li>
+            <li class="no">No puede acceder a la pestaña <strong>Revisión Mecánica</strong> de la OT</li>
             <li class="no">No puede registrar incidencias ni horas de trabajo</li>
             <li class="warn">No puede editar las condiciones de pago del cliente</li>
             <li class="warn">Los descuentos superiores a su límite autorizado requieren aprobación del Jefe de Taller</li>
@@ -416,6 +428,9 @@
           <ul>
             <li>Calendario: crear, editar y eliminar citas de cualquier tipo</li>
             <li>OTs: crear y gestionar el ciclo completo de OTs (estados, cotización)</li>
+            <li>OT — Pestaña <strong>General</strong>: ver y editar los datos principales de la OT</li>
+            <li>OT — Pestaña <strong>Editar Cotización</strong>: agregar ítems y trabajos</li>
+            <li>OT — Pestaña <strong>Repuestos</strong>: solo lectura</li>
             <li>Recepcionar vehículos desde el Calendario</li>
             <li>Clientes: crear, editar, consultar historial y vehículos</li>
             <li>Vehículos: crear y editar</li>
@@ -425,6 +440,7 @@
         <div class="role-section">
           <h4>Restricciones</h4>
           <ul>
+            <li class="no">No puede acceder a la pestaña <strong>Revisión Mecánica</strong> de la OT</li>
             <li class="no">No puede gestionar Presupuestos</li>
             <li class="no">No puede acceder a Compras, Finanzas ni Administración</li>
             <li class="no">No puede ver Reportes</li>
@@ -464,6 +480,10 @@
           <ul>
             <li>Ver el Calendario (solo lectura, sin crear citas)</li>
             <li>Ver y trabajar en las OTs asignadas a su nombre en <strong>Tareas asignadas</strong></li>
+            <li>OT — Pestaña <strong>General</strong>: ver datos de la OT, actualizar avance y estado de tarea</li>
+            <li>OT — Pestaña <strong>Editar Cotización</strong>: agregar ítems de trabajo y repuestos a la cotización</li>
+            <li>OT — Pestaña <strong>Repuestos</strong>: solo lectura (puede consultar lo que fue asignado)</li>
+            <li>OT — Pestaña <strong>Revisión Mecánica</strong>: acceso completo — checklist, calificación de ítems, fotos e inspección técnica</li>
             <li>Recepcionar vehículos: completar el checklist de recepción</li>
             <li>Inspección técnica: completar el checklist de revisión mecánica, calificar ítems, agregar trabajos y repuestos</li>
             <li>Registrar horas de trabajo por ítem de OT</li>
@@ -529,6 +549,7 @@
           <ul>
             <li class="no">No puede ver el Calendario ni crear citas</li>
             <li class="no">No puede gestionar OTs ni Presupuestos</li>
+            <li class="no">No puede acceder a ninguna pestaña de la OT (General, Editar Cotización, Repuestos, Revisión Mecánica)</li>
             <li class="no">No puede acceder a Finanzas</li>
             <li class="no">No puede acceder a la Administración del sistema</li>
             <li class="no">No puede ver Reportes detallados</li>
@@ -567,7 +588,7 @@
             <li>Seleccionar proveedores y asociar ítems a los listados de compra</li>
             <li>Consultar el catálogo de productos y sus categorías</li>
             <li>Consultar el inventario actual (solo lectura) para evaluar qué comprar</li>
-            <li>Consultar OTs (solo lectura) para identificar necesidades de repuestos</li>
+            <li>Consultar OTs (solo lectura): acceso únicamente a la pestaña <strong>General</strong> para identificar necesidades de repuestos</li>
           </ul>
         </div>
         <div class="role-section">
@@ -575,6 +596,7 @@
           <ul>
             <li class="no">No puede ver el Calendario ni crear citas</li>
             <li class="no">No puede crear ni modificar OTs o Presupuestos</li>
+            <li class="no">No puede acceder a las pestañas <strong>Editar Cotización</strong>, <strong>Repuestos</strong> ni <strong>Revisión Mecánica</strong> dentro de la OT</li>
             <li class="no">No puede hacer movimientos de inventario</li>
             <li class="no">No puede acceder a Finanzas</li>
             <li class="no">No puede acceder a la Administración del sistema</li>
