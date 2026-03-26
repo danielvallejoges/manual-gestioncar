@@ -1,0 +1,592 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Roles y Permisos — Manual GestionCar</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet"/>
+  <link rel="stylesheet" href="styles.css"/>
+  <style>
+    /* ── Role card ── */
+    .role-card {
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      overflow: hidden;
+      margin-bottom: 36px;
+    }
+    .role-head {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      padding: 18px 24px;
+    }
+    .role-badge {
+      font-size: 13px;
+      font-weight: 700;
+      padding: 5px 14px;
+      border-radius: 20px;
+      white-space: nowrap;
+      flex-shrink: 0;
+    }
+    .role-head-desc {
+      font-size: 13px;
+      color: rgba(255,255,255,.75);
+      margin: 0;
+      line-height: 1.5;
+    }
+    .role-body {
+      padding: 22px 26px;
+      background: #fff;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 24px;
+    }
+    @media (max-width: 700px) { .role-body { grid-template-columns: 1fr; } }
+
+    .role-section h4 {
+      font-size: 11px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: .5px;
+      color: var(--text-muted);
+      margin: 0 0 10px;
+    }
+    .role-section ul {
+      margin: 0;
+      padding: 0;
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 5px;
+    }
+    .role-section ul li {
+      font-size: 13px;
+      color: var(--text);
+      display: flex;
+      align-items: flex-start;
+      gap: 7px;
+      line-height: 1.45;
+    }
+    .role-section ul li::before {
+      content: '✓';
+      color: #2e7d32;
+      font-weight: 700;
+      flex-shrink: 0;
+      margin-top: 1px;
+    }
+    .role-section ul li.no::before {
+      content: '✗';
+      color: #c62828;
+    }
+    .role-section ul li.warn::before {
+      content: '~';
+      color: #a05a00;
+      font-weight: 900;
+    }
+    .role-full { grid-column: 1 / -1; }
+
+    /* ── Module access grid ── */
+    .mod-access-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+      gap: 6px;
+      margin: 14px 0 24px;
+    }
+    .mod-access-item {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      padding: 7px 10px;
+      border-radius: 8px;
+      font-size: 12px;
+      font-weight: 500;
+      border: 1px solid var(--border);
+    }
+    .mod-access-item.yes { background: #f0f9ee; border-color: #b8e0b0; color: #2e7d32; }
+    .mod-access-item.partial { background: #fff8ed; border-color: #fcd48a; color: #a05a00; }
+    .mod-access-item.no { background: #fff0f0; border-color: #f5c5c5; color: #c62828; }
+    .mod-access-item .dot { width: 8px; height: 8px; border-radius: 50%; flex-shrink: 0; }
+    .mod-access-item.yes .dot { background: #2e7d32; }
+    .mod-access-item.partial .dot { background: #a05a00; }
+    .mod-access-item.no .dot { background: #c62828; }
+
+    /* ── Color themes per role ── */
+    .rh-superadmin { background: linear-gradient(135deg, #6a1b9a 0%, #8e24aa 100%); }
+    .rh-admin      { background: linear-gradient(135deg, #1565c0 0%, #1976d2 100%); }
+    .rh-jefe       { background: linear-gradient(135deg, #e65100 0%, #f57c00 100%); }
+    .rh-vendedor   { background: linear-gradient(135deg, #2e7d32 0%, #388e3c 100%); }
+    .rh-agendador  { background: linear-gradient(135deg, #00838f 0%, #0097a7 100%); }
+    .rh-mecanico   { background: linear-gradient(135deg, #4e342e 0%, #6d4c41 100%); }
+    .rh-inventario { background: linear-gradient(135deg, #00695c 0%, #00897b 100%); }
+    .rh-compras    { background: linear-gradient(135deg, #5e35b1 0%, #7986cb 100%); }
+
+    .rb-superadmin { background: rgba(255,255,255,.25); color: #fff; }
+    .rb-admin      { background: rgba(255,255,255,.25); color: #fff; }
+    .rb-jefe       { background: rgba(255,255,255,.25); color: #fff; }
+    .rb-vendedor   { background: rgba(255,255,255,.25); color: #fff; }
+    .rb-agendador  { background: rgba(255,255,255,.25); color: #fff; }
+    .rb-mecanico   { background: rgba(255,255,255,.25); color: #fff; }
+    .rb-inventario { background: rgba(255,255,255,.25); color: #fff; }
+    .rb-compras    { background: rgba(255,255,255,.25); color: #fff; }
+
+    /* ── Overview comparison table ── */
+    .overview-table { width: 100%; border-collapse: collapse; font-size: 12px; }
+    .overview-table th, .overview-table td { padding: 8px 10px; border: 1px solid var(--border); text-align: center; }
+    .overview-table th:first-child, .overview-table td:first-child { text-align: left; font-weight: 600; white-space: nowrap; }
+    .overview-table th { background: #f5f6f8; font-weight: 700; font-size: 11px; }
+    .ov-y { color: #2e7d32; font-weight: 700; }
+    .ov-p { color: #a05a00; font-weight: 700; }
+    .ov-n { color: #c62828; }
+  </style>
+</head>
+<body>
+<div class="layout">
+  <main class="main">
+
+    <div class="page-header">
+      <div class="page-header-icon" style="background:rgba(177,75,213,.1)">🔐</div>
+      <div class="page-header-text">
+        <h1>Roles y Permisos</h1>
+        <p>GestionCar usa un sistema de permisos basado en roles. Cada usuario tiene uno o más roles que determinan exactamente qué módulos puede ver y qué acciones puede realizar.</p>
+      </div>
+    </div>
+
+    <!-- Resumen comparativo -->
+    <div class="section">
+      <div id="resumen" class="section-anchor"></div>
+      <h2>Resumen comparativo</h2>
+      <p>Vista rápida del acceso de cada rol a los módulos del sistema. <span class="ov-y">✓ Acceso completo</span> · <span class="ov-p">~ Acceso parcial</span> · <span class="ov-n">✗ Sin acceso</span></p>
+      <div class="tbl-wrap">
+        <table class="overview-table">
+          <thead>
+            <tr>
+              <th>Módulo</th>
+              <th>Super Admin</th>
+              <th>Admin</th>
+              <th>Jefe Taller</th>
+              <th>Vendedor</th>
+              <th>Agendador</th>
+              <th>Mecánico</th>
+              <th>Enc. Inventario</th>
+              <th>Enc. Compras</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr><td>Calendario</td><td class="ov-y">✓</td><td class="ov-y">✓</td><td class="ov-y">✓</td><td class="ov-y">✓</td><td class="ov-y">✓</td><td class="ov-p">~ lectura</td><td class="ov-n">✗</td><td class="ov-n">✗</td></tr>
+            <tr><td>Taller — OTs</td><td class="ov-y">✓</td><td class="ov-y">✓</td><td class="ov-y">✓</td><td class="ov-y">✓</td><td class="ov-y">✓</td><td class="ov-p">~ asignadas</td><td class="ov-n">✗</td><td class="ov-p">~ lectura</td></tr>
+            <tr><td>Taller — Presupuestos</td><td class="ov-y">✓</td><td class="ov-y">✓</td><td class="ov-y">✓</td><td class="ov-y">✓</td><td class="ov-n">✗</td><td class="ov-n">✗</td><td class="ov-n">✗</td><td class="ov-n">✗</td></tr>
+            <tr><td>Taller — Clientes</td><td class="ov-y">✓</td><td class="ov-y">✓</td><td class="ov-y">✓</td><td class="ov-y">✓</td><td class="ov-y">✓</td><td class="ov-p">~ crear/leer</td><td class="ov-n">✗</td><td class="ov-n">✗</td></tr>
+            <tr><td>Taller — Horas / Incidencias</td><td class="ov-y">✓</td><td class="ov-y">✓</td><td class="ov-y">✓</td><td class="ov-n">✗</td><td class="ov-n">✗</td><td class="ov-y">✓</td><td class="ov-n">✗</td><td class="ov-n">✗</td></tr>
+            <tr><td>Inventario</td><td class="ov-y">✓</td><td class="ov-y">✓</td><td class="ov-y">✓</td><td class="ov-p">~ lectura</td><td class="ov-p">~ lectura</td><td class="ov-n">✗</td><td class="ov-y">✓</td><td class="ov-p">~ lectura</td></tr>
+            <tr><td>Compras</td><td class="ov-y">✓</td><td class="ov-y">✓</td><td class="ov-y">✓</td><td class="ov-n">✗</td><td class="ov-n">✗</td><td class="ov-n">✗</td><td class="ov-p">~ proveedores</td><td class="ov-y">✓</td></tr>
+            <tr><td>Finanzas</td><td class="ov-y">✓</td><td class="ov-p">~ sin remun./EERR</td><td class="ov-p">~ solo ingresos</td><td class="ov-n">✗</td><td class="ov-n">✗</td><td class="ov-n">✗</td><td class="ov-n">✗</td><td class="ov-n">✗</td></tr>
+            <tr><td>Administración</td><td class="ov-y">✓</td><td class="ov-p">~ sin colaboradores</td><td class="ov-p">~ sin usuarios/suc.</td><td class="ov-n">✗</td><td class="ov-n">✗</td><td class="ov-n">✗</td><td class="ov-n">✗</td><td class="ov-n">✗</td></tr>
+            <tr><td>Reportes</td><td class="ov-y">✓</td><td class="ov-y">✓</td><td class="ov-n">✗</td><td class="ov-n">✗</td><td class="ov-n">✗</td><td class="ov-n">✗</td><td class="ov-n">✗</td><td class="ov-n">✗</td></tr>
+            <tr><td>Configuración</td><td class="ov-y">✓</td><td class="ov-y">✓</td><td class="ov-n">✗</td><td class="ov-n">✗</td><td class="ov-n">✗</td><td class="ov-n">✗</td><td class="ov-n">✗</td><td class="ov-n">✗</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- Asignación de roles -->
+    <div class="section">
+      <div id="asignacion" class="section-anchor"></div>
+      <h2>Asignación de roles</h2>
+      <p>Los roles se asignan al crear o editar un usuario en <a href="administracion.html#usuarios">Administración → Usuarios</a>. Un usuario puede tener más de un rol simultáneamente; en ese caso acumula los permisos de todos sus roles.</p>
+      <div class="callout callout-info">
+        <span class="callout-icon">ℹ️</span>
+        <div>Solo un <strong>Super Administrador</strong> puede asignar el rol de Super Administrador a otro usuario. Los demás roles pueden ser asignados por usuarios con rol Admin o superior.</div>
+      </div>
+    </div>
+
+    <!-- ═══ SUPER ADMIN ═══════════════════════════════════════════════ -->
+    <div id="rol-superadmin" class="section-anchor"></div>
+    <div class="role-card">
+      <div class="role-head rh-superadmin">
+        <span class="role-badge rb-superadmin">Super Administrador</span>
+        <p class="role-head-desc">Control total del sistema. Generalmente asignado al dueño del taller o al equipo de soporte de GestionCar.</p>
+      </div>
+      <div class="role-body">
+        <div class="role-section role-full">
+          <h4>Acceso a módulos</h4>
+          <div class="mod-access-grid">
+            <div class="mod-access-item yes"><div class="dot"></div>Calendario</div>
+            <div class="mod-access-item yes"><div class="dot"></div>Taller completo</div>
+            <div class="mod-access-item yes"><div class="dot"></div>Inventario</div>
+            <div class="mod-access-item yes"><div class="dot"></div>Compras</div>
+            <div class="mod-access-item yes"><div class="dot"></div>Finanzas completo</div>
+            <div class="mod-access-item yes"><div class="dot"></div>Administración</div>
+            <div class="mod-access-item yes"><div class="dot"></div>Reportes</div>
+            <div class="mod-access-item yes"><div class="dot"></div>Configuración</div>
+          </div>
+        </div>
+        <div class="role-section role-full">
+          <h4>Capacidades</h4>
+          <ul>
+            <li>Acceso completo y sin restricciones a todas las funciones del sistema</li>
+            <li>Único rol que puede asignar el rol de Super Administrador a otros usuarios</li>
+            <li>Gestión de empresa: datos legales, logo, país, impuesto, configuración</li>
+            <li>Gestión de sucursales: crear, editar y eliminar sucursales</li>
+            <li>Acceso a Remuneraciones, Estado de Resultados y Plan de Cuentas</li>
+            <li>Gestión de Colaboradores (personal operativo)</li>
+            <li>Gestión completa de Usuarios: crear, editar, eliminar, asignar cualquier rol</li>
+            <li>Acceso a todos los reportes y dashboards</li>
+            <li>Configuración de notificaciones, integraciones y parámetros del sistema</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <!-- ═══ ADMIN ══════════════════════════════════════════════════════ -->
+    <div id="rol-admin" class="section-anchor"></div>
+    <div class="role-card">
+      <div class="role-head rh-admin">
+        <span class="role-badge rb-admin">Administrador</span>
+        <p class="role-head-desc">Gestión operativa y financiera del negocio. Ideal para el gerente o administrador del taller.</p>
+      </div>
+      <div class="role-body">
+        <div class="role-section role-full">
+          <h4>Acceso a módulos</h4>
+          <div class="mod-access-grid">
+            <div class="mod-access-item yes"><div class="dot"></div>Calendario</div>
+            <div class="mod-access-item yes"><div class="dot"></div>Taller completo</div>
+            <div class="mod-access-item yes"><div class="dot"></div>Inventario</div>
+            <div class="mod-access-item yes"><div class="dot"></div>Compras</div>
+            <div class="mod-access-item partial"><div class="dot"></div>Finanzas parcial</div>
+            <div class="mod-access-item partial"><div class="dot"></div>Administración parcial</div>
+            <div class="mod-access-item yes"><div class="dot"></div>Reportes</div>
+            <div class="mod-access-item yes"><div class="dot"></div>Configuración</div>
+          </div>
+        </div>
+        <div class="role-section">
+          <h4>Capacidades</h4>
+          <ul>
+            <li>Acceso completo al Calendario: crear, editar y eliminar citas de cualquier tipo</li>
+            <li>Acceso completo al módulo Taller: OTs, presupuestos, clientes, vehículos, historial, incidencias, horas de trabajo</li>
+            <li>Gestión completa de Inventario y Compras</li>
+            <li>Finanzas: Ingresos de ventas, Otros ingresos, Abonos, Cobranzas, Libros de venta, Facturas CxP, Libros de compra, Notas de crédito, Gastos</li>
+            <li>Administración: ítems, trabajos, templates, categorías, checklists, cargas masivas, tipos de incidencias, historial de cambios, sucursales, usuarios, encuesta NPS</li>
+            <li>Reportes: Dashboard General y Tabla General</li>
+            <li>Configuración de empresa y notificaciones</li>
+            <li>Puede asignar roles Admin, Jefe de Taller, Vendedor, Agendador, Mecánico, Encargado de Inventario y Encargado de Compras a usuarios</li>
+          </ul>
+        </div>
+        <div class="role-section">
+          <h4>Restricciones</h4>
+          <ul>
+            <li class="no">No puede acceder a Remuneraciones</li>
+            <li class="no">No puede acceder al Estado de Resultados (EERR)</li>
+            <li class="no">No puede acceder al Plan de Cuentas</li>
+            <li class="no">No puede gestionar Colaboradores</li>
+            <li class="no">No puede asignar el rol de Super Administrador</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <!-- ═══ JEFE DE TALLER ════════════════════════════════════════════ -->
+    <div id="rol-jefe" class="section-anchor"></div>
+    <div class="role-card">
+      <div class="role-head rh-jefe">
+        <span class="role-badge rb-jefe">Jefe de Taller</span>
+        <p class="role-head-desc">Supervisión del trabajo diario del taller. Gestiona OTs, asigna mecánicos y controla el inventario y las compras.</p>
+      </div>
+      <div class="role-body">
+        <div class="role-section role-full">
+          <h4>Acceso a módulos</h4>
+          <div class="mod-access-grid">
+            <div class="mod-access-item yes"><div class="dot"></div>Calendario</div>
+            <div class="mod-access-item yes"><div class="dot"></div>Taller completo</div>
+            <div class="mod-access-item yes"><div class="dot"></div>Inventario</div>
+            <div class="mod-access-item yes"><div class="dot"></div>Compras</div>
+            <div class="mod-access-item partial"><div class="dot"></div>Finanzas parcial</div>
+            <div class="mod-access-item partial"><div class="dot"></div>Administración parcial</div>
+            <div class="mod-access-item no"><div class="dot"></div>Reportes</div>
+            <div class="mod-access-item no"><div class="dot"></div>Configuración</div>
+          </div>
+        </div>
+        <div class="role-section">
+          <h4>Capacidades</h4>
+          <ul>
+            <li>Acceso completo al Calendario</li>
+            <li>Taller: crear y gestionar OTs, presupuestos, clientes, vehículos, historial de OTs, incidencias y horas de trabajo</li>
+            <li>Torre de control: mover y supervisar OTs en el tablero Kanban</li>
+            <li>Aprobar descuentos en OTs y presupuestos</li>
+            <li>Gestión completa de Inventario: stock, movimientos, solicitudes, toma de inventario</li>
+            <li>Gestión completa de Compras: órdenes de compra, proveedores</li>
+            <li>Finanzas: Ingresos de ventas, Abonos, Cobranzas, Libros de venta, Libros de compra, Notas de crédito</li>
+            <li>Administración: ítems, lista de precios, trabajos, templates, categorías, checklists, cargas masivas, tipos de incidencias, historial de cambios, encuesta NPS</li>
+          </ul>
+        </div>
+        <div class="role-section">
+          <h4>Restricciones</h4>
+          <ul>
+            <li class="no">No puede ver Reportes (Dashboard)</li>
+            <li class="no">No puede acceder a Configuración de empresa</li>
+            <li class="no">No puede crear, editar ni eliminar Sucursales</li>
+            <li class="no">No puede crear ni eliminar Usuarios</li>
+            <li class="no">No puede gestionar Colaboradores</li>
+            <li class="no">No puede acceder a Otros ingresos, Gastos, Facturas CxP</li>
+            <li class="no">No puede acceder a Remuneraciones, EERR ni Plan de Cuentas</li>
+            <li class="no">No puede eliminar checklists de OTs</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <!-- ═══ VENDEDOR ══════════════════════════════════════════════════ -->
+    <div id="rol-vendedor" class="section-anchor"></div>
+    <div class="role-card">
+      <div class="role-head rh-vendedor">
+        <span class="role-badge rb-vendedor">Vendedor</span>
+        <p class="role-head-desc">Atención al cliente, gestión de OTs y presupuestos. Puede tener un descuento máximo autorizado configurado por el administrador.</p>
+      </div>
+      <div class="role-body">
+        <div class="role-section role-full">
+          <h4>Acceso a módulos</h4>
+          <div class="mod-access-grid">
+            <div class="mod-access-item yes"><div class="dot"></div>Calendario</div>
+            <div class="mod-access-item yes"><div class="dot"></div>Taller — OTs</div>
+            <div class="mod-access-item yes"><div class="dot"></div>Presupuestos</div>
+            <div class="mod-access-item yes"><div class="dot"></div>Clientes</div>
+            <div class="mod-access-item partial"><div class="dot"></div>Inventario lectura</div>
+            <div class="mod-access-item yes"><div class="dot"></div>Punto de venta</div>
+            <div class="mod-access-item no"><div class="dot"></div>Compras</div>
+            <div class="mod-access-item no"><div class="dot"></div>Finanzas</div>
+            <div class="mod-access-item no"><div class="dot"></div>Administración</div>
+            <div class="mod-access-item no"><div class="dot"></div>Reportes</div>
+            <div class="mod-access-item no"><div class="dot"></div>Configuración</div>
+          </div>
+        </div>
+        <div class="role-section">
+          <h4>Capacidades</h4>
+          <ul>
+            <li>Calendario: crear, editar y eliminar citas</li>
+            <li>OTs: crear, ver y gestionar el ciclo completo de OTs (estados, cotización, recepción)</li>
+            <li>Presupuestos: crear, editar, enviar y gestionar presupuestos</li>
+            <li>Clientes: crear, editar, ver historial de OTs y vehículos</li>
+            <li>Vehículos: crear y editar vehículos</li>
+            <li>Revisar y aprobar cotizaciones de OT (ProjectQuote)</li>
+            <li>Inventario: consultar stock disponible (solo lectura)</li>
+            <li>Emitir documentos de venta (boletas y facturas)</li>
+            <li>Acceso al Punto de venta (Mesón)</li>
+            <li>Aplicar descuentos hasta el porcentaje máximo que tenga autorizado</li>
+          </ul>
+        </div>
+        <div class="role-section">
+          <h4>Restricciones</h4>
+          <ul>
+            <li class="no">No puede acceder a Compras ni Proveedores</li>
+            <li class="no">No puede acceder a Finanzas</li>
+            <li class="no">No puede gestionar Ítems, Trabajos ni configuración del sistema</li>
+            <li class="no">No puede ver Reportes ni Dashboard</li>
+            <li class="no">No puede registrar incidencias ni horas de trabajo</li>
+            <li class="warn">No puede editar las condiciones de pago del cliente</li>
+            <li class="warn">Los descuentos superiores a su límite autorizado requieren aprobación del Jefe de Taller</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <!-- ═══ AGENDADOR ═════════════════════════════════════════════════ -->
+    <div id="rol-agendador" class="section-anchor"></div>
+    <div class="role-card">
+      <div class="role-head rh-agendador">
+        <span class="role-badge rb-agendador">Agendador</span>
+        <p class="role-head-desc">Gestión de la agenda del taller y recepción de clientes. Puede manejar citas, clientes y OTs pero sin acceso a funciones financieras.</p>
+      </div>
+      <div class="role-body">
+        <div class="role-section role-full">
+          <h4>Acceso a módulos</h4>
+          <div class="mod-access-grid">
+            <div class="mod-access-item yes"><div class="dot"></div>Calendario</div>
+            <div class="mod-access-item yes"><div class="dot"></div>Taller — OTs</div>
+            <div class="mod-access-item yes"><div class="dot"></div>Clientes</div>
+            <div class="mod-access-item partial"><div class="dot"></div>Inventario lectura</div>
+            <div class="mod-access-item no"><div class="dot"></div>Presupuestos</div>
+            <div class="mod-access-item no"><div class="dot"></div>Compras</div>
+            <div class="mod-access-item no"><div class="dot"></div>Finanzas</div>
+            <div class="mod-access-item no"><div class="dot"></div>Administración</div>
+            <div class="mod-access-item no"><div class="dot"></div>Reportes</div>
+            <div class="mod-access-item no"><div class="dot"></div>Configuración</div>
+          </div>
+        </div>
+        <div class="role-section">
+          <h4>Capacidades</h4>
+          <ul>
+            <li>Calendario: crear, editar y eliminar citas de cualquier tipo</li>
+            <li>OTs: crear y gestionar el ciclo completo de OTs (estados, cotización)</li>
+            <li>Recepcionar vehículos desde el Calendario</li>
+            <li>Clientes: crear, editar, consultar historial y vehículos</li>
+            <li>Vehículos: crear y editar</li>
+            <li>Inventario: consultar stock disponible (solo lectura)</li>
+          </ul>
+        </div>
+        <div class="role-section">
+          <h4>Restricciones</h4>
+          <ul>
+            <li class="no">No puede gestionar Presupuestos</li>
+            <li class="no">No puede acceder a Compras, Finanzas ni Administración</li>
+            <li class="no">No puede ver Reportes</li>
+            <li class="no">No puede registrar incidencias ni horas de trabajo</li>
+            <li class="warn">No puede editar las condiciones de pago del cliente</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <!-- ═══ MECÁNICO ══════════════════════════════════════════════════ -->
+    <div id="rol-mecanico" class="section-anchor"></div>
+    <div class="role-card">
+      <div class="role-head rh-mecanico">
+        <span class="role-badge rb-mecanico">Mecánico</span>
+        <p class="role-head-desc">Ejecución de trabajos en taller. Accede únicamente a las OTs que le son asignadas y a las funciones operativas necesarias para su trabajo.</p>
+      </div>
+      <div class="role-body">
+        <div class="role-section role-full">
+          <h4>Acceso a módulos</h4>
+          <div class="mod-access-grid">
+            <div class="mod-access-item partial"><div class="dot"></div>Calendario lectura</div>
+            <div class="mod-access-item partial"><div class="dot"></div>Tareas asignadas</div>
+            <div class="mod-access-item partial"><div class="dot"></div>OTs asignadas</div>
+            <div class="mod-access-item yes"><div class="dot"></div>Incidencias</div>
+            <div class="mod-access-item no"><div class="dot"></div>Presupuestos</div>
+            <div class="mod-access-item no"><div class="dot"></div>Inventario</div>
+            <div class="mod-access-item no"><div class="dot"></div>Compras</div>
+            <div class="mod-access-item no"><div class="dot"></div>Finanzas</div>
+            <div class="mod-access-item no"><div class="dot"></div>Administración</div>
+            <div class="mod-access-item no"><div class="dot"></div>Reportes</div>
+            <div class="mod-access-item no"><div class="dot"></div>Configuración</div>
+          </div>
+        </div>
+        <div class="role-section">
+          <h4>Capacidades</h4>
+          <ul>
+            <li>Ver el Calendario (solo lectura, sin crear citas)</li>
+            <li>Ver y trabajar en las OTs asignadas a su nombre en <strong>Tareas asignadas</strong></li>
+            <li>Recepcionar vehículos: completar el checklist de recepción</li>
+            <li>Inspección técnica: completar el checklist de revisión mecánica, calificar ítems, agregar trabajos y repuestos</li>
+            <li>Registrar horas de trabajo por ítem de OT</li>
+            <li>Crear y registrar incidencias detectadas durante el trabajo</li>
+            <li>Subir fotos y archivos a la OT (evidencia fotográfica)</li>
+            <li>Mover OTs en el tablero Torre de Control (desde pestaña Revisión Mecánica)</li>
+            <li>Actualizar atributos específicos de la OT (avance, estado de tarea)</li>
+            <li>Ver datos de clientes y vehículos asociados a sus OTs</li>
+            <li>Crear clientes y vehículos nuevos si es necesario</li>
+          </ul>
+        </div>
+        <div class="role-section">
+          <h4>Restricciones</h4>
+          <ul>
+            <li class="no">No puede crear citas en el Calendario</li>
+            <li class="no">No puede ver ni editar OTs que no le estén asignadas</li>
+            <li class="no">No puede gestionar Presupuestos</li>
+            <li class="no">No puede acceder a Inventario, Compras ni Finanzas</li>
+            <li class="no">No puede acceder a la Administración del sistema</li>
+            <li class="no">No puede ver Reportes ni Dashboard</li>
+            <li class="no">No puede emitir documentos de venta ni registrar pagos</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <!-- ═══ ENCARGADO DE INVENTARIO ═══════════════════════════════════ -->
+    <div id="rol-inventario" class="section-anchor"></div>
+    <div class="role-card">
+      <div class="role-head rh-inventario">
+        <span class="role-badge rb-inventario">Encargado de Inventario</span>
+        <p class="role-head-desc">Gestión completa del stock del taller. Controla entradas, salidas, movimientos y tomas de inventario.</p>
+      </div>
+      <div class="role-body">
+        <div class="role-section role-full">
+          <h4>Acceso a módulos</h4>
+          <div class="mod-access-grid">
+            <div class="mod-access-item yes"><div class="dot"></div>Inventario completo</div>
+            <div class="mod-access-item partial"><div class="dot"></div>Compras — proveedores</div>
+            <div class="mod-access-item partial"><div class="dot"></div>Dashboard (índice)</div>
+            <div class="mod-access-item no"><div class="dot"></div>Calendario</div>
+            <div class="mod-access-item no"><div class="dot"></div>Taller</div>
+            <div class="mod-access-item no"><div class="dot"></div>Finanzas</div>
+            <div class="mod-access-item no"><div class="dot"></div>Administración</div>
+            <div class="mod-access-item no"><div class="dot"></div>Reportes</div>
+            <div class="mod-access-item no"><div class="dot"></div>Configuración</div>
+          </div>
+        </div>
+        <div class="role-section">
+          <h4>Capacidades</h4>
+          <ul>
+            <li>Inventario: ver stock, crear y gestionar movimientos de entrada, salida y traspaso</li>
+            <li>Actualizar cantidades y precios de productos en inventario</li>
+            <li>Escanear productos con lector de código de barras o cámara</li>
+            <li>Gestionar el carrito de solicitudes de inventario</li>
+            <li>Crear y editar Proveedores</li>
+            <li>Registrar entradas de stock al recibir órdenes de compra</li>
+            <li>Acceso al índice del Dashboard (vista de inicio)</li>
+          </ul>
+        </div>
+        <div class="role-section">
+          <h4>Restricciones</h4>
+          <ul>
+            <li class="no">No puede ver el Calendario ni crear citas</li>
+            <li class="no">No puede gestionar OTs ni Presupuestos</li>
+            <li class="no">No puede acceder a Finanzas</li>
+            <li class="no">No puede acceder a la Administración del sistema</li>
+            <li class="no">No puede ver Reportes detallados</li>
+            <li class="no">No puede acceder a Configuración de empresa</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <!-- ═══ ENCARGADO DE COMPRAS ══════════════════════════════════════ -->
+    <div id="rol-compras" class="section-anchor"></div>
+    <div class="role-card">
+      <div class="role-head rh-compras">
+        <span class="role-badge rb-compras">Encargado de Compras</span>
+        <p class="role-head-desc">Gestión de órdenes de compra a proveedores. Puede consultar el inventario y las OTs para abastecer el taller según las necesidades operativas.</p>
+      </div>
+      <div class="role-body">
+        <div class="role-section role-full">
+          <h4>Acceso a módulos</h4>
+          <div class="mod-access-grid">
+            <div class="mod-access-item yes"><div class="dot"></div>Compras completo</div>
+            <div class="mod-access-item partial"><div class="dot"></div>Inventario lectura</div>
+            <div class="mod-access-item partial"><div class="dot"></div>OTs lectura</div>
+            <div class="mod-access-item no"><div class="dot"></div>Calendario</div>
+            <div class="mod-access-item no"><div class="dot"></div>Taller activo</div>
+            <div class="mod-access-item no"><div class="dot"></div>Finanzas</div>
+            <div class="mod-access-item no"><div class="dot"></div>Administración</div>
+            <div class="mod-access-item no"><div class="dot"></div>Reportes</div>
+            <div class="mod-access-item no"><div class="dot"></div>Configuración</div>
+          </div>
+        </div>
+        <div class="role-section">
+          <h4>Capacidades</h4>
+          <ul>
+            <li>Compras: crear, editar, eliminar y gestionar órdenes de compra completas</li>
+            <li>Seleccionar proveedores y asociar ítems a las órdenes de compra</li>
+            <li>Consultar el catálogo de productos y sus categorías</li>
+            <li>Consultar el inventario actual (solo lectura) para evaluar qué comprar</li>
+            <li>Consultar OTs (solo lectura) para identificar necesidades de repuestos</li>
+          </ul>
+        </div>
+        <div class="role-section">
+          <h4>Restricciones</h4>
+          <ul>
+            <li class="no">No puede ver el Calendario ni crear citas</li>
+            <li class="no">No puede crear ni modificar OTs o Presupuestos</li>
+            <li class="no">No puede hacer movimientos de inventario</li>
+            <li class="no">No puede acceder a Finanzas</li>
+            <li class="no">No puede acceder a la Administración del sistema</li>
+            <li class="no">No puede ver Reportes ni Dashboard</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+  </main>
+</div>
+<script src="nav.js"></script>
+<script>initNav('roles-permisos');</script>
+</body>
+</html>

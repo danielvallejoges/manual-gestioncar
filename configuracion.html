@@ -186,7 +186,7 @@
         <table>
           <thead><tr><th>Campo</th><th>Descripción</th></tr></thead>
           <tbody>
-            <tr><td>Periodo Recordatorio Mantención</td><td>Meses de anticipación con que se envía el recordatorio de mantención al cliente (1–12 meses)</td></tr>
+            <tr><td>Periodo Recordatorio Mantención</td><td>Cantidad de meses por defecto tras los cuales se enviará el recordatorio de mantención al cliente al activarlo desde una OT (1–12 meses)</td></tr>
             <tr><td>Enviar recordatorios de revisión técnica</td><td>Activa el envío automático de recordatorio de revisión técnica periódica</td></tr>
             <tr><td>Pedir confirmación para notificar agendamiento</td><td>Al crear una cita, pregunta si se desea notificar al cliente</td></tr>
             <tr><td>Notificación Descuento Pendiente</td><td>Usuarios del sistema que reciben aviso cuando hay un descuento esperando aprobación</td></tr>
@@ -343,28 +343,11 @@
     <div class="section">
       <div id="roles-permisos" class="section-anchor"></div>
       <h2>Roles y permisos</h2>
-      <p>GestionCar usa un sistema de <strong>roles</strong> que define qué acciones puede realizar cada usuario. Los roles se asignan al crear o editar un usuario en <a href="administracion.html#usuarios">Administración → Usuarios</a>.</p>
-
-      <div class="tbl-wrap">
-        <table>
-          <thead><tr><th>Rol</th><th>Nivel de acceso</th></tr></thead>
-          <tbody>
-            <tr style="color:#B14BD5"><td><strong>Super Administrador</strong></td><td>Acceso completo a todas las funciones y configuraciones del sistema</td></tr>
-            <tr style="color:#5E99B8"><td><strong>Administrador</strong></td><td>Acceso completo excepto remuneraciones, EERR, plan de cuentas y gestión de empresa</td></tr>
-            <tr style="color:#F56F4B"><td><strong>Jefe de Taller</strong></td><td>OTs, presupuestos, clientes, vehículos, inventario, compras. No puede gestionar usuarios ni sucursales</td></tr>
-            <tr><td><strong>Vendedor</strong></td><td>Clientes, OTs, presupuestos, facturación, calendario. Descuento máximo configurable por usuario</td></tr>
-            <tr><td><strong>Agendador</strong></td><td>Calendario, citas, clientes y vehículos</td></tr>
-            <tr><td><strong>Mecánico</strong></td><td>OTs asignadas, registro de horas, incidencias, checklists, inventario (solo lectura)</td></tr>
-            <tr><td><strong>Encargado de Inventario</strong></td><td>Inventario completo, ítems, movimientos, recepción de compras, escaneo de productos</td></tr>
-            <tr><td><strong>Encargado de Compras</strong></td><td>Gestión de compras, proveedores, ítems, inventario (solo lectura)</td></tr>
-          </tbody>
-        </table>
-      </div>
-
-      <div class="callout callout-info">
-        <span class="callout-icon">ℹ️</span>
-        <div>El campo <strong>Máximo descuento autorizado</strong> en la ficha del usuario solo es visible para el rol <strong>Vendedor</strong>. Permite limitar el porcentaje de descuento que ese usuario puede aplicar sin aprobación.</div>
-      </div>
+      <p>GestionCar usa un sistema de roles que define qué módulos y acciones puede realizar cada usuario. Los roles se asignan en <a href="administracion.html#usuarios">Administración → Usuarios</a>.</p>
+      <p>Consulta la documentación completa con el detalle de capacidades y restricciones de cada rol en la página dedicada:</p>
+      <a href="roles-permisos.html" style="display:inline-flex;align-items:center;gap:10px;padding:12px 18px;background:rgba(177,75,213,.08);border:1px solid rgba(177,75,213,.25);border-radius:10px;text-decoration:none;font-size:13px;font-weight:600;color:#B14BD5;margin-top:4px;">
+        🔐 Ver Roles y Permisos completos →
+      </a>
     </div>
 
     <!-- ── FAQ ────────────────────────────────────────────────────────── -->

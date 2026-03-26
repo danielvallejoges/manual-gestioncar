@@ -126,6 +126,22 @@ const NAV = [
     ]
   },
   {
+    id: 'roles-permisos', label: 'Roles y Permisos', icon: '🔐', file: 'roles-permisos.html',
+    color: 'rgba(177,75,213,.1)', iconColor: '#B14BD5',
+    sections: [
+      { id: 'resumen',        label: 'Resumen comparativo' },
+      { id: 'asignacion',     label: 'Asignación de roles' },
+      { id: 'rol-superadmin', label: 'Super Administrador' },
+      { id: 'rol-admin',      label: 'Administrador' },
+      { id: 'rol-jefe',       label: 'Jefe de Taller' },
+      { id: 'rol-vendedor',   label: 'Vendedor' },
+      { id: 'rol-agendador',  label: 'Agendador' },
+      { id: 'rol-mecanico',   label: 'Mecánico' },
+      { id: 'rol-inventario', label: 'Enc. Inventario' },
+      { id: 'rol-compras',    label: 'Enc. Compras' },
+    ]
+  },
+  {
     id: 'configuracion', label: 'Configuración', icon: '🛠️', file: 'configuracion.html',
     color: 'rgba(46,61,79,.08)', iconColor: '#2E3D4F',
     sections: [
@@ -221,7 +237,15 @@ const SEARCH_INDEX = [
   { module: 'Configuración', title: 'Configuración General', file: 'configuracion.html', hash: 'config-general', text: 'IVA, horas máximas por trabajo, solicitar compra por defecto. Campos requeridos de clientes y vehículos. Inventario: estado para reservar y descontar stock. Descuentos: aprobación vendedor. PDFs: ocultar subcategoría, formato PDF. Calendario: hora inicio/fin, días hábiles, ocultar ventas de mesón, tiempo cliente no llegó. Agendamiento: horarios, límite de citas, URL agendamiento, redirección. Contraseña para eliminar OT por sucursal.' },
   { module: 'Configuración', title: 'Notificaciones', file: 'configuracion.html', hash: 'config-notificaciones', text: 'WhatsApp: conectar número, enviar desde taller o vendedor. Email y WhatsApp automáticos por evento: nueva cita, recordatorio cita, recepción, inspección técnica, presupuesto enviado/aprobado, OT finalizada, entregado, factura, cobranza, NPS. Mensajes personalizados con parámetros {{taller}} {{cliente}} {{auto}} {{patente}} {{link}} etc. Flyers de mantención y revisión técnica.' },
   { module: 'Configuración', title: 'Perfil de usuario', file: 'configuracion.html', hash: 'config-perfil', text: 'Nombre, apellido, email (no editable), número WhatsApp, foto de perfil. Botones: Editar, Guardar, Cancelar, Cambiar contraseña. Campos cambio contraseña: contraseña actual, nueva, confirmar.' },
-  { module: 'Configuración', title: 'Roles y permisos', file: 'configuracion.html', hash: 'roles-permisos', text: 'Roles del sistema: Super Administrador, Administrador, Jefe de Taller, Vendedor (descuento máximo configurable), Agendador, Mecánico, Encargado de Inventario, Encargado de Compras. Se asignan en Administración → Usuarios.' },
+  { module: 'Roles y Permisos', title: 'Resumen comparativo', file: 'roles-permisos.html', hash: 'resumen', text: 'Tabla comparativa de acceso por módulo para todos los roles: Super Administrador, Administrador, Jefe de Taller, Vendedor, Agendador, Mecánico, Encargado de Inventario, Encargado de Compras.' },
+  { module: 'Roles y Permisos', title: 'Super Administrador', file: 'roles-permisos.html', hash: 'rol-superadmin', text: 'Acceso completo sin restricciones. Único que puede asignar rol Super Admin. Gestión empresa, sucursales, remuneraciones, EERR, plan de cuentas, colaboradores.' },
+  { module: 'Roles y Permisos', title: 'Administrador', file: 'roles-permisos.html', hash: 'rol-admin', text: 'Acceso completo excepto remuneraciones, EERR, plan de cuentas y colaboradores. No puede asignar rol Super Admin.' },
+  { module: 'Roles y Permisos', title: 'Jefe de Taller', file: 'roles-permisos.html', hash: 'rol-jefe', text: 'OTs, presupuestos, clientes, vehículos, inventario, compras. Sin acceso a Reportes, Configuración empresa, creación de usuarios/sucursales. Finanzas parcial: solo ingresos de ventas, abonos, cobranzas, libros.' },
+  { module: 'Roles y Permisos', title: 'Vendedor', file: 'roles-permisos.html', hash: 'rol-vendedor', text: 'Calendario, OTs, presupuestos, clientes, vehículos, inventario (lectura), punto de venta. Descuento máximo configurable. No puede editar condiciones de pago del cliente.' },
+  { module: 'Roles y Permisos', title: 'Agendador', file: 'roles-permisos.html', hash: 'rol-agendador', text: 'Calendario, OTs, clientes, vehículos. Sin acceso a presupuestos, finanzas, compras ni administración.' },
+  { module: 'Roles y Permisos', title: 'Mecánico', file: 'roles-permisos.html', hash: 'rol-mecanico', text: 'Solo OTs asignadas. Checklist recepción, inspección técnica, horas de trabajo, incidencias, fotos. Mover Torre Control. Sin acceso a finanzas, compras, inventario ni administración.' },
+  { module: 'Roles y Permisos', title: 'Encargado de Inventario', file: 'roles-permisos.html', hash: 'rol-inventario', text: 'Inventario completo: stock, movimientos, escaneo de productos, carrito de solicitudes. Proveedores. Sin acceso a taller, finanzas ni administración.' },
+  { module: 'Roles y Permisos', title: 'Encargado de Compras', file: 'roles-permisos.html', hash: 'rol-compras', text: 'Gestión completa de órdenes de compra. Consulta inventario y OTs (lectura). Sin acceso a taller activo, finanzas ni administración.' },
   { module: 'Configuración', title: 'Preguntas frecuentes', file: 'configuracion.html', hash: 'faq', text: 'Respuestas a dudas comunes: repuestos, presupuestos, historial, stock mínimo, recordatorios, exportar Excel, celular, sucursales, contraseñas, OTs por mecánico.' },
 ];
 
