@@ -1,0 +1,463 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Configuración — Manual GestionCar</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet"/>
+  <link rel="stylesheet" href="styles.css"/>
+</head>
+<body>
+<div class="layout">
+  <main class="main">
+
+    <div class="page-header">
+      <div class="page-header-icon" style="background:rgba(46,61,79,.08)">🛠️</div>
+      <div class="page-header-text">
+        <h1>Configuración</h1>
+        <p>Perfil de empresa, configuración general, notificaciones, perfil de usuario y roles del sistema.</p>
+      </div>
+    </div>
+
+    <!-- ── Perfil de empresa ──────────────────────────────────────────── -->
+    <div class="section">
+      <div id="config-empresa" class="section-anchor"></div>
+      <h2>Perfil de empresa</h2>
+      <p>Accede desde el menú lateral → <strong>Perfil de empresa</strong>. Contiene los datos legales del taller y la configuración de sucursales.</p>
+
+      <h3>Datos de la empresa</h3>
+      <div class="tbl-wrap">
+        <table>
+          <thead><tr><th>Campo</th><th>Requerido</th><th>Descripción</th></tr></thead>
+          <tbody>
+            <tr><td>RUT</td><td>Sí</td><td>Número de identificación tributaria. No editable</td></tr>
+            <tr><td>Razón Social</td><td>Sí</td><td>Nombre legal de la empresa. No editable</td></tr>
+            <tr><td>Nombre de Fantasía</td><td>Sí</td><td>Nombre comercial que aparece en documentos</td></tr>
+            <tr><td>Giro</td><td>Sí</td><td>Actividad comercial de la empresa</td></tr>
+            <tr><td>Dirección</td><td>Sí</td><td>Dirección física del taller</td></tr>
+            <tr><td>Sitio Web</td><td>No</td><td>URL del sitio web del taller</td></tr>
+            <tr><td>Email</td><td>Sí</td><td>Correo de contacto principal</td></tr>
+            <tr><td>Celular</td><td>No</td><td>Teléfono de contacto con formato por país</td></tr>
+            <tr><td>Número Notificaciones WhatsApp</td><td>Sí</td><td>Número desde el que se envían notificaciones WhatsApp</td></tr>
+            <tr><td>Foto de Perfil (Logo)</td><td>No</td><td>Imagen del taller. Aparece en presupuestos y facturas. Máx 1 MB, 640×200 px recomendado</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <h3>Servicios del taller</h3>
+      <div class="tbl-wrap">
+        <table>
+          <thead><tr><th>Opción</th><th>Descripción</th></tr></thead>
+          <tbody>
+            <tr><td>Hacemos Desabolladura y Pintura</td><td>Habilita funciones específicas para talleres de chapa y pintura</td></tr>
+            <tr><td>Trabajamos con Compañías de Seguros</td><td>Habilita el tipo de cita OT Seguro y el campo Aseguradora</td></tr>
+            <tr><td>Somos laboratorio diesel</td><td>Habilita el tipo de cita OT Componentes y el campo Componentes</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <p>Si se activa <strong>Trabajamos con Compañías de Seguros</strong>, aparece un selector adicional para elegir las compañías aseguradoras con las que opera el taller.</p>
+
+      <h3>Configuración de sucursales</h3>
+      <p>Se listan todas las sucursales con su nombre y dirección. Cada una puede editarse individualmente.</p>
+      <div class="tbl-wrap">
+        <table>
+          <thead><tr><th>Campo</th><th>Descripción</th></tr></thead>
+          <tbody>
+            <tr><td>Nombre</td><td>Nombre de la sucursal</td></tr>
+            <tr><td>Dirección</td><td>Calle o avenida</td></tr>
+            <tr><td>Número de Dirección</td><td>Número del local o edificio</td></tr>
+            <tr><td>Región</td><td>Región o estado según el país</td></tr>
+            <tr><td>Comuna</td><td>Comuna o ciudad</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="btn-row">
+        <span class="btn-chip bc-primary">Actualizar Datos</span>
+      </div>
+    </div>
+
+    <!-- ── Configuración General ──────────────────────────────────────── -->
+    <div class="section">
+      <div id="config-general" class="section-anchor"></div>
+      <h2>Configuración General</h2>
+      <p>Accede desde el menú lateral → <strong>Configuración</strong>, pestaña <strong>Configuración General</strong>. Agrupa los ajustes operativos del sistema.</p>
+
+      <h3>General</h3>
+      <div class="tbl-wrap">
+        <table>
+          <thead><tr><th>Campo</th><th>Descripción</th></tr></thead>
+          <tbody>
+            <tr><td>IVA (%)</td><td>Tasa de impuesto aplicada en OTs y presupuestos</td></tr>
+            <tr><td>Máximo de Horas diarias de trabajador por Trabajo</td><td>Límite de horas que un mecánico puede registrar por trabajo al día</td></tr>
+            <tr><td>Solicitar Compra por defecto</td><td>Activa automáticamente la solicitud de compra al agregar repuestos a una OT</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <h3>Campos requeridos</h3>
+      <p>Define qué campos son obligatorios al crear o editar clientes y vehículos.</p>
+      <div class="tbl-wrap">
+        <table>
+          <thead><tr><th>Campo</th><th>Aplica a</th></tr></thead>
+          <tbody>
+            <tr><td>Dirección de Cliente</td><td>Clientes</td></tr>
+            <tr><td>Número de teléfono de Cliente</td><td>Clientes</td></tr>
+            <tr><td>Email de Cliente</td><td>Clientes</td></tr>
+            <tr><td>Región y Comuna del Cliente</td><td>Clientes</td></tr>
+            <tr><td>RUT del Cliente</td><td>Clientes</td></tr>
+            <tr><td>VIN de vehículo</td><td>Vehículos</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <h3>Inventario</h3>
+      <div class="tbl-wrap">
+        <table>
+          <thead><tr><th>Campo</th><th>Descripción</th></tr></thead>
+          <tbody>
+            <tr><td>Estado para reservar stock</td><td>Estado de OT en que el sistema reserva el stock de los ítems</td></tr>
+            <tr><td>Estado para descontar stock</td><td>Estado de OT en que el sistema descuenta definitivamente el stock</td></tr>
+            <tr><td>Restringir eliminación de ítems ya retirados de bodega desde la OT</td><td>Impide eliminar ítems de la cotización si ya fueron descontados del inventario</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <h3>Descuentos y PDFs</h3>
+      <div class="tbl-wrap">
+        <table>
+          <thead><tr><th>Campo</th><th>Descripción</th></tr></thead>
+          <tbody>
+            <tr><td>Requiere aprobación de descuento para vendedores</td><td>Los descuentos aplicados por vendedores requieren aprobación del Jefe de Taller</td></tr>
+            <tr><td>Ocultar subcategoría en PDFs y vista pública</td><td>No muestra la subcategoría de los ítems en los documentos enviados al cliente</td></tr>
+            <tr><td>Formato del PDF presupuesto</td><td>Selección entre PDF presupuesto completo o PDF resumen/caja</td></tr>
+            <tr><td>Condiciones Checklist Recepción</td><td>Texto de condiciones que aparece al pie del checklist de recepción</td></tr>
+            <tr><td>Comprimir imágenes de checklists</td><td>Reduce el tamaño de las fotos adjuntas en los checklists</td></tr>
+            <tr><td>Ocultar checklists en vista pública</td><td>Configurable por tipo de checklist. Impide que el cliente vea los checklists desde el enlace público</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <h3>Calendario</h3>
+      <div class="tbl-wrap">
+        <table>
+          <thead><tr><th>Campo</th><th>Descripción</th></tr></thead>
+          <tbody>
+            <tr><td>Hora Inicial / Hora Final</td><td>Rango horario visible en las vistas de Semana y Día del Calendario</td></tr>
+            <tr><td>Días hábiles</td><td>Días de la semana en que el taller opera (Lunes a Domingo)</td></tr>
+            <tr><td>Ocultar Ventas de Mesón</td><td>Elimina el tipo Venta de Mesón del formulario de nueva cita</td></tr>
+            <tr><td>Tiempo para considerar que el cliente no llegó</td><td>Minutos u horas de tolerancia antes de marcar la cita como "Cliente no llegó"</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <h3>Agendamiento online</h3>
+      <p>Configuración del portal de autoagendamiento para clientes.</p>
+      <div class="tbl-wrap">
+        <table>
+          <thead><tr><th>Campo</th><th>Descripción</th></tr></thead>
+          <tbody>
+            <tr><td>Descripción de la cita</td><td>Texto informativo que ve el cliente al agendar desde el portal externo</td></tr>
+            <tr><td>Horarios de atención</td><td>Días y franjas horarias disponibles para autoagendamiento. Se pueden agregar múltiples bloques con el botón <strong>Agregar horario</strong></td></tr>
+            <tr><td>Límite de citas</td><td>Cantidad máxima de citas por hora, día o semana. Se pueden agregar múltiples reglas con <strong>Agregar límite de citas</strong></td></tr>
+            <tr><td>Contabilizar solo citas de autoagendamiento</td><td>El límite aplica únicamente a citas creadas por clientes, no por el equipo del taller</td></tr>
+            <tr><td>URL de agendamiento</td><td>Enlace público que se entrega a los clientes para agendar. Copiable con un clic</td></tr>
+            <tr><td>URL de redirección post-agendamiento</td><td>Página a la que el cliente es enviado tras confirmar su cita (opcional)</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <h3>Contraseña para eliminar OT</h3>
+      <p>Se puede configurar una contraseña independiente por sucursal para proteger la acción de eliminación de OTs.</p>
+
+      <div class="btn-row">
+        <span class="btn-chip bc-primary">Actualizar</span>
+      </div>
+    </div>
+
+    <!-- ── Notificaciones ─────────────────────────────────────────────── -->
+    <div class="section">
+      <div id="config-notificaciones" class="section-anchor"></div>
+      <h2>Notificaciones</h2>
+      <p>Pestaña <strong>Notificaciones</strong> dentro de Configuración. Controla qué mensajes automáticos reciben los clientes por WhatsApp y email en cada etapa de la OT.</p>
+
+      <h3>Recordatorios y alertas internas</h3>
+      <div class="tbl-wrap">
+        <table>
+          <thead><tr><th>Campo</th><th>Descripción</th></tr></thead>
+          <tbody>
+            <tr><td>Periodo Recordatorio Mantención</td><td>Meses de anticipación con que se envía el recordatorio de mantención al cliente (1–12 meses)</td></tr>
+            <tr><td>Enviar recordatorios de revisión técnica</td><td>Activa el envío automático de recordatorio de revisión técnica periódica</td></tr>
+            <tr><td>Pedir confirmación para notificar agendamiento</td><td>Al crear una cita, pregunta si se desea notificar al cliente</td></tr>
+            <tr><td>Notificación Descuento Pendiente</td><td>Usuarios del sistema que reciben aviso cuando hay un descuento esperando aprobación</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <h3>WhatsApp</h3>
+      <div class="tbl-wrap">
+        <table>
+          <thead><tr><th>Campo</th><th>Descripción</th></tr></thead>
+          <tbody>
+            <tr><td>Número de teléfono de WhatsApp</td><td>Número del taller usado para enviar mensajes automáticos</td></tr>
+            <tr><td>Enviar desde</td><td>Selección entre número del Taller o número del Vendedor asignado a la OT</td></tr>
+            <tr><td>Fallback al número del taller</td><td>Si el WhatsApp del vendedor no está conectado, usa el número del taller</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <h3>Notificaciones automáticas al cliente</h3>
+      <p>Se activan o desactivan individualmente por canal (WhatsApp / Email). Aplican a los siguientes eventos:</p>
+      <div class="tbl-wrap">
+        <table>
+          <thead><tr><th>Evento</th><th>Descripción</th></tr></thead>
+          <tbody>
+            <tr><td>Nueva cita</td><td>Al agendar una cita</td></tr>
+            <tr><td>Recordatorio de cita</td><td>Recordatorio previo a la fecha de la cita</td></tr>
+            <tr><td>Recepción</td><td>Al recepcionar el vehículo y crear la OT</td></tr>
+            <tr><td>Inspección técnica</td><td>Al completar el checklist de inspección</td></tr>
+            <tr><td>Presupuesto enviado</td><td>Al cambiar el estado a Ppto. Enviado</td></tr>
+            <tr><td>Presupuesto aprobado</td><td>Al registrar la aprobación del presupuesto</td></tr>
+            <tr><td>OT Finalizada</td><td>Al cambiar el estado a OT Finalizada</td></tr>
+            <tr><td>Entregado</td><td>Al registrar la entrega del vehículo</td></tr>
+            <tr><td>Emisión de factura</td><td>Al emitir el documento tributario</td></tr>
+            <tr><td>Cobranza</td><td>Al gestionar un cobro pendiente</td></tr>
+            <tr><td>Encuesta NPS</td><td>Al entregar el vehículo (se envía automáticamente)</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="callout callout-info">
+        <span class="callout-icon">ℹ️</span>
+        <div>Si el taller trabaja con compañías de seguros, las notificaciones de <strong>OT Seguro</strong> se configuran en una sección separada tanto para el cliente como para la aseguradora.</div>
+      </div>
+
+      <h3>Mensajes personalizados de WhatsApp</h3>
+      <p>Si el servicio de mensajería está habilitado, cada notificación puede tener un mensaje personalizado usando los siguientes parámetros:</p>
+      <div class="tbl-wrap">
+        <table>
+          <thead><tr><th>Parámetro</th><th>Valor que inserta</th></tr></thead>
+          <tbody>
+            <tr><td><code>{{taller}}</code></td><td>Nombre del taller</td></tr>
+            <tr><td><code>{{cliente}}</code></td><td>Nombre completo del cliente</td></tr>
+            <tr><td><code>{{nombre_cliente}}</code></td><td>Nombre del cliente sin apellido</td></tr>
+            <tr><td><code>{{auto}}</code></td><td>Marca, modelo y versión del vehículo</td></tr>
+            <tr><td><code>{{patente}}</code></td><td>Patente del vehículo</td></tr>
+            <tr><td><code>{{estado}}</code></td><td>Estado actual de la OT</td></tr>
+            <tr><td><code>{{fecha_cita}}</code></td><td>Fecha de la cita</td></tr>
+            <tr><td><code>{{hora_cita}}</code></td><td>Hora de la cita</td></tr>
+            <tr><td><code>{{link}}</code></td><td>Enlace de seguimiento de la OT para el cliente</td></tr>
+            <tr><td><code>{{link_agendamiento}}</code></td><td>Enlace del portal de agendamiento</td></tr>
+            <tr><td><code>{{link_confirmacion}}</code></td><td>Enlace para que el cliente confirme su cita</td></tr>
+            <tr><td><code>{{nps}}</code></td><td>Enlace a la encuesta NPS</td></tr>
+            <tr><td><code>{{link_pago}}</code></td><td>Enlace de pago online (si está habilitado)</td></tr>
+            <tr><td><code>{{monto_pendiente}}</code></td><td>Monto pendiente de pago</td></tr>
+            <tr><td><code>{{direccion}}</code></td><td>Dirección del taller</td></tr>
+            <tr><td><code>{{telefono}}</code></td><td>Teléfono del taller</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <p>Formato de texto: <code>*negrita*</code> · <code>_cursiva_</code> · <code>~tachado~</code></p>
+
+      <h3>Notificaciones de Email</h3>
+      <div class="tbl-wrap">
+        <table>
+          <thead><tr><th>Campo</th><th>Descripción</th></tr></thead>
+          <tbody>
+            <tr><td>Condiciones de pago</td><td>Texto que aparece en los documentos enviados al cliente</td></tr>
+            <tr><td>Email Cobranza (cuerpo 1 y 2)</td><td>Contenido del correo automático de cobranza</td></tr>
+            <tr><td>Email Progreso de Estados OT</td><td>Contenido del correo enviado al actualizar el estado de la OT</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <h3>Flyers de recordatorio</h3>
+      <div class="tbl-wrap">
+        <table>
+          <thead><tr><th>Campo</th><th>Descripción</th></tr></thead>
+          <tbody>
+            <tr><td>Flyer de Mantención</td><td>Imagen enviada junto al recordatorio de mantención. 200×640 px recomendado</td></tr>
+            <tr><td>Flyer de Revisión Técnica</td><td>Imagen enviada junto al recordatorio de revisión técnica. 200×640 px recomendado</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="btn-row">
+        <span class="btn-chip bc-primary">Actualizar</span>
+      </div>
+    </div>
+
+    <!-- ── Perfil de usuario ───────────────────────────────────────────── -->
+    <div class="section">
+      <div id="config-perfil" class="section-anchor"></div>
+      <h2>Perfil de usuario</h2>
+      <p>Accede desde el menú superior → tu nombre → <strong>Perfil</strong> para gestionar tu cuenta personal.</p>
+
+      <h3>Campos del perfil</h3>
+      <div class="tbl-wrap">
+        <table>
+          <thead><tr><th>Campo</th><th>Editable</th><th>Descripción</th></tr></thead>
+          <tbody>
+            <tr><td>Nombre</td><td>Sí</td><td>Nombre que aparece en el sistema</td></tr>
+            <tr><td>Apellido</td><td>Sí</td><td>Apellido del usuario</td></tr>
+            <tr><td>Email</td><td>No</td><td>Correo de acceso al sistema. No modificable</td></tr>
+            <tr><td>Número de WhatsApp</td><td>Sí</td><td>Número personal para recibir y enviar notificaciones</td></tr>
+            <tr><td>Foto de Perfil</td><td>Sí</td><td>Imagen del usuario. Máx 10 MB, 620×400 px sugerido</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <h3>Botones disponibles</h3>
+      <div class="btn-row">
+        <span class="btn-chip bc-ol-primary">Editar</span>
+        <span class="btn-chip bc-success">Guardar</span>
+        <span class="btn-chip bc-secondary">Cancelar</span>
+        <span class="btn-chip bc-secondary">Cambiar contraseña</span>
+      </div>
+      <div class="tbl-wrap btn-ref-table">
+        <table>
+          <thead><tr><th>Botón</th><th>Función</th></tr></thead>
+          <tbody>
+            <tr><td><span class="btn-chip bc-ol-primary">Editar</span></td><td>Activa el modo edición del formulario</td></tr>
+            <tr><td><span class="btn-chip bc-success">Guardar</span></td><td>Guarda los cambios realizados al perfil</td></tr>
+            <tr><td><span class="btn-chip bc-secondary">Cancelar</span></td><td>Descarta los cambios y vuelve al modo vista</td></tr>
+            <tr><td><span class="btn-chip bc-secondary">Cambiar contraseña</span></td><td>Redirige al formulario de cambio de contraseña</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <h3>Cambiar contraseña</h3>
+      <div class="tbl-wrap">
+        <table>
+          <thead><tr><th>Campo</th><th>Descripción</th></tr></thead>
+          <tbody>
+            <tr><td>Contraseña Actual</td><td>Contraseña vigente del usuario. Requerida para validar el cambio</td></tr>
+            <tr><td>Contraseña Nueva</td><td>Nueva contraseña a establecer</td></tr>
+            <tr><td>Confirmar Contraseña Nueva</td><td>Debe coincidir exactamente con el campo anterior</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- ── Roles y permisos ───────────────────────────────────────────── -->
+    <div class="section">
+      <div id="roles-permisos" class="section-anchor"></div>
+      <h2>Roles y permisos</h2>
+      <p>GestionCar usa un sistema de <strong>roles</strong> que define qué acciones puede realizar cada usuario. Los roles se asignan al crear o editar un usuario en <a href="administracion.html#usuarios">Administración → Usuarios</a>.</p>
+
+      <div class="tbl-wrap">
+        <table>
+          <thead><tr><th>Rol</th><th>Nivel de acceso</th></tr></thead>
+          <tbody>
+            <tr style="color:#B14BD5"><td><strong>Super Administrador</strong></td><td>Acceso completo a todas las funciones y configuraciones del sistema</td></tr>
+            <tr style="color:#5E99B8"><td><strong>Administrador</strong></td><td>Acceso completo excepto remuneraciones, EERR, plan de cuentas y gestión de empresa</td></tr>
+            <tr style="color:#F56F4B"><td><strong>Jefe de Taller</strong></td><td>OTs, presupuestos, clientes, vehículos, inventario, compras. No puede gestionar usuarios ni sucursales</td></tr>
+            <tr><td><strong>Vendedor</strong></td><td>Clientes, OTs, presupuestos, facturación, calendario. Descuento máximo configurable por usuario</td></tr>
+            <tr><td><strong>Agendador</strong></td><td>Calendario, citas, clientes y vehículos</td></tr>
+            <tr><td><strong>Mecánico</strong></td><td>OTs asignadas, registro de horas, incidencias, checklists, inventario (solo lectura)</td></tr>
+            <tr><td><strong>Encargado de Inventario</strong></td><td>Inventario completo, ítems, movimientos, recepción de compras, escaneo de productos</td></tr>
+            <tr><td><strong>Encargado de Compras</strong></td><td>Gestión de compras, proveedores, ítems, inventario (solo lectura)</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="callout callout-info">
+        <span class="callout-icon">ℹ️</span>
+        <div>El campo <strong>Máximo descuento autorizado</strong> en la ficha del usuario solo es visible para el rol <strong>Vendedor</strong>. Permite limitar el porcentaje de descuento que ese usuario puede aplicar sin aprobación.</div>
+      </div>
+    </div>
+
+    <!-- ── FAQ ────────────────────────────────────────────────────────── -->
+    <div class="section">
+      <div id="faq" class="section-anchor"></div>
+      <h2>Preguntas frecuentes</h2>
+      <p>Respuestas a las dudas más comunes sobre el uso del sistema.</p>
+      <div id="faqContainer"></div>
+    </div>
+
+  </main>
+</div>
+<script src="nav.js"></script>
+<script>
+  initNav('configuracion');
+
+  const faqs = [
+    {
+      q: "¿Cómo agrego un nuevo repuesto al inventario?",
+      a: "Ve a <strong>Administración → Ítems</strong> y crea el ítem con la opción «lleva inventario» activada. Luego ve a <strong>Inventario → Movimientos</strong> y registra una entrada con la cantidad inicial."
+    },
+    {
+      q: "¿Cómo envío un presupuesto al cliente?",
+      a: "Desde la OT o desde <strong>Taller → Presupuestos</strong>, abre el documento y haz clic en <strong>Enviar presupuesto</strong>. El sistema enviará un email al cliente con el detalle y un enlace para aprobarlo."
+    },
+    {
+      q: "¿Puedo ver el historial de cambios de una OT?",
+      a: "Sí. Dentro de cualquier OT hay una sección <strong>Historial</strong> que muestra todos los cambios, quién los hizo y cuándo. También puedes consultarlo en <strong>Administración → Historial de cambios</strong>."
+    },
+    {
+      q: "¿Cómo configuro una alerta de stock mínimo?",
+      a: "En la ficha del ítem (<strong>Administración → Ítems</strong>), configura el campo <strong>Stock mínimo</strong>. El sistema mostrará una alerta cuando el inventario baje de ese nivel."
+    },
+    {
+      q: "¿El sistema envía recordatorios automáticos a los clientes?",
+      a: "Sí. GestionCar puede enviar recordatorios automáticos de mantención y revisión técnica por email y WhatsApp. Se configura en <strong>Configuración → Notificaciones</strong>."
+    },
+    {
+      q: "¿Cómo exporto datos a Excel?",
+      a: "En la mayoría de los listados (OTs, clientes, inventario, finanzas) hay un botón <strong>Exportar</strong> o <strong>Descargar Excel</strong> en la parte superior de la tabla."
+    },
+    {
+      q: "¿Puedo usar el sistema desde el celular?",
+      a: "Sí. GestionCar tiene diseño responsive y puede usarse desde cualquier navegador web en dispositivos móviles y tabletas."
+    },
+    {
+      q: "¿Cómo agrego una nueva sucursal?",
+      a: "Ve a <strong>Administración → Sucursales</strong>, haz clic en <strong>Nueva sucursal</strong> y completa los datos. Luego asigna usuarios en <strong>Administración → Usuarios</strong>."
+    },
+    {
+      q: "¿Qué hago si un usuario olvidó su contraseña?",
+      a: "Un administrador puede ir a <strong>Administración → Usuarios</strong>, seleccionar el usuario y usar la opción <strong>Reenviar invitación</strong> o <strong>Restablecer contraseña</strong>."
+    },
+    {
+      q: "¿Cómo veo las OTs asignadas a un mecánico específico?",
+      a: "En el listado de <strong>OTs en Taller</strong>, usa el filtro por mecánico/colaborador. También puedes ver el rendimiento consolidado en <strong>Taller → Reportes por mecánico</strong>."
+    },
+    {
+      q: "¿Cómo convierto un presupuesto aprobado en OT?",
+      a: "Desde la vista del presupuesto aprobado, haz clic en el botón <strong>Generar OT</strong>. El sistema creará automáticamente la OT con todos los datos del presupuesto."
+    },
+    {
+      q: "¿Puedo tener múltiples sucursales en el mismo sistema?",
+      a: "Sí. GestionCar soporta múltiples sucursales. Cada una tiene su propio inventario independiente y sus usuarios asignados. Los reportes pueden verse por sucursal o de forma consolidada."
+    }
+  ];
+
+  const container = document.getElementById('faqContainer');
+  faqs.forEach((item) => {
+    const div = document.createElement('div');
+    div.className = 'faq-item';
+    div.innerHTML = `
+      <button class="faq-btn" onclick="toggleFaq(this)">
+        <span>${item.q}</span>
+        <span class="faq-icon">+</span>
+      </button>
+      <div class="faq-answer">${item.a}</div>
+    `;
+    container.appendChild(div);
+  });
+
+  function toggleFaq(btn) {
+    const answer = btn.nextElementSibling;
+    const icon = btn.querySelector('.faq-icon');
+    const isOpen = answer.classList.contains('open');
+    document.querySelectorAll('.faq-answer').forEach(a => a.classList.remove('open'));
+    document.querySelectorAll('.faq-icon').forEach(i => { i.textContent = '+'; i.classList.remove('open'); });
+    if (!isOpen) {
+      answer.classList.add('open');
+      icon.textContent = '−';
+      icon.classList.add('open');
+    }
+  }
+</script>
+</body>
+</html>

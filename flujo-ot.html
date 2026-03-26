@@ -1,0 +1,998 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Flujo Completo de una OT — Manual GestionCar</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet"/>
+  <link rel="stylesheet" href="styles.css"/>
+  <style>
+    /* ── Estado bar ── */
+    .state-bar {
+      display: flex;
+      align-items: center;
+      gap: 0;
+      flex-wrap: wrap;
+      margin-bottom: 32px;
+      background: #fff;
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 14px 18px;
+      gap: 4px;
+    }
+    .state-bar-item {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 12px;
+      font-weight: 600;
+      padding: 5px 12px;
+      border-radius: 20px;
+      white-space: nowrap;
+    }
+    .state-bar-arrow {
+      font-size: 14px;
+      color: var(--text-muted);
+      padding: 0 2px;
+      flex-shrink: 0;
+    }
+
+    /* ── Step quick-nav ── */
+    .step-nav {
+      display: flex;
+      gap: 6px;
+      flex-wrap: wrap;
+      margin-bottom: 32px;
+    }
+    .step-nav a {
+      font-size: 12px;
+      font-weight: 600;
+      padding: 5px 12px;
+      border-radius: 20px;
+      background: #f5f6f8;
+      color: var(--text-muted);
+      text-decoration: none;
+      border: 1px solid var(--border);
+      transition: all .15s;
+    }
+    .step-nav a:hover,
+    .step-nav a.active {
+      background: var(--dark);
+      color: #fff;
+      border-color: var(--dark);
+    }
+
+    /* ── Flow card ── */
+    .flow-card {
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      overflow: hidden;
+      margin-bottom: 40px;
+    }
+    .flow-head {
+      display: flex;
+      align-items: flex-start;
+      gap: 16px;
+      padding: 20px 24px 18px;
+      background: linear-gradient(135deg, var(--dark) 0%, #3d5166 100%);
+    }
+    .flow-num {
+      width: 46px;
+      height: 46px;
+      border-radius: 50%;
+      background: rgba(255,255,255,.18);
+      color: #fff;
+      font-size: 20px;
+      font-weight: 800;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+    }
+    .flow-head-text { flex: 1; }
+    .flow-head-text h2 {
+      font-size: 17px;
+      font-weight: 700;
+      color: #fff;
+      margin: 0 0 6px;
+    }
+    .flow-head-chips { display: flex; gap: 6px; flex-wrap: wrap; }
+    .fchip {
+      font-size: 11px;
+      font-weight: 600;
+      padding: 3px 10px;
+      border-radius: 20px;
+      white-space: nowrap;
+    }
+    .fchip-screen {
+      background: rgba(255,255,255,.2);
+      color: rgba(255,255,255,.95);
+    }
+    .fchip-role {
+      background: rgba(255,255,255,.1);
+      color: rgba(255,255,255,.7);
+      border: 1px solid rgba(255,255,255,.2);
+    }
+    .flow-body {
+      padding: 24px 26px;
+      background: #fff;
+    }
+
+    /* ── State transition indicator ── */
+    .state-tx {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      background: #f0f9ee;
+      border: 1px solid #b8e0b0;
+      border-radius: 8px;
+      padding: 8px 14px;
+      font-size: 13px;
+      font-weight: 600;
+      color: #2e7d32;
+      margin: 14px 0 4px;
+    }
+    .state-tx-icon { font-size: 15px; }
+
+    /* ── Field grid ── */
+    .fgrid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(190px, 1fr));
+      gap: 8px;
+      margin: 14px 0;
+    }
+    .fitem {
+      background: #f8f9fb;
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 8px 12px;
+      font-size: 12px;
+    }
+    .fitem-label {
+      font-weight: 700;
+      color: var(--text-muted);
+      font-size: 10px;
+      text-transform: uppercase;
+      letter-spacing: .4px;
+      margin-bottom: 3px;
+    }
+    .fitem-val { color: var(--text); font-size: 12px; }
+
+    /* ── Checklist item grid ── */
+    .cl-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+      gap: 6px;
+      margin: 12px 0;
+    }
+    .cl-item {
+      display: flex;
+      align-items: center;
+      gap: 7px;
+      font-size: 12px;
+      color: var(--text);
+      background: #f8f9fb;
+      border: 1px solid var(--border);
+      border-radius: 7px;
+      padding: 7px 10px;
+    }
+    .cl-item::before {
+      content: '☐';
+      font-size: 14px;
+      color: var(--text-muted);
+      flex-shrink: 0;
+    }
+
+    /* ── Branch box (aprobación) ── */
+    .branch-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr 1fr;
+      gap: 12px;
+      margin: 16px 0;
+    }
+    .branch-box {
+      border-radius: 10px;
+      padding: 14px 16px;
+      border: 1px solid var(--border);
+    }
+    .branch-box h4 {
+      font-size: 13px;
+      font-weight: 700;
+      margin: 0 0 6px;
+    }
+    .branch-box p { font-size: 12px; color: var(--text-muted); margin: 0; line-height: 1.5; }
+    .branch-approved { background: #f0f9ee; border-color: #b8e0b0; }
+    .branch-approved h4 { color: #2e7d32; }
+    .branch-partial  { background: #fff8ed; border-color: #fcd48a; }
+    .branch-partial  h4 { color: #a05a00; }
+    .branch-rejected { background: #fff0f0; border-color: #f5c5c5; }
+    .branch-rejected h4 { color: #c62828; }
+
+    /* ── Financial summary table ── */
+    .fin-table { width: 100%; border-collapse: collapse; font-size: 13px; margin: 12px 0; }
+    .fin-table td { padding: 7px 10px; border-bottom: 1px solid var(--border); }
+    .fin-table tr:last-child td { border-bottom: none; font-weight: 700; }
+    .fin-table td:first-child { color: var(--text-muted); }
+    .fin-table td:last-child { text-align: right; }
+
+    @media (max-width: 640px) {
+      .branch-grid { grid-template-columns: 1fr; }
+      .flow-head { flex-direction: column; }
+    }
+  </style>
+</head>
+<body>
+<div class="layout">
+  <main class="main">
+
+    <div class="page-header">
+      <div class="page-header-icon" style="background:linear-gradient(135deg,#2E3D4F 0%,#3d5166 100%)">🔄</div>
+      <div class="page-header-text">
+        <h1>Flujo Completo de una OT</h1>
+        <p>Guía paso a paso desde la creación de la cita hasta la entrega del vehículo, con todos los botones, pantallas y acciones disponibles en cada etapa.</p>
+      </div>
+    </div>
+
+    <!-- Estado machine bar -->
+    <div class="state-bar">
+      <div class="state-bar-item"><span class="badge badge-blue">En Proceso</span></div>
+      <span class="state-bar-arrow">→</span>
+      <div class="state-bar-item"><span class="badge badge-orange">Ppto. Enviado</span></div>
+      <span class="state-bar-arrow">→</span>
+      <div class="state-bar-item"><span class="badge badge-dk">Ppto. Aprobado</span></div>
+      <span class="state-bar-arrow">→</span>
+      <div class="state-bar-item"><span class="badge badge-green">OT Finalizada</span></div>
+      <span class="state-bar-arrow">→</span>
+      <div class="state-bar-item"><span class="badge badge-green">Entregada</span></div>
+    </div>
+
+    <!-- Quick nav -->
+    <div class="step-nav" id="step-nav">
+      <a href="#paso-1">1. Cita</a>
+      <a href="#paso-2">2. Recepción</a>
+      <a href="#paso-3">3. Inspección</a>
+      <a href="#paso-4">4. Presupuesto</a>
+      <a href="#paso-5">5. Envío</a>
+      <a href="#paso-6">6. Aprobación</a>
+      <a href="#paso-7">7. Trabajos</a>
+      <a href="#paso-8">8. Finalización</a>
+      <a href="#paso-9">9. Pago y factura</a>
+      <a href="#paso-10">10. Entrega</a>
+    </div>
+
+    <!-- ═══════════════════════════════════════════════════════════════════ -->
+    <!-- PASO 1 · AGENDAR LA CITA                                           -->
+    <!-- ═══════════════════════════════════════════════════════════════════ -->
+    <div class="flow-card">
+      <div id="paso-1" class="section-anchor"></div>
+      <div class="flow-head">
+        <div class="flow-num">1</div>
+        <div class="flow-head-text">
+          <h2>Agendar la cita</h2>
+          <div class="flow-head-chips">
+            <span class="fchip fchip-screen">📅 Calendario</span>
+            <span class="fchip fchip-role">👤 Recepcionista · Jefe de Taller</span>
+          </div>
+        </div>
+      </div>
+      <div class="flow-body">
+        <p>El flujo comienza agendando la visita del cliente. Esto es opcional — también puedes crear la OT directamente desde el encabezado del sistema — pero usar el calendario reduce la re-digitación y organiza la agenda del taller.</p>
+
+        <h3>Pasos</h3>
+        <div class="steps">
+          <div class="step"><div class="step-num">1</div><div class="step-text">Ir al módulo <strong>Calendario</strong> y hacer clic sobre el día y hora deseados en la grilla, o en el botón <strong>Crear cita</strong> de la barra superior.</div></div>
+          <div class="step"><div class="step-num">2</div><div class="step-text">Seleccionar el <strong>tipo de orden</strong>: Orden de Trabajo, Orden de Trabajo Seguro, Orden de Trabajo Componentes, Venta de Mesón o Presupuesto.</div></div>
+          <div class="step"><div class="step-num">3</div><div class="step-text">Ingresar la <strong>fecha y hora</strong> de la cita y, opcionalmente, la <strong>fecha estimada de entrega</strong>.</div></div>
+          <div class="step"><div class="step-num">4</div><div class="step-text">Buscar o crear el <strong>cliente</strong>. Si la empresa tiene configurada la notificación de agendamiento, se puede marcar a quién notificar (<em>Notificar a</em>).</div></div>
+          <div class="step"><div class="step-num">5</div><div class="step-text">Seleccionar el <strong>vehículo</strong> del cliente (no requerido para Venta de Mesón). Si se selecciona un vehículo, se puede registrar el <strong>Kilometraje / Horas</strong> en este paso.</div></div>
+          <div class="step"><div class="step-num">6</div><div class="step-text">Completar el <strong>Motivo / Notas</strong> (servicio solicitado) y, si corresponde, los campos especiales según el tipo (ver tabla más abajo).</div></div>
+          <div class="step"><div class="step-num">7</div><div class="step-text">Hacer clic en <strong>Guardar</strong>. La cita queda registrada en el calendario con estado <span class="badge badge-secondary">Sin confirmación</span>.</div></div>
+        </div>
+
+        <h3>Botón de la barra del Calendario</h3>
+        <div class="btn-row">
+          <span class="btn-chip bc-success">Crear cita</span>
+        </div>
+        <div class="tbl-wrap btn-ref-table">
+          <table>
+            <thead><tr><th>Botón</th><th>Función</th></tr></thead>
+            <tbody>
+              <tr><td><span class="btn-chip bc-success">Crear cita</span></td><td>Abre el formulario completo para agendar una nueva cita de cualquier tipo</td></tr>
+            </tbody>
+          </table>
+        </div>
+
+        <h3>Campos del formulario</h3>
+        <div class="fgrid">
+          <div class="fitem"><div class="fitem-label">Tipo de orden</div><div class="fitem-val">OT, OT Seguro, Componentes, Mesón, Presupuesto</div></div>
+          <div class="fitem"><div class="fitem-label">Fecha y hora</div><div class="fitem-val">Fecha y hora de inicio de la cita</div></div>
+          <div class="fitem"><div class="fitem-label">Fecha estimada de entrega</div><div class="fitem-val">Oculto para Venta de Mesón</div></div>
+          <div class="fitem"><div class="fitem-label">Motivo / Notas</div><div class="fitem-val">Servicio solicitado por el cliente</div></div>
+          <div class="fitem"><div class="fitem-label">Orden de Compra</div><div class="fitem-val">Múltiple. No aplica para Mesón ni Presupuesto</div></div>
+          <div class="fitem"><div class="fitem-label">Cliente</div><div class="fitem-val">Búsqueda por nombre o RUT. Requerido</div></div>
+          <div class="fitem"><div class="fitem-label">Notificar a</div><div class="fitem-val">Contactos del cliente a notificar al agendar</div></div>
+          <div class="fitem"><div class="fitem-label">Vehículo</div><div class="fitem-val">Requerido, excepto Mesón y Componentes</div></div>
+          <div class="fitem"><div class="fitem-label">Kilometraje / Horas</div><div class="fitem-val">Visible al seleccionar vehículo</div></div>
+        </div>
+
+        <h3>Campos condicionales según tipo de cita</h3>
+        <div class="tbl-wrap">
+          <table>
+            <thead><tr><th>Campo</th><th>Tipo de cita</th><th>Descripción</th></tr></thead>
+            <tbody>
+              <tr><td><strong>Número de Siniestro</strong></td><td>OT Seguro</td><td>Número del siniestro de la aseguradora. Requerido</td></tr>
+              <tr><td><strong>Aseguradora</strong></td><td>OT Seguro</td><td>Cliente secundario: la compañía aseguradora</td></tr>
+              <tr><td><strong>OT Externa</strong></td><td>OT Componentes</td><td>Número de OT en sistema externo</td></tr>
+              <tr><td><strong>Componentes</strong></td><td>OT Componentes</td><td>Tipo, número, marca, cantidad y series de los componentes a reparar</td></tr>
+            </tbody>
+          </table>
+        </div>
+
+        <h3>Estados de la cita</h3>
+        <div class="tbl-wrap">
+          <table>
+            <thead><tr><th>Estado</th><th>Descripción</th></tr></thead>
+            <tbody>
+              <tr><td><span class="badge badge-secondary">Sin confirmación</span></td><td>Estado inicial al crear la cita</td></tr>
+              <tr><td><span class="badge badge-green">Confirmada</span></td><td>El cliente confirmó su asistencia</td></tr>
+              <tr><td><span class="badge badge-blue">Cliente llegó</span></td><td>La cita fue convertida a OT al llegar el cliente</td></tr>
+              <tr><td><span class="badge badge-red">Cancelada</span></td><td>La cita fue cancelada</td></tr>
+              <tr><td><span class="badge badge-secondary">Cliente no llegó</span></td><td>El cliente no se presentó a la cita</td></tr>
+            </tbody>
+          </table>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- ═══════════════════════════════════════════════════════════════════ -->
+    <!-- PASO 2 · RECEPCIÓN                                                 -->
+    <!-- ═══════════════════════════════════════════════════════════════════ -->
+    <div class="flow-card">
+      <div id="paso-2" class="section-anchor"></div>
+      <div class="flow-head">
+        <div class="flow-num">2</div>
+        <div class="flow-head-text">
+          <h2>Recepción del vehículo</h2>
+          <div class="flow-head-chips">
+            <span class="fchip fchip-screen">📅 Calendario · 🔧 Taller</span>
+            <span class="fchip fchip-role">👤 Recepcionista · Jefe de Taller</span>
+          </div>
+        </div>
+      </div>
+      <div class="flow-body">
+        <p>Cuando el cliente llega al taller, se abre la cita en el Calendario y se inicia el proceso de recepción que convierte la cita en una Orden de Trabajo.</p>
+
+        <h3>Desde el Calendario</h3>
+        <div class="steps">
+          <div class="step"><div class="step-num">1</div><div class="step-text">En el <strong>Calendario</strong>, hacer clic en el evento de la cita del cliente. Se abre el popup de la cita.</div></div>
+          <div class="step"><div class="step-num">2</div><div class="step-text">Hacer clic en <strong>Abrir OT</strong>. Se abre el modal de recepción con el formulario completo.</div></div>
+          <div class="step"><div class="step-num">3</div><div class="step-text">Verificar o ingresar el <strong>Kilometraje / Horas</strong> de ingreso del vehículo.</div></div>
+          <div class="step"><div class="step-num">4</div><div class="step-text">Hacer clic en <strong>Recepcionar</strong>. El sistema crea la OT con estado <strong>En Proceso</strong> y redirige a la OT creada.</div></div>
+          <div class="step"><div class="step-num">5</div><div class="step-text">Si la OT tiene un checklist asignado, el sistema ofrece ir directamente al checklist de recepción.</div></div>
+        </div>
+
+        <div class="state-tx"><span class="state-tx-icon">🔄</span> Estado OT: <span class="badge badge-blue">En Proceso</span> · Estado cita: <span class="badge badge-blue">Cliente llegó</span></div>
+
+        <h3>Botones del popup de cita (antes de crear la OT)</h3>
+        <div class="btn-row">
+          <span class="btn-chip bc-success">Abrir OT</span>
+          <span class="btn-chip bc-warning">Abrir Presupuesto</span>
+          <span class="btn-chip bc-ol-primary">Editar cita</span>
+          <span class="btn-chip bc-danger">Eliminar cita</span>
+        </div>
+        <div class="tbl-wrap btn-ref-table">
+          <table>
+            <thead><tr><th>Botón</th><th>Función</th></tr></thead>
+            <tbody>
+              <tr><td><span class="btn-chip bc-success">Abrir OT</span></td><td>Abre el modal de recepción para crear la OT a partir de la cita</td></tr>
+              <tr><td><span class="btn-chip bc-warning">Abrir Presupuesto</span></td><td>Crea un Presupuesto a partir de la cita (solo si no existe uno). Visible según tipo de cita</td></tr>
+              <tr><td><span class="btn-chip bc-ol-primary">Editar cita</span></td><td>Abre el formulario para modificar los datos de la cita</td></tr>
+              <tr><td><span class="btn-chip bc-danger">Eliminar cita</span></td><td>Elimina la cita del calendario</td></tr>
+            </tbody>
+          </table>
+        </div>
+
+        <h3>Botones del modal de recepción</h3>
+        <div class="btn-row">
+          <span class="btn-chip bc-success">Recepcionar</span>
+          <span class="btn-chip bc-secondary">Omitir recepción</span>
+          <span class="btn-chip bc-light">Cancelar</span>
+        </div>
+        <div class="tbl-wrap btn-ref-table">
+          <table>
+            <thead><tr><th>Botón</th><th>Función</th></tr></thead>
+            <tbody>
+              <tr><td><span class="btn-chip bc-success">Recepcionar</span></td><td>Crea la OT con el checklist de recepción asignado y redirige a completarlo</td></tr>
+              <tr><td><span class="btn-chip bc-secondary">Omitir recepción</span></td><td>Crea la OT sin pasar por el checklist de recepción. Disponible para OT y OT Componentes</td></tr>
+              <tr><td><span class="btn-chip bc-light">Cancelar</span></td><td>Cierra el modal sin crear la OT</td></tr>
+            </tbody>
+          </table>
+        </div>
+
+        <div class="callout callout-info">
+          <span class="callout-icon">ℹ️</span>
+          <div>Para <strong>OT Seguro</strong>, el modal muestra los botones <strong>Inspeccionar</strong> y <strong>Omitir pre inspección</strong> en lugar de los botones de recepción estándar, ya que el flujo incluye una pre-inspección específica para trabajos con aseguradora.</div>
+        </div>
+
+        <h3>Checklist de recepción</h3>
+        <p>Se registra el estado inicial del vehículo. Los ítems dependen del checklist configurado en <strong>Administración → Checklists</strong>.</p>
+        <div class="cl-grid">
+          <div class="cl-item">Carrocería delantera</div>
+          <div class="cl-item">Carrocería trasera</div>
+          <div class="cl-item">Carrocería lateral izq.</div>
+          <div class="cl-item">Carrocería lateral der.</div>
+          <div class="cl-item">Techo</div>
+          <div class="cl-item">Nivel aceite motor</div>
+          <div class="cl-item">Nivel líquido frenos</div>
+          <div class="cl-item">Nivel refrigerante</div>
+          <div class="cl-item">Neumático delantero izq.</div>
+          <div class="cl-item">Neumático delantero der.</div>
+          <div class="cl-item">Neumático trasero izq.</div>
+          <div class="cl-item">Neumático trasero der.</div>
+          <div class="cl-item">Luces delanteras</div>
+          <div class="cl-item">Luces traseras</div>
+          <div class="cl-item">Interior / tapicería</div>
+          <div class="cl-item">Documentos en vehículo</div>
+        </div>
+
+        <div class="callout callout-tip">
+          <span class="callout-icon">💡</span>
+          <div>Usar <strong>Omitir recepción</strong> crea la OT de inmediato sin checklist. Útil cuando el cliente llega sin cita o el trabajo no requiere inspección de ingreso.</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ═══════════════════════════════════════════════════════════════════ -->
+    <!-- PASO 3 · INSPECCIÓN TÉCNICA                                        -->
+    <!-- ═══════════════════════════════════════════════════════════════════ -->
+    <div class="flow-card">
+      <div id="paso-3" class="section-anchor"></div>
+      <div class="flow-head">
+        <div class="flow-num">3</div>
+        <div class="flow-head-text">
+          <h2>Inspección técnica</h2>
+          <div class="flow-head-chips">
+            <span class="fchip fchip-screen">📋 OT → Revisión Mecánica</span>
+            <span class="fchip fchip-role">🔧 Mecánico · Jefe de Taller</span>
+          </div>
+        </div>
+      </div>
+      <div class="flow-body">
+        <p>El mecánico revisa el vehículo ítem por ítem usando el checklist de inspección. Todo lo que detecta — trabajos adicionales y repuestos necesarios — se agrega directamente al presupuesto.</p>
+
+        <h3>Pasos</h3>
+        <div class="steps">
+          <div class="step"><div class="step-num">1</div><div class="step-text">Abrir la OT y navegar a la pestaña <strong>Revisión Mecánica</strong>.</div></div>
+          <div class="step"><div class="step-num">2</div><div class="step-text">Para cada punto del checklist, asignar un <strong>estado</strong>: Bueno / Malo / 25% / 50% / 75%.</div></div>
+          <div class="step"><div class="step-num">3</div><div class="step-text">Si se detecta un problema: hacer clic en <strong>Agregar trabajo</strong> para asociar el trabajo al ítem. El trabajo se agrega automáticamente a la cotización.</div></div>
+          <div class="step"><div class="step-num">4</div><div class="step-text">Si se necesitan repuestos: hacer clic en <strong>Agregar repuestos</strong>. Se agregan al listado de repuestos y a la cotización.</div></div>
+          <div class="step"><div class="step-num">5</div><div class="step-text">Opcionalmente, subir <strong>fotos</strong> por ítem como evidencia del estado encontrado.</div></div>
+          <div class="step"><div class="step-num">6</div><div class="step-text">Agregar <strong>notas</strong> técnicas en los ítems que lo requieran.</div></div>
+          <div class="step"><div class="step-num">7</div><div class="step-text">Al terminar la inspección, usar el botón <strong>Mover Torre Control</strong> para reubicar la OT en el tablero Kanban.</div></div>
+        </div>
+
+        <h3>Estados por ítem de checklist</h3>
+        <div class="tbl-wrap">
+          <table>
+            <thead><tr><th>Estado</th><th>Significado</th></tr></thead>
+            <tbody>
+              <tr><td><span class="badge badge-green">Bueno</span></td><td>El punto está en buen estado, no requiere acción</td></tr>
+              <tr><td><span class="badge badge-red">Malo</span></td><td>El punto tiene un problema que debe ser atendido</td></tr>
+              <tr><td><span class="badge badge-orange">25%</span></td><td>Desgaste leve, monitorear</td></tr>
+              <tr><td><span class="badge badge-orange">50%</span></td><td>Desgaste moderado, considerar reemplazo pronto</td></tr>
+              <tr><td><span class="badge badge-orange">75%</span></td><td>Desgaste avanzado, recomendación urgente</td></tr>
+            </tbody>
+          </table>
+        </div>
+
+        <h3>Botones disponibles en Revisión Mecánica</h3>
+        <div class="btn-row">
+          <span class="btn-chip bc-primary">Agregar trabajo</span>
+          <span class="btn-chip bc-secondary">Agregar repuestos</span>
+          <span class="btn-chip bc-info">Subir imagen</span>
+          <span class="btn-chip bc-dark">Mover Torre Control</span>
+        </div>
+        <div class="tbl-wrap btn-ref-table">
+          <table>
+            <thead><tr><th>Botón</th><th>Función</th></tr></thead>
+            <tbody>
+              <tr><td><span class="btn-chip bc-primary">Agregar trabajo</span></td><td>Asocia un tipo de trabajo al ítem inspeccionado y lo agrega a la cotización</td></tr>
+              <tr><td><span class="btn-chip bc-secondary">Agregar repuestos</span></td><td>Agrega repuestos necesarios al ítem y a la cotización</td></tr>
+              <tr><td><span class="btn-chip bc-info">Subir imagen</span></td><td>Adjunta fotos de evidencia por ítem del checklist</td></tr>
+              <tr><td><span class="btn-chip bc-dark">Mover Torre Control</span></td><td>Reposiciona la OT en el tablero Kanban de Torre de control</td></tr>
+            </tbody>
+          </table>
+        </div>
+
+        <div class="callout callout-tip">
+          <span class="callout-icon">💡</span>
+          <div>Todos los trabajos y repuestos agregados en la Revisión Mecánica se transfieren automáticamente a la pestaña <strong>Editar Cotización</strong>, eliminando la necesidad de ingresar datos dos veces.</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ═══════════════════════════════════════════════════════════════════ -->
+    <!-- PASO 4 · CONFECCIÓN DEL PRESUPUESTO                                -->
+    <!-- ═══════════════════════════════════════════════════════════════════ -->
+    <div class="flow-card">
+      <div id="paso-4" class="section-anchor"></div>
+      <div class="flow-head">
+        <div class="flow-num">4</div>
+        <div class="flow-head-text">
+          <h2>Confección del presupuesto</h2>
+          <div class="flow-head-chips">
+            <span class="fchip fchip-screen">📋 OT → Editar Cotización</span>
+            <span class="fchip fchip-role">👤 Jefe de Taller · Recepcionista</span>
+          </div>
+        </div>
+      </div>
+      <div class="flow-body">
+        <p>La pestaña <strong>Editar Cotización</strong> ya tiene los trabajos y repuestos detectados en la inspección. Aquí se revisan precios, cantidades y descuentos antes de enviar al cliente.</p>
+
+        <h3>Pasos</h3>
+        <div class="steps">
+          <div class="step"><div class="step-num">1</div><div class="step-text">Ir a la pestaña <strong>Editar Cotización</strong> de la OT.</div></div>
+          <div class="step"><div class="step-num">2</div><div class="step-text">Revisar los ítems auto-populados desde la inspección. Ajustar <strong>cantidades</strong>, <strong>precios de venta</strong> y <strong>descuentos</strong> si es necesario.</div></div>
+          <div class="step"><div class="step-num">3</div><div class="step-text">Agregar ítems adicionales usando el botón <strong>Cargar trabajo</strong>.</div></div>
+          <div class="step"><div class="step-num">4</div><div class="step-text">Verificar el <strong>Resumen Financiero</strong>: costo neto, valor de venta, descuento, IVA y margen.</div></div>
+          <div class="step"><div class="step-num">5</div><div class="step-text">Usar <strong>Vista Previa</strong> para ver cómo quedará el documento antes de enviarlo.</div></div>
+          <div class="step"><div class="step-num">6</div><div class="step-text">Hacer clic en <strong>Guardar cambios</strong>.</div></div>
+        </div>
+
+        <h3>Columnas de la tabla de ítems</h3>
+        <div class="fgrid">
+          <div class="fitem"><div class="fitem-label">Categoría</div><div class="fitem-val">Lubricantes, Filtros, Mano de obra…</div></div>
+          <div class="fitem"><div class="fitem-label">Subcategoría</div><div class="fitem-val">Clasificación dentro de la categoría</div></div>
+          <div class="fitem"><div class="fitem-label">Ítem</div><div class="fitem-val">Nombre del repuesto o trabajo</div></div>
+          <div class="fitem"><div class="fitem-label">Costo Neto Unit.</div><div class="fitem-val">Precio de costo del ítem</div></div>
+          <div class="fitem"><div class="fitem-label">Cantidad</div><div class="fitem-val">Unidades requeridas</div></div>
+          <div class="fitem"><div class="fitem-label">P. Venta Unit.</div><div class="fitem-val">Precio de venta al cliente</div></div>
+          <div class="fitem"><div class="fitem-label">Descuento</div><div class="fitem-val">% o monto a descontar</div></div>
+          <div class="fitem"><div class="fitem-label">P. Venta Total</div><div class="fitem-val">Precio de venta × cantidad − descuento</div></div>
+          <div class="fitem"><div class="fitem-label">Margen</div><div class="fitem-val">% de utilidad sobre el costo</div></div>
+        </div>
+
+        <h3>Resumen Financiero</h3>
+        <table class="fin-table">
+          <tr><td>Costo Total Neto</td><td>Suma de costos de todos los ítems</td></tr>
+          <tr><td>Valor Total Neto</td><td>Suma de precios de venta sin impuesto</td></tr>
+          <tr><td>Descuento</td><td>Descuento total aplicado</td></tr>
+          <tr><td>IVA</td><td>Impuesto calculado sobre el neto</td></tr>
+          <tr><td>Valor Total con IVA</td><td>Total a cobrar al cliente</td></tr>
+          <tr><td>Margen Proyecto</td><td>Utilidad total del proyecto</td></tr>
+        </table>
+
+        <h3>Botones disponibles</h3>
+        <div class="btn-row">
+          <span class="btn-chip bc-secondary">Guardar como Template</span>
+          <span class="btn-chip bc-primary">Cargar trabajo</span>
+          <span class="btn-chip bc-info">Vista Previa</span>
+          <span class="btn-chip bc-success">Guardar cambios</span>
+        </div>
+        <div class="tbl-wrap btn-ref-table">
+          <table>
+            <thead><tr><th>Botón</th><th>Función</th></tr></thead>
+            <tbody>
+              <tr><td><span class="btn-chip bc-secondary">Guardar como Template</span></td><td>Guarda la cotización actual como plantilla reutilizable para futuros trabajos similares</td></tr>
+              <tr><td><span class="btn-chip bc-primary">Cargar trabajo</span></td><td>Agrega un trabajo o ítem desde el catálogo a la cotización</td></tr>
+              <tr><td><span class="btn-chip bc-info">Vista Previa</span></td><td>Muestra el documento de presupuesto tal como lo verá el cliente</td></tr>
+              <tr><td><span class="btn-chip bc-success">Guardar cambios</span></td><td>Guarda todas las modificaciones de la cotización</td></tr>
+            </tbody>
+          </table>
+        </div>
+
+        <div class="callout callout-tip">
+          <span class="callout-icon">💡</span>
+          <div>Usa <strong>Guardar como Template</strong> para trabajos frecuentes como cambio de aceite o revisión de frenos. La próxima vez solo cargas la plantilla y ahorras tiempo.</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ═══════════════════════════════════════════════════════════════════ -->
+    <!-- PASO 5 · ENVÍO AL CLIENTE                                          -->
+    <!-- ═══════════════════════════════════════════════════════════════════ -->
+    <div class="flow-card">
+      <div id="paso-5" class="section-anchor"></div>
+      <div class="flow-head">
+        <div class="flow-num">5</div>
+        <div class="flow-head-text">
+          <h2>Envío del presupuesto al cliente</h2>
+          <div class="flow-head-chips">
+            <span class="fchip fchip-screen">📋 OT → General</span>
+            <span class="fchip fchip-role">👤 Jefe de Taller · Recepcionista</span>
+          </div>
+        </div>
+      </div>
+      <div class="flow-body">
+        <p>Una vez confirmado el presupuesto, se envía al cliente para su aprobación y se cambia el estado de la OT.</p>
+
+        <h3>Pasos</h3>
+        <div class="steps">
+          <div class="step"><div class="step-num">1</div><div class="step-text">En la pestaña <strong>General</strong>, hacer clic en <strong>Cambiar estado</strong>.</div></div>
+          <div class="step"><div class="step-num">2</div><div class="step-text">Seleccionar <strong>"Enviar presupuesto"</strong>. El estado cambia a <span class="badge badge-orange">Ppto. Enviado</span>.</div></div>
+          <div class="step"><div class="step-num">3</div><div class="step-text">Contactar al cliente usando <strong>Contactar cliente</strong> (abre WhatsApp con el número del cliente) o <strong>Enviar Mail Recordatorio</strong> para enviar el presupuesto por correo.</div></div>
+          <div class="step"><div class="step-num">4</div><div class="step-text">El cliente puede ver el presupuesto online mediante el enlace público que se genera automáticamente.</div></div>
+        </div>
+
+        <div class="state-tx"><span class="state-tx-icon">🔄</span> Estado OT cambia a: <span class="badge badge-orange">Ppto. Enviado</span></div>
+
+        <h3>Botones disponibles en pestaña General</h3>
+        <div class="btn-row">
+          <span class="btn-chip bc-secondary">Cambiar estado</span>
+          <span class="btn-chip bc-success">Contactar cliente</span>
+          <span class="btn-chip bc-info">Enviar Mail Recordatorio</span>
+          <span class="btn-chip bc-primary">Generar versión</span>
+        </div>
+        <div class="tbl-wrap btn-ref-table">
+          <table>
+            <thead><tr><th>Botón</th><th>Función</th></tr></thead>
+            <tbody>
+              <tr><td><span class="btn-chip bc-secondary">Cambiar estado</span></td><td>Despliega los estados disponibles para la OT según el flujo actual</td></tr>
+              <tr><td><span class="btn-chip bc-success">Contactar cliente</span></td><td>Abre WhatsApp Web con el número del cliente prellenado</td></tr>
+              <tr><td><span class="btn-chip bc-info">Enviar Mail Recordatorio</span></td><td>Envía un correo al cliente con el presupuesto o recordatorio de la OT</td></tr>
+              <tr><td><span class="btn-chip bc-primary">Generar versión</span></td><td>Crea una versión guardada del presupuesto en su estado actual</td></tr>
+            </tbody>
+          </table>
+        </div>
+
+        <div class="callout callout-info">
+          <span class="callout-icon">ℹ️</span>
+          <div>El <strong>enlace público</strong> de la OT permite al cliente ver el presupuesto en un navegador sin necesidad de acceder al sistema. Se puede copiar y enviar por cualquier canal.</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ═══════════════════════════════════════════════════════════════════ -->
+    <!-- PASO 6 · APROBACIÓN                                                -->
+    <!-- ═══════════════════════════════════════════════════════════════════ -->
+    <div class="flow-card">
+      <div id="paso-6" class="section-anchor"></div>
+      <div class="flow-head">
+        <div class="flow-num">6</div>
+        <div class="flow-head-text">
+          <h2>Aprobación del presupuesto</h2>
+          <div class="flow-head-chips">
+            <span class="fchip fchip-screen">📋 OT → General</span>
+            <span class="fchip fchip-role">👤 Jefe de Taller · Recepcionista</span>
+          </div>
+        </div>
+      </div>
+      <div class="flow-body">
+        <p>El cliente responde al presupuesto. Hay tres resultados posibles: aprobación total, aprobación parcial o rechazo.</p>
+
+        <h3>Registrar la respuesta del cliente</h3>
+        <div class="steps">
+          <div class="step"><div class="step-num">1</div><div class="step-text">El cliente comunica su decisión (por teléfono, WhatsApp o presencialmente).</div></div>
+          <div class="step"><div class="step-num">2</div><div class="step-text">En la pestaña <strong>General</strong>, hacer clic en <strong>Cambiar estado</strong> y seleccionar el resultado.</div></div>
+          <div class="step"><div class="step-num">3</div><div class="step-text">Si es aprobación parcial, ir a <strong>Editar Cotización</strong> y ajustar los ítems eliminando los trabajos no autorizados.</div></div>
+        </div>
+
+        <h3>Resultados posibles</h3>
+        <div class="branch-grid">
+          <div class="branch-box branch-approved">
+            <h4>✅ Ppto. Aprobado</h4>
+            <p>El cliente aprueba todos los trabajos. El estado pasa a <span class="badge badge-dk">Ppto. Aprobado</span> y se puede comenzar la ejecución.</p>
+          </div>
+          <div class="branch-box branch-partial">
+            <h4>⚡ Ppto. Parcial</h4>
+            <p>El cliente aprueba solo algunos trabajos. Ajustar la cotización eliminando los ítems rechazados. Estado: <span class="badge badge-dk">Ppto. Parcial</span>.</p>
+          </div>
+          <div class="branch-box branch-rejected">
+            <h4>❌ Rechazado</h4>
+            <p>El cliente no aprueba los trabajos. Estado: <span class="badge badge-red">Rechazado</span>. El vehículo se devuelve sin realizar las reparaciones.</p>
+          </div>
+        </div>
+
+        <div class="state-tx"><span class="state-tx-icon">🔄</span> Estado OT: <span class="badge badge-dk">Ppto. Aprobado</span> o <span class="badge badge-dk">Ppto. Parcial</span></div>
+
+        <div class="callout callout-warning">
+          <span class="callout-icon">⚠️</span>
+          <div>En caso de <strong>Ppto. Parcial</strong>, recuerda ajustar la cotización en <strong>Editar Cotización</strong> antes de continuar con los trabajos para que el resumen financiero refleje solo los ítems aprobados.</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ═══════════════════════════════════════════════════════════════════ -->
+    <!-- PASO 7 · EJECUCIÓN DE TRABAJOS                                     -->
+    <!-- ═══════════════════════════════════════════════════════════════════ -->
+    <div class="flow-card">
+      <div id="paso-7" class="section-anchor"></div>
+      <div class="flow-head">
+        <div class="flow-num">7</div>
+        <div class="flow-head-text">
+          <h2>Asignación y ejecución de trabajos</h2>
+          <div class="flow-head-chips">
+            <span class="fchip fchip-screen">📋 OT → Editar Cotización · Torre de Control</span>
+            <span class="fchip fchip-role">🔧 Mecánico · Jefe de Taller</span>
+          </div>
+        </div>
+      </div>
+      <div class="flow-body">
+        <p>Con el presupuesto aprobado, el jefe de taller asigna responsables y los mecánicos ejecutan los trabajos.</p>
+
+        <h3>Jefe de Taller: asignar responsables</h3>
+        <div class="steps">
+          <div class="step"><div class="step-num">1</div><div class="step-text">En <strong>Editar Cotización</strong>, asignar un <strong>responsable</strong> a cada ítem de trabajo (mecánico o colaborador).</div></div>
+          <div class="step"><div class="step-num">2</div><div class="step-text">En la <strong>Torre de Control</strong>, arrastrar la OT a la columna del mecánico asignado o al estado de trabajo correspondiente.</div></div>
+          <div class="step"><div class="step-num">3</div><div class="step-text">Monitorear el avance de cada OT en tiempo real desde la Torre de Control.</div></div>
+        </div>
+
+        <h3>Mecánico: ejecutar los trabajos</h3>
+        <div class="steps">
+          <div class="step"><div class="step-num">1</div><div class="step-text">En el módulo <strong>Taller → Tareas asignadas</strong>, el mecánico ve las tareas pendientes asignadas a su nombre.</div></div>
+          <div class="step"><div class="step-num">2</div><div class="step-text">Hacer clic en <strong>Revisar OT</strong> para ver el detalle completo de la orden.</div></div>
+          <div class="step"><div class="step-num">3</div><div class="step-text">Al finalizar cada trabajo, registrar las <strong>horas empleadas</strong> en el ítem correspondiente.</div></div>
+          <div class="step"><div class="step-num">4</div><div class="step-text">Si se detectan trabajos adicionales no contemplados en el presupuesto, comunicar al jefe para <strong>ampliar la cotización</strong> y obtener nueva aprobación del cliente.</div></div>
+          <div class="step"><div class="step-num">5</div><div class="step-text">Al terminar todos los trabajos asignados, usar <strong>Mover Torre Control</strong> en la pestaña Revisión Mecánica para cambiar la posición de la OT en el tablero.</div></div>
+        </div>
+
+        <h3>Botones disponibles para el mecánico</h3>
+        <div class="btn-row">
+          <span class="btn-chip bc-ol-info">Revisar OT</span>
+          <span class="btn-chip bc-dark">Mover Torre Control</span>
+        </div>
+        <div class="tbl-wrap btn-ref-table">
+          <table>
+            <thead><tr><th>Botón</th><th>Función</th></tr></thead>
+            <tbody>
+              <tr><td><span class="btn-chip bc-ol-info">Revisar OT</span></td><td>Abre el detalle de la OT para ver los trabajos asignados y registrar horas</td></tr>
+              <tr><td><span class="btn-chip bc-dark">Mover Torre Control</span></td><td>Reposiciona la OT en el tablero Kanban de Torre de control (pestaña Revisión Mecánica)</td></tr>
+            </tbody>
+          </table>
+        </div>
+
+        <div class="callout callout-warning">
+          <span class="callout-icon">⚠️</span>
+          <div>Si durante la ejecución se detecta trabajo adicional, <strong>no realizarlo sin aprobación previa</strong>. Ampliar la cotización, enviarla al cliente y esperar su respuesta antes de continuar.</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ═══════════════════════════════════════════════════════════════════ -->
+    <!-- PASO 8 · FINALIZACIÓN                                              -->
+    <!-- ═══════════════════════════════════════════════════════════════════ -->
+    <div class="flow-card">
+      <div id="paso-8" class="section-anchor"></div>
+      <div class="flow-head">
+        <div class="flow-num">8</div>
+        <div class="flow-head-text">
+          <h2>Finalización de la OT</h2>
+          <div class="flow-head-chips">
+            <span class="fchip fchip-screen">📋 OT → General</span>
+            <span class="fchip fchip-role">👤 Jefe de Taller</span>
+          </div>
+        </div>
+      </div>
+      <div class="flow-body">
+        <p>Cuando todos los trabajos están completados, el jefe de taller verifica la OT y la marca como finalizada.</p>
+
+        <h3>Pasos</h3>
+        <div class="steps">
+          <div class="step"><div class="step-num">1</div><div class="step-text">Verificar que todos los ítems de la cotización estén <strong>completados</strong> y que no haya tareas pendientes.</div></div>
+          <div class="step"><div class="step-num">2</div><div class="step-text">Revisar el <strong>Resumen Financiero</strong> en la pestaña General: costo total, valor de venta y margen.</div></div>
+          <div class="step"><div class="step-num">3</div><div class="step-text">Si hay descuentos pendientes de aprobación, usar <strong>Aprobar descuento</strong>.</div></div>
+          <div class="step"><div class="step-num">4</div><div class="step-text">Revisar y aprobar las <strong>horas registradas</strong> por los mecánicos.</div></div>
+          <div class="step"><div class="step-num">5</div><div class="step-text">En la pestaña General, hacer clic en <strong>Cambiar estado</strong> → <strong>"Finalizar OT"</strong>.</div></div>
+        </div>
+
+        <div class="state-tx"><span class="state-tx-icon">🔄</span> Estado OT cambia a: <span class="badge badge-green">OT Finalizada</span></div>
+
+        <h3>Botones disponibles</h3>
+        <div class="btn-row">
+          <span class="btn-chip bc-secondary">Cambiar estado</span>
+          <span class="btn-chip bc-warning">Aprobar descuento</span>
+        </div>
+        <div class="tbl-wrap btn-ref-table">
+          <table>
+            <thead><tr><th>Botón</th><th>Función</th></tr></thead>
+            <tbody>
+              <tr><td><span class="btn-chip bc-secondary">Cambiar estado</span></td><td>Permite seleccionar "Finalizar OT" para marcar el trabajo como completado</td></tr>
+              <tr><td><span class="btn-chip bc-warning">Aprobar descuento</span></td><td>Autoriza el descuento solicitado sobre el valor de venta de la OT</td></tr>
+            </tbody>
+          </table>
+        </div>
+
+        <div class="callout callout-info">
+          <span class="callout-icon">ℹ️</span>
+          <div>Si el vehículo retorna al taller por el mismo trabajo dentro del período de garantía, el estado puede cambiarse a <span class="badge badge-blue">Garantía</span> para reabrirla sin costo adicional al cliente.</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ═══════════════════════════════════════════════════════════════════ -->
+    <!-- PASO 9 · PAGO Y FACTURA                                            -->
+    <!-- ═══════════════════════════════════════════════════════════════════ -->
+    <div class="flow-card">
+      <div id="paso-9" class="section-anchor"></div>
+      <div class="flow-head">
+        <div class="flow-num">9</div>
+        <div class="flow-head-text">
+          <h2>Pago, factura y conciliación</h2>
+          <div class="flow-head-chips">
+            <span class="fchip fchip-screen">📋 OT → Repuestos · 💰 Finanzas</span>
+            <span class="fchip fchip-role">👤 Recepcionista · Administrador</span>
+          </div>
+        </div>
+      </div>
+      <div class="flow-body">
+        <p>Con la OT finalizada se emite el documento tributario, se registra el pago y se concilia en el módulo de Finanzas.</p>
+
+        <!-- Sub-sección 1: Emitir documento -->
+        <h3>9.1 Emitir el documento de venta</h3>
+        <div class="steps">
+          <div class="step"><div class="step-num">1</div><div class="step-text">En la pestaña <strong>Repuestos</strong> de la OT, seleccionar el <strong>tipo de documento</strong>: Boleta o Factura.</div></div>
+          <div class="step"><div class="step-num">2</div><div class="step-text">Verificar los datos del cliente (RUT, razón social, dirección) antes de emitir. Estos son obligatorios para facturas.</div></div>
+          <div class="step"><div class="step-num">3</div><div class="step-text">Hacer clic en <strong>Pagar</strong> para emitir el documento tributario y registrar el pago simultáneamente.</div></div>
+          <div class="step"><div class="step-num">4</div><div class="step-text">Usar <strong>Descargar PDFs</strong> para obtener el comprobante imprimible de la boleta o factura.</div></div>
+        </div>
+
+        <h3>Botones para documentos</h3>
+        <div class="btn-row">
+          <span class="btn-chip bc-success">Pagar</span>
+          <span class="btn-chip bc-warning">Descargar PDFs</span>
+          <span class="btn-chip bc-info">Enviar Mail Recordatorio</span>
+          <span class="btn-chip bc-primary">Link de Pago</span>
+        </div>
+        <div class="tbl-wrap btn-ref-table">
+          <table>
+            <thead><tr><th>Botón</th><th>Función</th></tr></thead>
+            <tbody>
+              <tr><td><span class="btn-chip bc-success">Pagar</span></td><td>Emite el documento tributario y registra el pago en el sistema</td></tr>
+              <tr><td><span class="btn-chip bc-warning">Descargar PDFs</span></td><td>Descarga la boleta o factura en formato PDF para imprimir o enviar</td></tr>
+              <tr><td><span class="btn-chip bc-info">Enviar Mail Recordatorio</span></td><td>Envía el documento al correo del cliente</td></tr>
+              <tr><td><span class="btn-chip bc-primary">Link de Pago</span></td><td>Genera un enlace de pago online para que el cliente pague desde su teléfono (solo Chile)</td></tr>
+            </tbody>
+          </table>
+        </div>
+
+        <!-- Sub-sección 2: Registrar pago -->
+        <h3>9.2 Registrar el pago</h3>
+        <div class="steps">
+          <div class="step"><div class="step-num">1</div><div class="step-text">Seleccionar la <strong>forma de pago</strong>: Efectivo, Transferencia, Tarjeta de débito, Tarjeta de crédito, Cheque.</div></div>
+          <div class="step"><div class="step-num">2</div><div class="step-text">Ingresar el <strong>monto recibido</strong>. Si es pago parcial, el sistema calcula el saldo pendiente.</div></div>
+          <div class="step"><div class="step-num">3</div><div class="step-text">Verificar el campo <strong>Estado Cobro</strong>: Cobrado / Pendiente / Abono.</div></div>
+          <div class="step"><div class="step-num">4</div><div class="step-text">Confirmar el <strong>Valor Abonado</strong> y el <strong>Monto por pagar</strong> restante.</div></div>
+        </div>
+
+        <h3>Campos del pago</h3>
+        <div class="fgrid">
+          <div class="fitem"><div class="fitem-label">Forma de pago</div><div class="fitem-val">Efectivo, Transferencia, Tarjeta…</div></div>
+          <div class="fitem"><div class="fitem-label">Estado Cobro</div><div class="fitem-val">Cobrado / Pendiente / Abono</div></div>
+          <div class="fitem"><div class="fitem-label">Valor Abonado</div><div class="fitem-val">Monto ya recibido del cliente</div></div>
+          <div class="fitem"><div class="fitem-label">Monto por pagar</div><div class="fitem-val">Saldo pendiente</div></div>
+          <div class="fitem"><div class="fitem-label">Fecha Facturación</div><div class="fitem-val">Fecha de emisión del documento</div></div>
+          <div class="fitem"><div class="fitem-label">Número documento</div><div class="fitem-val">Folio asignado por el SII (Chile)</div></div>
+        </div>
+
+        <!-- Sub-sección 3: Conciliación en Finanzas -->
+        <h3>9.3 Conciliación en Finanzas</h3>
+        <div class="steps">
+          <div class="step"><div class="step-num">1</div><div class="step-text">Ir al módulo <strong>Finanzas → Ingresos de ventas</strong>. La factura o boleta emitida aparece automáticamente en el listado.</div></div>
+          <div class="step"><div class="step-num">2</div><div class="step-text">Verificar que el documento corresponde al cliente y monto correcto. Usar <strong>Ir a Proyecto</strong> para navegar de vuelta a la OT.</div></div>
+          <div class="step"><div class="step-num">3</div><div class="step-text">Si el pago fue parcial, verificar en <strong>Finanzas → Abonos</strong> que el abono quedó registrado correctamente.</div></div>
+          <div class="step"><div class="step-num">4</div><div class="step-text">Las OTs con saldo pendiente aparecen en <strong>Finanzas → Cobranzas</strong> para seguimiento y gestión de cobro.</div></div>
+          <div class="step"><div class="step-num">5</div><div class="step-text">Si es necesario anular o ajustar un documento, ir a <strong>Finanzas → Ingresos de ventas</strong> y usar <strong>NC</strong> para emitir una nota de crédito.</div></div>
+        </div>
+
+        <div class="tbl-wrap">
+          <table>
+            <thead><tr><th>Pantalla en Finanzas</th><th>Qué se verifica</th></tr></thead>
+            <tbody>
+              <tr><td><strong>Ingresos de ventas</strong></td><td>Factura o boleta emitida, monto, cliente, fecha</td></tr>
+              <tr><td><strong>Abonos</strong></td><td>Pagos parciales recibidos, saldo pendiente</td></tr>
+              <tr><td><strong>Cobranzas</strong></td><td>OTs y documentos con saldo por cobrar</td></tr>
+              <tr><td><strong>Libro de ventas</strong></td><td>Consolidado tributario del período</td></tr>
+            </tbody>
+          </table>
+        </div>
+
+        <div class="callout callout-tip">
+          <span class="callout-icon">💡</span>
+          <div>Usa <strong>Link de Pago</strong> para enviar al cliente un enlace donde puede pagar con tarjeta desde su teléfono, sin necesidad de que venga al taller a pagar. Disponible solo en Chile.</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ═══════════════════════════════════════════════════════════════════ -->
+    <!-- PASO 10 · ENTREGA                                                  -->
+    <!-- ═══════════════════════════════════════════════════════════════════ -->
+    <div class="flow-card">
+      <div id="paso-10" class="section-anchor"></div>
+      <div class="flow-head">
+        <div class="flow-num">10</div>
+        <div class="flow-head-text">
+          <h2>Entrega del vehículo</h2>
+          <div class="flow-head-chips">
+            <span class="fchip fchip-screen">📋 OT → General</span>
+            <span class="fchip fchip-role">👤 Recepcionista · Jefe de Taller</span>
+          </div>
+        </div>
+      </div>
+      <div class="flow-body">
+        <p>El último paso del flujo es la entrega formal del vehículo al cliente, con registro del checklist de salida y el cierre de la OT.</p>
+
+        <h3>Pasos</h3>
+        <div class="steps">
+          <div class="step"><div class="step-num">1</div><div class="step-text">Verificar que el pago está registrado correctamente antes de proceder con la entrega.</div></div>
+          <div class="step"><div class="step-num">2</div><div class="step-text">Revisar el vehículo con el cliente, recorriendo los trabajos realizados.</div></div>
+          <div class="step"><div class="step-num">3</div><div class="step-text">Completar el <strong>Checklist de Entrega</strong>: verificar el estado de los puntos revisados y confirmar que el cliente está conforme.</div></div>
+          <div class="step"><div class="step-num">4</div><div class="step-text">Registrar el <strong>kilometraje de salida</strong> del vehículo.</div></div>
+          <div class="step"><div class="step-num">5</div><div class="step-text">En la pestaña <strong>General</strong>, hacer clic en <strong>Cambiar estado</strong> → <strong>"Entregar"</strong>.</div></div>
+          <div class="step"><div class="step-num">6</div><div class="step-text">El sistema cierra la OT y envía automáticamente la <strong>encuesta NPS</strong> al cliente por correo o WhatsApp.</div></div>
+        </div>
+
+        <div class="state-tx"><span class="state-tx-icon">🔄</span> Estado OT cambia a: <span class="badge badge-green">Entregada</span></div>
+
+        <h3>Checklist de Entrega</h3>
+        <div class="cl-grid">
+          <div class="cl-item">Trabajos realizados</div>
+          <div class="cl-item">Limpieza del vehículo</div>
+          <div class="cl-item">Documentos devueltos</div>
+          <div class="cl-item">Objetos personales</div>
+          <div class="cl-item">Sin daños visibles</div>
+          <div class="cl-item">Niveles correctos</div>
+          <div class="cl-item">Luces funcionando</div>
+          <div class="cl-item">Pago confirmado</div>
+        </div>
+
+        <h3>Qué ocurre tras la entrega</h3>
+        <div class="tbl-wrap">
+          <table>
+            <thead><tr><th>Efecto automático</th><th>Descripción</th></tr></thead>
+            <tbody>
+              <tr><td>Histórico de OTs</td><td>La OT pasa al módulo <strong>Taller → Histórico de OTs</strong> para consulta futura</td></tr>
+              <tr><td>Stock de inventario</td><td>Los repuestos utilizados se descuentan automáticamente del stock</td></tr>
+              <tr><td>Encuesta NPS</td><td>El sistema envía la encuesta de satisfacción al cliente automáticamente</td></tr>
+              <tr><td>Reportes</td><td>La OT queda disponible en los reportes de productividad, ingresos y mecánicos</td></tr>
+              <tr><td>Historial del vehículo</td><td>Los trabajos quedan asociados al historial del vehículo en <strong>Taller → Vehículos</strong></td></tr>
+            </tbody>
+          </table>
+        </div>
+
+        <h3>Botón de entrega</h3>
+        <div class="btn-row">
+          <span class="btn-chip bc-secondary">Cambiar estado</span>
+        </div>
+        <div class="tbl-wrap btn-ref-table">
+          <table>
+            <thead><tr><th>Botón</th><th>Función</th></tr></thead>
+            <tbody>
+              <tr><td><span class="btn-chip bc-secondary">Cambiar estado</span></td><td>Despliega la opción "Entregar" para cerrar la OT y registrar la entrega oficial del vehículo</td></tr>
+            </tbody>
+          </table>
+        </div>
+
+        <div class="callout callout-tip">
+          <span class="callout-icon">💡</span>
+          <div>Los resultados de la <strong>Encuesta NPS</strong> se pueden revisar en <strong>Administración → Encuesta NPS</strong>. Son una fuente valiosa para identificar oportunidades de mejora en el servicio.</div>
+        </div>
+      </div>
+    </div>
+
+  </main>
+</div>
+<script src="nav.js"></script>
+<script>
+  initNav('flujo-ot');
+
+  // Scroll-spy for step quick-nav
+  const stepIds = ['paso-1','paso-2','paso-3','paso-4','paso-5','paso-6','paso-7','paso-8','paso-9','paso-10'];
+  const navLinks = document.querySelectorAll('.step-nav a');
+
+  function updateStepNav() {
+    let current = stepIds[0];
+    for (const id of stepIds) {
+      const el = document.getElementById(id);
+      if (el && el.getBoundingClientRect().top <= 100) current = id;
+    }
+    navLinks.forEach(a => {
+      a.classList.toggle('active', a.getAttribute('href') === '#' + current);
+    });
+  }
+
+  window.addEventListener('scroll', updateStepNav, { passive: true });
+  updateStepNav();
+</script>
+</body>
+</html>

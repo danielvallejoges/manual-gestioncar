@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Inventario — Manual GestionCar</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet"/>
+  <link rel="stylesheet" href="styles.css"/>
+</head>
+<body>
+<div class="layout">
+  <main class="main">
+
+    <div class="page-header">
+      <div class="page-header-icon" style="background:rgba(18,194,194,.1)">📦</div>
+      <div class="page-header-text">
+        <h1>Inventario</h1>
+        <p>Control del stock de ítems y materiales en tiempo real, con seguimiento de todos los movimientos de entrada y salida por sucursal.</p>
+      </div>
+    </div>
+
+    <!-- Inventario -->
+    <div class="section">
+      <div id="inv-inventario" class="section-anchor"></div>
+      <h2>Inventario</h2>
+      <p>Vista del stock disponible en la sucursal actualmente seleccionada. Desde aquí puedes consultar el estado actual de todos los ítems registrados.</p>
+
+      <h3>¿Qué puedes ver y hacer?</h3>
+      <div class="tbl-wrap">
+        <table>
+          <thead><tr><th>Función</th><th>Descripción</th></tr></thead>
+          <tbody>
+            <tr><td>Buscar ítems</td><td>Por nombre, código SKU o categoría</td></tr>
+            <tr><td>Cantidad disponible</td><td>Stock actual en la sucursal seleccionada</td></tr>
+            <tr><td>Precios</td><td>Precio de costo y precio de venta de cada ítem</td></tr>
+            <tr><td>Alertas de stock bajo</td><td>Ítems que están bajo el mínimo configurado</td></tr>
+            <tr><td>Filtrar</td><td>Por categoría o ubicación dentro de la sucursal</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="callout callout-tip">
+        <span class="callout-icon">💡</span>
+        <div>Para configurar el <strong>stock mínimo</strong> de un ítem y activar alertas, ve a <a href="administracion.html#items">Administración → Ítems</a> y edita el campo correspondiente.</div>
+      </div>
+
+      <h3>Botones del listado</h3>
+      <div class="btn-row">
+        <span class="btn-chip bc-success">Movimiento de Entrada</span>
+        <span class="btn-chip bc-danger">Movimiento de Salida</span>
+      </div>
+      <div class="btn-row">
+        <span class="btn-chip bc-ol-warning">Editar</span>
+        <span class="btn-chip bc-ol-success">Mover stock</span>
+        <span class="btn-chip bc-ol-danger">Eliminar</span>
+      </div>
+      <div class="tbl-wrap btn-ref-table">
+        <table>
+          <thead><tr><th>Botón</th><th>Función</th></tr></thead>
+          <tbody>
+            <tr><td><span class="btn-chip bc-success">Movimiento de Entrada</span></td><td>Registra un ingreso de ítems al inventario</td></tr>
+            <tr><td><span class="btn-chip bc-danger">Movimiento de Salida</span></td><td>Registra una salida de ítems del inventario</td></tr>
+            <tr><td><span class="btn-chip bc-ol-warning">Editar</span></td><td>Modifica los datos del ítem en inventario</td></tr>
+            <tr><td><span class="btn-chip bc-ol-success">Mover stock</span></td><td>Transfiere unidades de este ítem a otra sucursal</td></tr>
+            <tr><td><span class="btn-chip bc-ol-danger">Eliminar</span></td><td>Elimina el ítem del inventario (solo si no tiene movimientos)</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- Movimientos -->
+    <div class="section">
+      <div id="inv-movimientos" class="section-anchor"></div>
+      <h2>Movimientos</h2>
+      <p>Registro completo de todas las entradas y salidas de ítems del inventario. Cada movimiento queda asociado a la persona que lo realizó y al documento o proceso que lo originó.</p>
+
+      <h3>Tipos de movimientos</h3>
+      <div class="tbl-wrap">
+        <table>
+          <thead><tr><th>Tipo</th><th>Descripción</th><th>Origen</th></tr></thead>
+          <tbody>
+            <tr><td><span class="badge badge-green">Entrada</span></td><td>Ingreso de ítems al inventario</td><td>Recepción de una compra</td></tr>
+            <tr><td><span class="badge badge-red">Salida</span></td><td>Consumo o despacho de ítems</td><td>Completar una OT, uso interno</td></tr>
+            <tr><td><span class="badge badge-gray">Inventario</span></td><td>Ajuste de stock por toma de inventario</td><td>Proceso de Toma de inventario</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="callout callout-info">
+        <span class="callout-icon">ℹ️</span>
+        <div>Los movimientos generados automáticamente al completar una OT quedan registrados con <strong>referencia directa a esa OT</strong>, lo que permite rastrear el consumo por trabajo.</div>
+      </div>
+
+      <h3>Botones del listado</h3>
+      <div class="btn-row">
+        <span class="btn-chip bc-primary">Exportar</span>
+        <span class="btn-chip bc-success">Movimiento de Entrada</span>
+        <span class="btn-chip bc-danger">Movimiento de Salida</span>
+      </div>
+      <div class="btn-row">
+        <span class="btn-chip bc-ol-info">Ver</span>
+        <span class="btn-chip bc-ol-danger">Revertir</span>
+      </div>
+      <div class="tbl-wrap btn-ref-table">
+        <table>
+          <thead><tr><th>Botón</th><th>Función</th></tr></thead>
+          <tbody>
+            <tr><td><span class="btn-chip bc-primary">Exportar</span></td><td>Descarga el listado de movimientos en Excel</td></tr>
+            <tr><td><span class="btn-chip bc-success">Movimiento de Entrada</span></td><td>Crea un nuevo ingreso de ítems</td></tr>
+            <tr><td><span class="btn-chip bc-danger">Movimiento de Salida</span></td><td>Crea una nueva salida de ítems</td></tr>
+            <tr><td><span class="btn-chip bc-ol-info">Ver</span></td><td>Abre el detalle del movimiento</td></tr>
+            <tr><td><span class="btn-chip bc-ol-danger">Revertir</span></td><td>Anula el movimiento y restaura el stock (solo con permisos)</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- Solicitudes de Inventario -->
+    <div class="section">
+      <div id="inv-solicitudes" class="section-anchor"></div>
+      <h2>Solicitudes de Inventario</h2>
+      <p>Vista de los ítems <strong>reservados</strong> para OTs activas. Permite al encargado de bodega ver qué materiales están comprometidos por OTs en curso y descontarlos del inventario de forma controlada.</p>
+
+      <h3>¿Qué puedes ver y hacer?</h3>
+      <div class="steps">
+        <div class="step"><div class="step-num">→</div><div class="step-text">Consultar el listado de ítems reservados por OT, con patente, marca/modelo y ubicación.</div></div>
+        <div class="step"><div class="step-num">→</div><div class="step-text">Filtrar por OT específica para ver solo los ítems de un trabajo en particular.</div></div>
+        <div class="step"><div class="step-num">→</div><div class="step-text">Seleccionar ítems y hacer <strong>Descontar stock</strong> para registrar la salida del inventario.</div></div>
+        <div class="step"><div class="step-num">→</div><div class="step-text">Descargar el listado en PDF.</div></div>
+      </div>
+
+      <h3>Botones</h3>
+      <div class="btn-row">
+        <span class="btn-chip bc-primary">Descontar stock</span>
+      </div>
+      <div class="tbl-wrap btn-ref-table">
+        <table>
+          <thead><tr><th>Botón</th><th>Función</th></tr></thead>
+          <tbody>
+            <tr><td><span class="btn-chip bc-primary">Descontar stock</span></td><td>Registra la salida del inventario de los ítems seleccionados para las OTs correspondientes</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- Toma de inventario -->
+    <div class="section">
+      <div id="inv-toma" class="section-anchor"></div>
+      <h2>Toma de inventario</h2>
+      <p>Proceso periódico para verificar y conciliar el <strong>stock físico</strong> (lo que hay realmente en bodega) versus el <strong>stock registrado</strong> en el sistema. Se recomienda realizarla al menos una vez al mes.</p>
+
+      <h3>Cómo realizar una toma de inventario</h3>
+      <div class="steps">
+        <div class="step"><div class="step-num">1</div><div class="step-text">Ir a <strong>Inventario → Toma de inventario</strong>.</div></div>
+        <div class="step"><div class="step-num">2</div><div class="step-text">Agregar ítems escaneando su código de barras o buscándolos manualmente.</div></div>
+        <div class="step"><div class="step-num">3</div><div class="step-text">Para cada ítem, ingresar la <strong>cantidad contada físicamente</strong>. El sistema muestra el stock actual registrado junto a cada ítem.</div></div>
+        <div class="step"><div class="step-num">4</div><div class="step-text">Opcionalmente, ingresar la <strong>ubicación</strong> y un comentario para cada ítem.</div></div>
+        <div class="step"><div class="step-num">5</div><div class="step-text"><strong>Confirmar</strong> la toma. El sistema ajusta el stock del sistema al valor contado y registra el movimiento de tipo <em>Inventario</em>.</div></div>
+      </div>
+
+      <div class="callout callout-warning">
+        <span class="callout-icon">⚠️</span>
+        <div>Una vez confirmada la toma de inventario, el stock del sistema se ajusta a las cantidades físicas contadas. Esta acción no es reversible fácilmente, verifica bien los datos antes de confirmar.</div>
+      </div>
+
+      <h3>Botones del formulario</h3>
+      <div class="btn-row">
+        <span class="btn-chip bc-light">Agregar ítem manual</span>
+        <span class="btn-chip bc-primary">Crear Toma Inventario</span>
+      </div>
+      <div class="tbl-wrap btn-ref-table">
+        <table>
+          <thead><tr><th>Botón</th><th>Función</th></tr></thead>
+          <tbody>
+            <tr><td><span class="btn-chip bc-light">Agregar ítem manual</span></td><td>Añade un ítem a la toma buscándolo por nombre o código</td></tr>
+            <tr><td><span class="btn-chip bc-primary">Crear Toma Inventario</span></td><td>Confirma y aplica la toma, ajustando el stock del sistema</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+  </main>
+</div>
+<script src="nav.js"></script>
+<script>initNav('inventario');</script>
+</body>
+</html>

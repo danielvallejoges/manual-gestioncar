@@ -1,0 +1,420 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Vista del Presupuesto — Manual GestionCar</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet"/>
+  <link rel="stylesheet" href="styles.css"/>
+  <style>
+    /* ── Quick-nav tabs ─────────────────────────── */
+    .tab-nav {
+      display: flex; gap: 6px; flex-wrap: wrap;
+      margin: 0 0 28px; padding: 6px;
+      background: var(--bg); border-radius: 10px;
+      border: 1px solid var(--border);
+    }
+    .tab-pill {
+      padding: 7px 16px; border-radius: 7px;
+      font-size: 13px; font-weight: 600; cursor: pointer; border: none;
+      background: transparent; color: var(--text-muted);
+      transition: background .15s, color .15s;
+      text-decoration: none; display: inline-block;
+    }
+    .tab-pill:hover { background: #fff; color: var(--primary); }
+    .tab-pill.active { background: #fff; color: var(--dark); box-shadow: 0 1px 4px rgba(0,0,0,.08); }
+
+    /* ── Tab block wrapper ──────────────────────── */
+    .tab-block {
+      border: 1px solid var(--border); border-radius: 12px;
+      overflow: hidden; margin-bottom: 48px;
+    }
+    .tab-header {
+      padding: 18px 24px 16px;
+      background: linear-gradient(135deg, var(--dark) 0%, var(--dark-lt) 100%);
+      display: flex; align-items: center; gap: 12px;
+    }
+    .tab-header-icon {
+      width: 36px; height: 36px; border-radius: 9px;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 18px; flex-shrink: 0; background: rgba(255,255,255,.12);
+    }
+    .tab-header h2 { font-size: 17px; font-weight: 700; color: #fff; margin: 0; border: none; padding: 0; }
+    .tab-header p  { font-size: 12px; color: rgba(255,255,255,.6); margin: 2px 0 0; }
+    .tab-body { padding: 24px; background: #fff; }
+    .tab-body .section { margin-bottom: 0; }
+    .tab-body .section h2 { margin-top: 28px; font-size: 16px; }
+    .tab-body .section h2:first-child { margin-top: 0; }
+    .tab-body .section h3 { font-size: 14px; margin: 18px 0 8px; }
+
+    /* ── Field grid ─────────────────────────────── */
+    .field-grid {
+      display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+      gap: 10px; margin: 12px 0 18px;
+    }
+    .field-chip {
+      background: var(--bg); border: 1px solid var(--border);
+      border-radius: 8px; padding: 9px 13px; font-size: 13px;
+    }
+    .field-chip .fc-label { font-size: 10px; font-weight: 700; text-transform: uppercase; letter-spacing: .5px; color: var(--text-muted); margin-bottom: 3px; }
+    .field-chip .fc-value { font-weight: 600; color: var(--dark); }
+
+    /* ── Buttons — solid, matching the real interface ── */
+    .btn-row { display: flex; flex-wrap: wrap; gap: 8px; margin: 14px 0 20px; align-items: center; }
+
+    .btn-chip {
+      display: inline-flex; align-items: center; gap: 5px;
+      padding: 6px 14px; border-radius: 6px;
+      font-size: 12px; font-weight: 600; border: none;
+      white-space: nowrap; cursor: default;
+      font-family: 'Inter', sans-serif;
+    }
+
+    .bc-success   { background: #7BBD75; color: #fff; }
+    .bc-primary   { background: #5E99B8; color: #fff; }
+    .bc-secondary { background: #F56F4B; color: #fff; }
+    .bc-warning   { background: #F2C037; color: #444; }
+    .bc-danger    { background: #E04B4B; color: #fff; }
+    .bc-light     { background: #E6EAEB; color: #444; }
+    .bc-dark      { background: #2E3D4F; color: #fff; }
+    .bc-whatsapp  { background: #25d366; color: #fff; }
+    .bc-info      { background: #49B6F5; color: #fff; }
+
+    /* ── Col table darker header ────────────────── */
+    .col-table thead tr { background: #3d5166; }
+
+    /* ── Divider ────────────────────────────────── */
+    .section-divider { border: none; border-top: 1px dashed var(--border); margin: 24px 0; }
+
+    /* ── Btn reference table ────────────────────── */
+    .btn-ref-table td:first-child { width: 220px; vertical-align: middle; }
+  </style>
+</head>
+<body>
+<div class="layout">
+  <main class="main">
+
+    <div class="page-header">
+      <div class="page-header-icon" style="background:rgba(123,189,117,.12)">📝</div>
+      <div class="page-header-text">
+        <h1>Vista del Presupuesto</h1>
+        <p>Guía de las tres pestañas que componen el detalle de un Presupuesto: General, Editar Cotización y Repuestos.</p>
+      </div>
+    </div>
+
+    <div class="callout callout-info" style="margin-bottom:28px">
+      <span class="callout-icon">ℹ️</span>
+      <div>El Presupuesto es una cotización formal que se envía al cliente <strong>antes de crear una OT</strong>. Comparte algunas pestañas con la Vista de OT, pero tiene campos, botones y flujo propios. Las pestañas de <strong>Revisión Mecánica</strong> y <strong>Torre de Control</strong> no existen en el Presupuesto.</div>
+    </div>
+
+    <!-- Quick-nav -->
+    <div class="tab-nav">
+      <a href="#tab-general"    class="tab-pill active">📄 General</a>
+      <a href="#tab-cotizacion" class="tab-pill">✏️ Editar Cotización</a>
+      <a href="#tab-repuestos"  class="tab-pill">🔩 Repuestos</a>
+    </div>
+
+    <!-- ══════════════════════════════════════════════ -->
+    <!-- TAB 1 — GENERAL                                -->
+    <!-- ══════════════════════════════════════════════ -->
+    <div id="tab-general" class="section-anchor tab-block">
+      <div class="tab-header">
+        <div class="tab-header-icon">📄</div>
+        <div>
+          <h2>General</h2>
+          <p>Resumen completo del presupuesto: datos del cliente y vehículo, fechas, estado, cobros y resumen financiero.</p>
+        </div>
+      </div>
+      <div class="tab-body">
+        <div class="section">
+
+          <!-- Campos -->
+          <h2>Campos informativos</h2>
+          <div class="field-grid">
+            <div class="field-chip"><div class="fc-label">Fecha Ingreso</div><div class="fc-value">Fecha de creación del presupuesto</div></div>
+            <div class="field-chip"><div class="fc-label">Fecha de recepción</div><div class="fc-value">Cuándo se recibió el vehículo (si aplica)</div></div>
+            <div class="field-chip"><div class="fc-label">Fecha Revisión</div><div class="fc-value">Fecha en que se realizó la inspección</div></div>
+            <div class="field-chip"><div class="fc-label">Fecha estimada de entrega</div><div class="fc-value">Fecha comprometida con el cliente</div></div>
+            <div class="field-chip"><div class="fc-label">Fecha de entrega</div><div class="fc-value">Fecha real de entrega</div></div>
+            <div class="field-chip"><div class="fc-label">Kilometraje / Horas</div><div class="fc-value">Registro de odómetro o horas de trabajo</div></div>
+            <div class="field-chip"><div class="fc-label">Estado</div><div class="fc-value">Estado actual del presupuesto</div></div>
+            <div class="field-chip"><div class="fc-label">Motivo / Notas</div><div class="fc-value">Descripción del trabajo solicitado por el cliente</div></div>
+          </div>
+
+          <h3>Estados del Presupuesto</h3>
+          <div class="tbl-wrap">
+            <table>
+              <thead><tr><th>Estado</th><th>Descripción</th></tr></thead>
+              <tbody>
+                <tr><td><strong>En Proceso</strong></td><td>El presupuesto está siendo elaborado, aún no se ha enviado al cliente</td></tr>
+                <tr><td><strong>Ppto. Enviado</strong></td><td>El presupuesto fue enviado al cliente y está pendiente de respuesta</td></tr>
+                <tr><td><strong>Ppto. Aprobado</strong></td><td>El cliente aprobó el presupuesto. Desde aquí se puede generar una OT</td></tr>
+                <tr><td><strong>Rechazado</strong></td><td>El cliente rechazó el presupuesto</td></tr>
+              </tbody>
+            </table>
+          </div>
+
+          <hr class="section-divider"/>
+
+          <!-- Botones principales -->
+          <h2>Botones de acción</h2>
+          <div class="btn-row">
+            <span class="btn-chip bc-primary">Enviar Presupuesto</span>
+            <span class="btn-chip bc-success">Generar OT</span>
+            <span class="btn-chip bc-light">Crear Cita</span>
+            <span class="btn-chip bc-light">Generar versión</span>
+            <span class="btn-chip bc-whatsapp">Contactar cliente</span>
+          </div>
+          <div class="tbl-wrap btn-ref-table">
+            <table>
+              <thead><tr><th>Botón</th><th>Función</th></tr></thead>
+              <tbody>
+                <tr>
+                  <td><span class="btn-chip bc-primary">Enviar Presupuesto</span></td>
+                  <td>Envía el presupuesto al cliente por email y avanza el estado a <strong>Ppto. Enviado</strong></td>
+                </tr>
+                <tr>
+                  <td><span class="btn-chip bc-success">Generar OT</span></td>
+                  <td>Convierte el presupuesto en una Orden de Trabajo, manteniendo todos los datos del cliente, vehículo y cotización. Disponible cuando el presupuesto está aprobado</td>
+                </tr>
+                <tr>
+                  <td><span class="btn-chip bc-light">Crear Cita</span></td>
+                  <td>Crea una cita en el <a href="calendario.html">Calendario</a> asociada a este presupuesto, para coordinar la entrega del vehículo</td>
+                </tr>
+                <tr>
+                  <td><span class="btn-chip bc-light">Generar versión</span></td>
+                  <td>Crea una versión del estado actual de la cotización para llevar historial de cambios. Permite comparar versiones anteriores</td>
+                </tr>
+                <tr>
+                  <td><span class="btn-chip bc-whatsapp">Contactar cliente</span></td>
+                  <td>Abre un mensaje de WhatsApp precargado al número del cliente</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+
+          <hr class="section-divider"/>
+
+          <!-- Resumen financiero -->
+          <h2>Resumen financiero del presupuesto</h2>
+          <p>Bloque de totales que aparece al pie de la pestaña General, con el desglose del valor del presupuesto.</p>
+          <div class="tbl-wrap">
+            <table class="col-table">
+              <thead><tr><th>Campo</th><th>Descripción</th></tr></thead>
+              <tbody>
+                <tr><td>Valor Neto</td><td>Precio total de la cotización antes de impuesto y descuentos</td></tr>
+                <tr><td>Descuento</td><td>Monto del descuento general aplicado al presupuesto (editable)</td></tr>
+                <tr><td>IVA</td><td>Impuesto al valor agregado según la tasa configurada para el país</td></tr>
+                <tr><td>Total</td><td>Valor final a pagar incluido el impuesto</td></tr>
+              </tbody>
+            </table>
+          </div>
+
+          <hr class="section-divider"/>
+
+          <!-- Información de cobros -->
+          <h2>Información de cobros</h2>
+          <p>Sección con el detalle del estado de pago del presupuesto.</p>
+          <div class="tbl-wrap">
+            <table class="col-table">
+              <thead><tr><th>Campo</th><th>Descripción</th></tr></thead>
+              <tbody>
+                <tr><td>Vendedor / Asesor Técnico</td><td>Nombre del colaborador responsable del presupuesto</td></tr>
+                <tr><td>Fecha Facturación</td><td>Fecha en que se emitió o emitirá el documento tributario</td></tr>
+                <tr><td>Estado Cobro</td><td>Estado actual del cobro: pendiente, parcial o pagado (editable)</td></tr>
+                <tr><td>Valor Abonado</td><td>Monto pagado hasta el momento, con porcentaje sobre el total</td></tr>
+                <tr><td>Monto por pagar</td><td>Diferencia entre el total y lo abonado, destacado en rojo si hay saldo</td></tr>
+              </tbody>
+            </table>
+          </div>
+
+        </div>
+      </div>
+    </div>
+
+    <!-- ══════════════════════════════════════════════ -->
+    <!-- TAB 2 — EDITAR COTIZACIÓN                      -->
+    <!-- ══════════════════════════════════════════════ -->
+    <div id="tab-cotizacion" class="section-anchor tab-block">
+      <div class="tab-header">
+        <div class="tab-header-icon">✏️</div>
+        <div>
+          <h2>Editar Cotización</h2>
+          <p>Formulario principal de edición del presupuesto: trabajos, ítems, vendedor y plantillas.</p>
+        </div>
+      </div>
+      <div class="tab-body">
+        <div class="section">
+
+          <!-- Campos del formulario -->
+          <h2>Campos del formulario</h2>
+          <div class="tbl-wrap">
+            <table>
+              <thead><tr><th>Campo</th><th>Descripción</th></tr></thead>
+              <tbody>
+                <tr><td><strong>Vendedor</strong></td><td>Colaborador responsable de la venta del presupuesto. Se usa para reportes de productividad por vendedor</td></tr>
+                <tr><td><strong>Total Cotizado</strong></td><td>Suma de costos de todos los ítems (solo lectura, calculado automáticamente)</td></tr>
+                <tr><td><strong>Valor Neto</strong></td><td>Valor neto total del presupuesto (solo lectura)</td></tr>
+                <tr><td><strong>Margen</strong></td><td>Margen sobre el costo total (solo lectura)</td></tr>
+                <tr><td><strong>Total</strong></td><td>Total con impuesto incluido (solo lectura)</td></tr>
+                <tr><td><strong>Responsable general</strong></td><td>Colaborador asignado como responsable general del proyecto</td></tr>
+                <tr><td><strong>Motivo / Notas</strong></td><td>Descripción del trabajo y notas internas del presupuesto</td></tr>
+              </tbody>
+            </table>
+          </div>
+
+          <hr class="section-divider"/>
+
+          <!-- Tabla de ítems -->
+          <h2>Tabla de ítems de la cotización</h2>
+          <p>Lista de todos los trabajos e ítems incluidos en el presupuesto. Los trabajos se organizan como grupos, y cada grupo puede tener múltiples ítems.</p>
+          <div class="tbl-wrap">
+            <table class="col-table">
+              <thead><tr><th>Columna</th><th>Descripción</th></tr></thead>
+              <tbody>
+                <tr><td>Categoría</td><td>Categoría del ítem (ej: Lubricantes, Frenos, Mano de obra)</td></tr>
+                <tr><td>Subcategoría</td><td>Subcategoría del ítem (puede ocultarse según configuración)</td></tr>
+                <tr><td>Ítem</td><td>Nombre del repuesto, insumo o servicio</td></tr>
+                <tr><td>Costo Neto Unit</td><td>Costo unitario neto del ítem</td></tr>
+                <tr><td>Cantidad</td><td>Cantidad incluida en la cotización</td></tr>
+                <tr><td>Costo Neto Total</td><td>Costo total neto (Costo Unit × Cantidad)</td></tr>
+                <tr><td>P. Venta Unit</td><td>Precio de venta unitario</td></tr>
+                <tr><td>Descuento</td><td>Porcentaje de descuento aplicado al ítem</td></tr>
+                <tr><td>P. Venta Total</td><td>Precio de venta total después de descuento</td></tr>
+                <tr><td>Margen</td><td>Porcentaje de margen entre costo y precio de venta</td></tr>
+              </tbody>
+            </table>
+          </div>
+
+          <hr class="section-divider"/>
+
+          <!-- Botones de acción -->
+          <h2>Botones de acción</h2>
+          <div class="btn-row">
+            <span class="btn-chip bc-light">Guardar Plantilla</span>
+            <span class="btn-chip bc-light">Cargar Plantilla</span>
+            <span class="btn-chip bc-secondary">Agregar Trabajo</span>
+            <span class="btn-chip bc-primary">Pre visualizar</span>
+            <span class="btn-chip bc-success">Actualizar</span>
+          </div>
+          <div class="tbl-wrap btn-ref-table">
+            <table>
+              <thead><tr><th>Botón</th><th>Función</th></tr></thead>
+              <tbody>
+                <tr>
+                  <td><span class="btn-chip bc-light">Guardar Plantilla</span></td>
+                  <td>Guarda la cotización actual como plantilla reutilizable en <a href="administracion.html#templates">Administración → Templates</a></td>
+                </tr>
+                <tr>
+                  <td><span class="btn-chip bc-light">Cargar Plantilla</span></td>
+                  <td>Inserta trabajos e ítems desde una plantilla guardada previamente, para agilizar la creación del presupuesto</td>
+                </tr>
+                <tr>
+                  <td><span class="btn-chip bc-secondary">Agregar Trabajo</span></td>
+                  <td>Agrega un nuevo grupo de trabajo a la cotización. Permite ingresar el nombre del trabajo y sus ítems manualmente o desde el catálogo de <a href="administracion.html#trabajos">Trabajos</a></td>
+                </tr>
+                <tr>
+                  <td><span class="btn-chip bc-primary">Pre visualizar</span></td>
+                  <td>Muestra cómo quedará el presupuesto en formato para imprimir o enviar al cliente, sin guardar los cambios</td>
+                </tr>
+                <tr>
+                  <td><span class="btn-chip bc-success">Actualizar</span></td>
+                  <td>Guarda todos los cambios realizados en la cotización del presupuesto</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+
+          <div class="callout callout-tip">
+            <span class="callout-icon">💡</span>
+            <div>Los botones <strong>Pre visualizar</strong> y <strong>Actualizar</strong> aparecen tanto al inicio como al final del formulario, para no tener que desplazarse cuando la cotización es larga.</div>
+          </div>
+
+        </div>
+      </div>
+    </div>
+
+    <!-- ══════════════════════════════════════════════ -->
+    <!-- TAB 3 — REPUESTOS                              -->
+    <!-- ══════════════════════════════════════════════ -->
+    <div id="tab-repuestos" class="section-anchor tab-block">
+      <div class="tab-header">
+        <div class="tab-header-icon">🔩</div>
+        <div>
+          <h2>Repuestos</h2>
+          <p>Gestión de repuestos del presupuesto: lista de ítems necesarios, cotización a proveedores y carrito de compras. Disponible para empresas en Chile.</p>
+        </div>
+      </div>
+      <div class="tab-body">
+        <div class="section">
+
+          <div class="callout callout-info">
+            <span class="callout-icon">ℹ️</span>
+            <div>Esta pestaña solo está disponible para empresas configuradas en <strong>Chile</strong> y para usuarios con permiso de gestión de repuestos.</div>
+          </div>
+
+          <!-- Lista de repuestos -->
+          <h2>Lista de repuestos del presupuesto</h2>
+          <p>Muestra todos los repuestos asociados al presupuesto. Desde aquí puedes editar cantidades y hacer seguimiento del estado de cada ítem.</p>
+
+          <div class="btn-row">
+            <span class="btn-chip bc-success">Guardar</span>
+            <span class="btn-chip bc-primary">Cotizar</span>
+          </div>
+          <div class="tbl-wrap btn-ref-table">
+            <table>
+              <thead><tr><th>Botón</th><th>Función</th></tr></thead>
+              <tbody>
+                <tr>
+                  <td><span class="btn-chip bc-success">Guardar</span></td>
+                  <td>Guarda los cambios realizados en la lista de repuestos (cantidades, observaciones)</td>
+                </tr>
+                <tr>
+                  <td><span class="btn-chip bc-primary">Cotizar</span></td>
+                  <td>Abre el modal de cotización para solicitar precios de los repuestos seleccionados a un proveedor externo</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+
+          <hr class="section-divider"/>
+
+          <!-- Carrito de compras -->
+          <h2>Carrito de compras</h2>
+          <p>Al cotizar repuestos, se abre el modal <strong>Carrito de compras</strong> donde se gestiona el proceso de compra.</p>
+          <div class="steps">
+            <div class="step"><div class="step-num">1</div><div class="step-text">Selecciona los repuestos a cotizar y haz clic en <span class="btn-chip bc-primary" style="font-size:11px;padding:3px 10px">Cotizar</span>.</div></div>
+            <div class="step"><div class="step-num">2</div><div class="step-text">El sistema abre el modal <strong>Carrito de compras</strong> con los ítems seleccionados.</div></div>
+            <div class="step"><div class="step-num">3</div><div class="step-text">Envía la solicitud al proveedor o servicio externo de repuestos.</div></div>
+            <div class="step"><div class="step-num">4</div><div class="step-text">Cuando llegue la respuesta, aprueba los precios y genera la orden de compra.</div></div>
+            <div class="step"><div class="step-num">5</div><div class="step-text">Al confirmar el pago con <span class="btn-chip bc-success" style="font-size:11px;padding:3px 10px">Pagar</span>, el stock se actualiza automáticamente al recepcionar.</div></div>
+          </div>
+
+          <h3>Botón Pagar (checkout)</h3>
+          <div class="btn-row">
+            <span class="btn-chip bc-success">Pagar</span>
+          </div>
+          <p style="font-size:14px">Aparece dentro del formulario de checkout del carrito una vez que los repuestos han sido cotizados y aprobados. Registra el pago y avanza el estado del pedido.</p>
+
+        </div>
+      </div>
+    </div>
+
+  </main>
+</div>
+<script src="nav.js"></script>
+<script>
+  initNav('presupuesto-detalle');
+  const tabAnchors = ['tab-general','tab-cotizacion','tab-repuestos'];
+  const pills = document.querySelectorAll('.tab-pill');
+  window.addEventListener('scroll', () => {
+    let current = tabAnchors[0];
+    tabAnchors.forEach(id => {
+      const el = document.getElementById(id);
+      if (el && el.getBoundingClientRect().top <= 90) current = id;
+    });
+    pills.forEach(p => p.classList.toggle('active', p.getAttribute('href') === '#' + current));
+  }, { passive: true });
+</script>
+</body>
+</html>

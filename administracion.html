@@ -1,0 +1,436 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Administración — Manual GestionCar</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet"/>
+  <link rel="stylesheet" href="styles.css"/>
+</head>
+<body>
+<div class="layout">
+  <main class="main">
+
+    <div class="page-header">
+      <div class="page-header-icon" style="background:rgba(177,75,213,.1)">⚙️</div>
+      <div class="page-header-text">
+        <h1>Administración</h1>
+        <p>Configuración de todos los parámetros operativos del sistema: catálogo de ítems, trabajos, usuarios, sucursales y más.</p>
+      </div>
+    </div>
+
+    <!-- Ítems -->
+    <div class="section">
+      <div id="items" class="section-anchor"></div>
+      <h2>Ítems</h2>
+      <p>Catálogo completo de repuestos, insumos y servicios que el taller utiliza o vende. Es la base del inventario y de los trabajos que se agregan a las OTs.</p>
+
+      <h3>Crear un ítem</h3>
+      <div class="steps">
+        <div class="step"><div class="step-num">1</div><div class="step-text">Ir a <strong>Administración → Ítems</strong> → <strong>Nuevo ítem</strong>.</div></div>
+        <div class="step"><div class="step-num">2</div><div class="step-text">Ingresar <strong>código/SKU</strong> y <strong>nombre</strong> del ítem.</div></div>
+        <div class="step"><div class="step-num">3</div><div class="step-text">Seleccionar la <strong>categoría</strong> y la <strong>unidad de medida</strong>.</div></div>
+        <div class="step"><div class="step-num">4</div><div class="step-text">Ingresar <strong>precio de costo</strong> y <strong>precio de venta</strong>.</div></div>
+        <div class="step"><div class="step-num">5</div><div class="step-text">Activar <strong>¿Lleva inventario?</strong> si se controla stock. Definir el <strong>stock mínimo</strong> para alertas.</div></div>
+        <div class="step"><div class="step-num">6</div><div class="step-text">Guardar.</div></div>
+      </div>
+
+      <div class="callout callout-info">
+        <span class="callout-icon">ℹ️</span>
+        <div>Los ítems con <em>¿Lleva inventario?</em> activado descuentan stock automáticamente cuando se completa una OT que los incluye.</div>
+      </div>
+
+      <h3>Botones del listado</h3>
+      <div class="btn-row">
+        <span class="btn-chip bc-ol-info">Ver</span>
+        <span class="btn-chip bc-ol-warning">Editar</span>
+        <span class="btn-chip bc-ol-danger">Eliminar</span>
+      </div>
+      <div class="tbl-wrap btn-ref-table">
+        <table>
+          <thead><tr><th>Botón</th><th>Función</th></tr></thead>
+          <tbody>
+            <tr><td><span class="btn-chip bc-ol-info">Ver</span></td><td>Abre la ficha del ítem</td></tr>
+            <tr><td><span class="btn-chip bc-ol-warning">Editar</span></td><td>Modifica los datos del ítem</td></tr>
+            <tr><td><span class="btn-chip bc-ol-danger">Eliminar</span></td><td>Elimina el ítem del catálogo</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- Lista de precios -->
+    <div class="section">
+      <div id="lista-precios" class="section-anchor"></div>
+      <h2>Lista de precios</h2>
+      <p>Define precios diferenciados para distintos tipos de clientes o convenios comerciales.</p>
+      <div class="tbl-wrap">
+        <table>
+          <thead><tr><th>Ejemplo de lista</th><th>Uso típico</th></tr></thead>
+          <tbody>
+            <tr><td>Lista general</td><td>Precio estándar para clientes particulares</td></tr>
+            <tr><td>Lista empresa</td><td>Precio con descuento para empresas con convenio</td></tr>
+            <tr><td>Lista distribuidor</td><td>Precio mayorista para revendedores</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="callout callout-tip">
+        <span class="callout-icon">💡</span>
+        <div>Asigna una lista de precios específica a un cliente desde su ficha en <a href="taller.html#clientes">Taller → Clientes</a>.</div>
+      </div>
+    </div>
+
+    <!-- Trabajos -->
+    <div class="section">
+      <div id="trabajos" class="section-anchor"></div>
+      <h2>Trabajos</h2>
+      <p>Tipos de servicio o reparación estándar que realiza el taller. Al crear una OT, se seleccionan los trabajos a ejecutar desde este catálogo.</p>
+
+      <h3>Crear un trabajo</h3>
+      <div class="steps">
+        <div class="step"><div class="step-num">1</div><div class="step-text">Ir a <strong>Administración → Trabajos</strong> → <strong>Nuevo trabajo</strong>.</div></div>
+        <div class="step"><div class="step-num">2</div><div class="step-text">Ingresar el <strong>nombre</strong> y una <strong>descripción</strong> del servicio.</div></div>
+        <div class="step"><div class="step-num">3</div><div class="step-text">Definir el <strong>precio de mano de obra</strong>.</div></div>
+        <div class="step"><div class="step-num">4</div><div class="step-text">Opcionalmente, asociar a <strong>marcas o modelos</strong> específicos de vehículos.</div></div>
+        <div class="step"><div class="step-num">5</div><div class="step-text">Guardar.</div></div>
+      </div>
+
+      <h3>Botones del listado</h3>
+      <div class="btn-row">
+        <span class="btn-chip bc-primary">Crear</span>
+      </div>
+      <div class="btn-row">
+        <span class="btn-chip bc-ol-warning">Editar</span>
+        <span class="btn-chip bc-ol-danger">Eliminar</span>
+      </div>
+      <div class="tbl-wrap btn-ref-table">
+        <table>
+          <thead><tr><th>Botón</th><th>Función</th></tr></thead>
+          <tbody>
+            <tr><td><span class="btn-chip bc-primary">Crear</span></td><td>Crea un nuevo tipo de trabajo</td></tr>
+            <tr><td><span class="btn-chip bc-ol-warning">Editar</span></td><td>Modifica los datos del trabajo</td></tr>
+            <tr><td><span class="btn-chip bc-ol-danger">Eliminar</span></td><td>Elimina el trabajo del catálogo</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- Templates -->
+    <div class="section">
+      <div id="templates" class="section-anchor"></div>
+      <h2>Templates</h2>
+      <p>Plantillas de cotización reutilizables que agrupan un conjunto de <strong>trabajos e ítems predefinidos</strong>. Permiten cargar rápidamente una estructura de presupuesto completa al crear o editar una OT o presupuesto.</p>
+
+      <h3>¿Qué contiene un template?</h3>
+      <div class="tbl-wrap">
+        <table>
+          <thead><tr><th>Elemento</th><th>Descripción</th></tr></thead>
+          <tbody>
+            <tr><td>Nombre</td><td>Identificador del template</td></tr>
+            <tr><td>Trabajos asociados</td><td>Listado de trabajos incluidos en el template</td></tr>
+            <tr><td>Neto / IVA / Total</td><td>Totales calculados a partir de los ítems</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="callout callout-tip">
+        <span class="callout-icon">💡</span>
+        <div>Desde la vista de edición de una OT o Presupuesto puedes usar <strong>Cargar Plantilla</strong> para insertar un template existente, o <strong>Guardar Plantilla</strong> para crear uno nuevo desde la cotización actual. También puedes duplicar un template existente con el botón <strong>Copiar</strong>.</div>
+      </div>
+
+      <h3>Botones del listado</h3>
+      <div class="btn-row">
+        <span class="btn-chip bc-primary">Crear</span>
+      </div>
+      <div class="btn-row">
+        <span class="btn-chip bc-ol-info">Copiar</span>
+        <span class="btn-chip bc-ol-warning">Editar</span>
+        <span class="btn-chip bc-ol-danger">Eliminar</span>
+      </div>
+      <div class="tbl-wrap btn-ref-table">
+        <table>
+          <thead><tr><th>Botón</th><th>Función</th></tr></thead>
+          <tbody>
+            <tr><td><span class="btn-chip bc-primary">Crear</span></td><td>Crea un nuevo template desde cero</td></tr>
+            <tr><td><span class="btn-chip bc-ol-info">Copiar</span></td><td>Duplica el template como base para uno nuevo</td></tr>
+            <tr><td><span class="btn-chip bc-ol-warning">Editar</span></td><td>Modifica los trabajos e ítems del template</td></tr>
+            <tr><td><span class="btn-chip bc-ol-danger">Eliminar</span></td><td>Elimina el template</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- Categorías -->
+    <div class="section">
+      <div id="categorias" class="section-anchor"></div>
+      <h2>Categorías</h2>
+      <p>Organiza los ítems del catálogo en grupos lógicos para facilitar la búsqueda en inventario y mejorar los reportes.</p>
+      <p>Ejemplos: <strong>Lubricantes</strong>, <strong>Filtros</strong>, <strong>Neumáticos</strong>, <strong>Frenos</strong>, <strong>Mano de obra</strong>, <strong>Eléctrico</strong>.</p>
+      <div class="callout callout-tip">
+        <span class="callout-icon">💡</span>
+        <div>Define las categorías antes de cargar el catálogo de ítems, ya que cada ítem debe pertenecer a una categoría.</div>
+      </div>
+
+      <h3>Botones del listado</h3>
+      <div class="btn-row">
+        <span class="btn-chip bc-primary">Crear</span>
+      </div>
+      <div class="btn-row">
+        <span class="btn-chip bc-ol-info">Ver</span>
+        <span class="btn-chip bc-ol-warning">Editar</span>
+      </div>
+      <div class="tbl-wrap btn-ref-table">
+        <table>
+          <thead><tr><th>Botón</th><th>Función</th></tr></thead>
+          <tbody>
+            <tr><td><span class="btn-chip bc-primary">Crear</span></td><td>Crea una nueva categoría de ítems</td></tr>
+            <tr><td><span class="btn-chip bc-ol-info">Ver</span></td><td>Muestra las subcategorías de la categoría</td></tr>
+            <tr><td><span class="btn-chip bc-ol-warning">Editar</span></td><td>Modifica el nombre de la categoría</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- Checklists -->
+    <div class="section">
+      <div id="checklists" class="section-anchor"></div>
+      <h2>Checklists</h2>
+      <p>Listas de verificación que los mecánicos completan al <strong>recibir o entregar un vehículo</strong>. Sirven como respaldo ante reclamos y aseguran un proceso estándar.</p>
+
+      <h3>Crear un checklist</h3>
+      <div class="steps">
+        <div class="step"><div class="step-num">1</div><div class="step-text">Ir a <strong>Administración → Checklists</strong> → <strong>Nuevo checklist</strong>.</div></div>
+        <div class="step"><div class="step-num">2</div><div class="step-text">Agregar los ítems de verificación uno a uno (ej: "Carrocería sin daños", "Nivel de aceite OK").</div></div>
+        <div class="step"><div class="step-num">3</div><div class="step-text">Guardar y asignar al tipo de servicio correspondiente.</div></div>
+      </div>
+
+      <h3>Botones del listado</h3>
+      <div class="btn-row">
+        <span class="btn-chip bc-primary">Crear</span>
+        <span class="btn-chip bc-ol-warning">Editar</span>
+      </div>
+      <div class="tbl-wrap btn-ref-table">
+        <table>
+          <thead><tr><th>Botón</th><th>Función</th></tr></thead>
+          <tbody>
+            <tr><td><span class="btn-chip bc-primary">Crear</span></td><td>Crea un nuevo checklist</td></tr>
+            <tr><td><span class="btn-chip bc-ol-warning">Editar</span></td><td>Modifica los ítems del checklist</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <p>Ejemplos de ítems típicos:</p>
+      <div class="tbl-wrap">
+        <table>
+          <thead><tr><th>Categoría</th><th>Ejemplos de ítems</th></tr></thead>
+          <tbody>
+            <tr><td>Carrocería</td><td>Sin rayados, sin abolladuras, vidrios sin grietas</td></tr>
+            <tr><td>Líquidos</td><td>Nivel de aceite, refrigerante, líquido de frenos</td></tr>
+            <tr><td>Neumáticos</td><td>Presión correcta, desgaste uniforme</td></tr>
+            <tr><td>Luces</td><td>Faros, balizas, luces de freno funcionando</td></tr>
+            <tr><td>Interior</td><td>Sin daños en tapicería, radio funcionando</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- Cargas masivas -->
+    <div class="section">
+      <div id="cargas-masivas" class="section-anchor"></div>
+      <h2>Cargas masivas</h2>
+      <p>Permite importar datos al sistema en volumen mediante archivos Excel. Ideal para la <strong>migración inicial</strong> desde otro sistema o para actualizar precios masivamente.</p>
+
+      <h3>Proceso de carga masiva</h3>
+      <div class="steps">
+        <div class="step"><div class="step-num">1</div><div class="step-text">Ir a <strong>Administración → Cargas masivas</strong> y seleccionar el tipo de datos a importar.</div></div>
+        <div class="step"><div class="step-num">2</div><div class="step-text">Descargar la <strong>plantilla Excel</strong> del sistema (cada tipo tiene su propia plantilla).</div></div>
+        <div class="step"><div class="step-num">3</div><div class="step-text">Completar la plantilla con tus datos, respetando exactamente el formato de cada columna.</div></div>
+        <div class="step"><div class="step-num">4</div><div class="step-text">Subir el archivo y revisar el resultado de la carga.</div></div>
+      </div>
+
+      <div class="callout callout-warning">
+        <span class="callout-icon">⚠️</span>
+        <div>Verifica los datos <strong>antes de subir</strong> el archivo. Un error de formato puede generar registros incorrectos o duplicados. Siempre descarga la plantilla oficial del sistema.</div>
+      </div>
+    </div>
+
+    <!-- Tipos de incidencias -->
+    <div class="section">
+      <div id="tipos-incidencias" class="section-anchor"></div>
+      <h2>Tipos de incidencias</h2>
+      <p>Clasificación predefinida de los problemas que pueden registrarse en una OT. Los tipos configurados aquí aparecen disponibles al registrar una incidencia.</p>
+      <p>Ejemplos: <strong>Daño en carrocería</strong>, <strong>Pieza faltante</strong>, <strong>Problema eléctrico</strong>, <strong>Rayado previo</strong>, <strong>Vidrio roto</strong>.</p>
+      <div class="callout callout-tip">
+        <span class="callout-icon">💡</span>
+        <div>Define los tipos de incidencias antes de comenzar a operar para que los mecánicos tengan opciones claras al reportar problemas.</div>
+      </div>
+
+      <h3>Botones del listado</h3>
+      <div class="btn-row">
+        <span class="btn-chip bc-primary">Crear</span>
+        <span class="btn-chip bc-ol-warning">Editar</span>
+        <span class="btn-chip bc-ol-danger">Eliminar</span>
+      </div>
+      <div class="tbl-wrap btn-ref-table">
+        <table>
+          <thead><tr><th>Botón</th><th>Función</th></tr></thead>
+          <tbody>
+            <tr><td><span class="btn-chip bc-primary">Crear</span></td><td>Crea un nuevo tipo de incidencia</td></tr>
+            <tr><td><span class="btn-chip bc-ol-warning">Editar</span></td><td>Modifica el nombre del tipo</td></tr>
+            <tr><td><span class="btn-chip bc-ol-danger">Eliminar</span></td><td>Elimina el tipo de incidencia</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- Historial de cambios -->
+    <div class="section">
+      <div id="historial-cambios" class="section-anchor"></div>
+      <h2>Historial de cambios</h2>
+      <p>Bitácora completa de auditoría del sistema. Registra automáticamente <strong>todos los cambios</strong> realizados en los registros principales.</p>
+      <div class="tbl-wrap">
+        <table>
+          <thead><tr><th>Información registrada</th><th>Descripción</th></tr></thead>
+          <tbody>
+            <tr><td>¿Quién?</td><td>Usuario que realizó el cambio</td></tr>
+            <tr><td>¿Qué cambió?</td><td>Campo modificado y valor anterior vs. nuevo</td></tr>
+            <tr><td>¿Cuándo?</td><td>Fecha y hora exacta del cambio</td></tr>
+            <tr><td>¿En qué registro?</td><td>OT, cliente, precio u otro elemento</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- Sucursales -->
+    <div class="section">
+      <div id="sucursales" class="section-anchor"></div>
+      <h2>Sucursales</h2>
+      <p>GestionCar soporta <strong>múltiples sucursales</strong>, cada una con su propio inventario, usuarios asignados y configuración independiente.</p>
+
+      <h3>Crear una sucursal</h3>
+      <div class="steps">
+        <div class="step"><div class="step-num">1</div><div class="step-text">Ir a <strong>Administración → Sucursales</strong> → <strong>Nueva sucursal</strong>.</div></div>
+        <div class="step"><div class="step-num">2</div><div class="step-text">Completar: nombre, dirección, número, región y comuna.</div></div>
+        <div class="step"><div class="step-num">3</div><div class="step-text">Guardar.</div></div>
+        <div class="step"><div class="step-num">4</div><div class="step-text">Asignar usuarios a la sucursal desde <strong>Administración → Usuarios</strong>.</div></div>
+      </div>
+
+      <h3>Botones del listado</h3>
+      <div class="btn-row">
+        <span class="btn-chip bc-primary">Crear</span>
+        <span class="btn-chip bc-ol-warning">Editar</span>
+        <span class="btn-chip bc-ol-danger">Eliminar</span>
+      </div>
+      <div class="tbl-wrap btn-ref-table">
+        <table>
+          <thead><tr><th>Botón</th><th>Función</th></tr></thead>
+          <tbody>
+            <tr><td><span class="btn-chip bc-primary">Crear</span></td><td>Crea una nueva sucursal</td></tr>
+            <tr><td><span class="btn-chip bc-ol-warning">Editar</span></td><td>Modifica los datos de la sucursal</td></tr>
+            <tr><td><span class="btn-chip bc-ol-danger">Eliminar</span></td><td>Elimina la sucursal</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- Usuarios -->
+    <div class="section">
+      <div id="usuarios" class="section-anchor"></div>
+      <h2>Usuarios</h2>
+      <p>Personas que acceden al sistema. Cada usuario tiene un <strong>rol</strong> que define exactamente qué puede ver y hacer.</p>
+
+      <h3>Crear un usuario</h3>
+      <div class="steps">
+        <div class="step"><div class="step-num">1</div><div class="step-text">Ir a <strong>Administración → Usuarios</strong> → <strong>Nuevo usuario</strong>.</div></div>
+        <div class="step"><div class="step-num">2</div><div class="step-text">Ingresar nombre, email y sucursal asignada.</div></div>
+        <div class="step"><div class="step-num">3</div><div class="step-text">Seleccionar el <strong>rol</strong> correspondiente.</div></div>
+        <div class="step"><div class="step-num">4</div><div class="step-text">El usuario recibirá un email con el enlace para definir su contraseña.</div></div>
+      </div>
+
+      <div class="callout callout-info">
+        <span class="callout-icon">ℹ️</span>
+        <div>Para ver el detalle de qué puede hacer cada rol, consulta la sección <a href="configuracion.html#roles-permisos">Roles y permisos</a>.</div>
+      </div>
+
+      <h3>Botones del listado</h3>
+      <div class="btn-row">
+        <span class="btn-chip bc-primary">Crear</span>
+        <span class="btn-chip bc-secondary">Exportar</span>
+      </div>
+      <div class="btn-row">
+        <span class="btn-chip bc-ol-warning">Editar</span>
+      </div>
+      <div class="tbl-wrap btn-ref-table">
+        <table>
+          <thead><tr><th>Botón</th><th>Función</th></tr></thead>
+          <tbody>
+            <tr><td><span class="btn-chip bc-primary">Crear</span></td><td>Crea un nuevo usuario y envía la invitación por email</td></tr>
+            <tr><td><span class="btn-chip bc-secondary">Exportar</span></td><td>Descarga el listado de usuarios en Excel</td></tr>
+            <tr><td><span class="btn-chip bc-ol-warning">Editar</span></td><td>Modifica los datos, rol o sucursal del usuario</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- Colaboradores -->
+    <div class="section">
+      <div id="colaboradores" class="section-anchor"></div>
+      <h2>Colaboradores</h2>
+      <p>Personal operativo del taller: mecánicos, asistentes, técnicos. Los colaboradores pueden o no tener acceso al sistema como usuarios.</p>
+
+      <h3>Diferencia entre usuario y colaborador</h3>
+      <div class="tbl-wrap">
+        <table>
+          <thead><tr><th>Concepto</th><th>Descripción</th></tr></thead>
+          <tbody>
+            <tr><td><strong>Usuario</strong></td><td>Persona con acceso al sistema (login, contraseña)</td></tr>
+            <tr><td><strong>Colaborador</strong></td><td>Registro de personal para asignación en OTs y remuneraciones</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <p>Un colaborador puede estar vinculado a un usuario del sistema, o existir solo como registro de personal (por ejemplo, para calcular sueldos de alguien que no usa el sistema directamente).</p>
+
+      <h3>Botones del listado</h3>
+      <div class="btn-row">
+        <span class="btn-chip bc-primary">Crear</span>
+      </div>
+      <div class="btn-row">
+        <span class="btn-chip bc-ol-success">Ver</span>
+        <span class="btn-chip bc-ol-primary">Editar</span>
+        <span class="btn-chip bc-ol-danger">Eliminar</span>
+      </div>
+      <div class="tbl-wrap btn-ref-table">
+        <table>
+          <thead><tr><th>Botón</th><th>Función</th></tr></thead>
+          <tbody>
+            <tr><td><span class="btn-chip bc-primary">Crear</span></td><td>Crea un nuevo colaborador</td></tr>
+            <tr><td><span class="btn-chip bc-ol-success">Ver</span></td><td>Abre la ficha del colaborador</td></tr>
+            <tr><td><span class="btn-chip bc-ol-primary">Editar</span></td><td>Modifica los datos del colaborador</td></tr>
+            <tr><td><span class="btn-chip bc-ol-danger">Eliminar</span></td><td>Elimina el registro del colaborador</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- Encuesta NPS -->
+    <div class="section">
+      <div id="encuesta-nps" class="section-anchor"></div>
+      <h2>Encuesta NPS</h2>
+      <p>Mide la <strong>satisfacción y lealtad de los clientes</strong> (Net Promoter Score) después de cada servicio.</p>
+      <div class="tbl-wrap">
+        <table>
+          <thead><tr><th>Función</th><th>Descripción</th></tr></thead>
+          <tbody>
+            <tr><td>Configurar encuesta</td><td>Definir la descripción de la encuesta y agregar hasta 5 preguntas de tipo Ranking o Texto</td></tr>
+            <tr><td>Envío automático</td><td>La encuesta se envía al cliente al entregar el vehículo</td></tr>
+            <tr><td>Resultados</td><td>Ver puntaje NPS, promedio por pregunta y clasificación en Promotores (9-10), Pasivos (7-8) y Detractores (0-6)</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+  </main>
+</div>
+<script src="nav.js"></script>
+<script>initNav('administracion');</script>
+</body>
+</html>

@@ -1,0 +1,403 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Taller — Manual GestionCar</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet"/>
+  <link rel="stylesheet" href="styles.css"/>
+</head>
+<body>
+<div class="layout">
+  <main class="main">
+
+    <div class="page-header">
+      <div class="page-header-icon" style="background:rgba(94,153,184,.12)">🔧</div>
+      <div class="page-header-text">
+        <h1>Taller</h1>
+        <p>Módulo central del sistema. Gestiona el ciclo completo de Órdenes de Trabajo, presupuestos, clientes y vehículos.</p>
+      </div>
+    </div>
+
+    <!-- OTs por revisar -->
+    <div class="section">
+      <div id="ots-revisar" class="section-anchor"></div>
+      <h2>OTs por revisar</h2>
+      <p>Vista de las Órdenes de Trabajo recién llegadas al taller, pendientes de revisión o asignación antes de comenzar los trabajos. Es el punto de entrada ideal para el <strong>jefe de taller</strong> al iniciar el día: desde aquí puede revisar qué vehículos ingresaron, asignar mecánicos y dar inicio formal a cada OT.</p>
+    </div>
+
+    <!-- Torre de control -->
+    <div class="section">
+      <div id="torre-control" class="section-anchor"></div>
+      <h2>Torre de control</h2>
+      <p>Panel de monitoreo en <strong>tiempo real</strong> de todas las OTs activas, organizado como un tablero Kanban. Permite ver el estado de cada vehículo de un vistazo.</p>
+      <h3>¿Qué puedes hacer?</h3>
+      <div class="steps">
+        <div class="step"><div class="step-num">→</div><div class="step-text"><strong>Filtrar</strong> por nombre/código, vendedor, usuario o fecha prometida para ver solo lo relevante.</div></div>
+        <div class="step"><div class="step-num">→</div><div class="step-text"><strong>Arrastrar</strong> OTs entre columnas para reposicionarlas en el tablero (según permisos).</div></div>
+        <div class="step"><div class="step-num">→</div><div class="step-text">Ver las tarjetas de cada OT con cliente, vehículo, estado y columna asignada.</div></div>
+      </div>
+    </div>
+
+    <!-- OTs en Taller -->
+    <div class="section">
+      <div id="ots-taller" class="section-anchor"></div>
+      <h2>OTs en Taller</h2>
+      <p>Listado completo de todas las Órdenes de Trabajo activas. Una OT representa un servicio de reparación o mantenimiento para un vehículo, con número único, estado e historial de acciones.</p>
+
+      <h3>Estados de una OT</h3>
+      <div class="tbl-wrap">
+        <table>
+          <thead><tr><th>Estado</th><th>Descripción</th></tr></thead>
+          <tbody>
+            <tr><td><span class="badge badge-blue">En Proceso</span></td><td>La OT fue creada y el trabajo está en ejecución</td></tr>
+            <tr><td><span class="badge badge-orange">Ppto. Enviado</span></td><td>Se envió un presupuesto al cliente para aprobación</td></tr>
+            <tr><td><span class="badge badge-dk">Ppto. Aprobado</span></td><td>El cliente aprobó el presupuesto</td></tr>
+            <tr><td><span class="badge badge-dk">Ppto. Parcial</span></td><td>El cliente aprobó parcialmente el presupuesto</td></tr>
+            <tr><td><span class="badge badge-green">OT Finalizada</span></td><td>Los trabajos fueron terminados</td></tr>
+            <tr><td><span class="badge badge-green">Entregada</span></td><td>El vehículo fue entregado al cliente</td></tr>
+            <tr><td><span class="badge badge-blue">Garantía</span></td><td>El vehículo regresó por garantía del trabajo anterior</td></tr>
+            <tr><td><span class="badge badge-green">Garantía y Entregado</span></td><td>El vehículo entró por garantía y fue entregado</td></tr>
+            <tr><td><span class="badge badge-red">Rechazado</span></td><td>El cliente rechazó el presupuesto</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <h3>Crear una OT</h3>
+      <div class="steps">
+        <div class="step"><div class="step-num">1</div><div class="step-text">Ir a <strong>Taller → OTs en Taller</strong> y hacer clic en <strong>+OT</strong> / <strong>Crear OT</strong>.</div></div>
+        <div class="step"><div class="step-num">2</div><div class="step-text">Buscar o crear el <strong>Cliente</strong>.</div></div>
+        <div class="step"><div class="step-num">3</div><div class="step-text">Seleccionar o crear el <strong>Vehículo</strong> (patente, marca, modelo, año).</div></div>
+        <div class="step"><div class="step-num">4</div><div class="step-text">Ingresar el <strong>kilometraje</strong> y el campo <strong>Motivo / Notas</strong> con la descripción del trabajo solicitado.</div></div>
+        <div class="step"><div class="step-num">5</div><div class="step-text">Agregar <strong>trabajos</strong> e <strong>ítems/repuestos</strong> desde el catálogo.</div></div>
+        <div class="step"><div class="step-num">6</div><div class="step-text">Hacer clic en <strong>Guardar</strong>.</div></div>
+      </div>
+
+      <h3>Avanzar el estado de una OT</h3>
+      <p>Dentro de la OT, usa los botones de acción siguiendo el flujo:</p>
+      <div class="tbl-wrap">
+        <table>
+          <thead><tr><th>Acción</th><th>Efecto</th></tr></thead>
+          <tbody>
+            <tr><td>Recepcionar</td><td>Confirma la recepción del vehículo e inicia la OT</td></tr>
+            <tr><td>Omitir recepción</td><td>Salta la etapa de recepción e inicia el trabajo directamente</td></tr>
+            <tr><td>Inspeccionar</td><td>Inicia la pre-inspección del vehículo</td></tr>
+            <tr><td>Envío de presupuesto</td><td>Envía el detalle al cliente por email y cambia el estado a <em>Ppto. Enviado</em></td></tr>
+            <tr><td>Aprobación de presupuesto</td><td>Marca el presupuesto como aceptado (<em>Ppto. Aprobado</em>)</td></tr>
+            <tr><td>Finalizar OT</td><td>Indica que los trabajos fueron terminados (<em>OT Finalizada</em>)</td></tr>
+            <tr><td>Entrega</td><td>Registra la entrega del vehículo al cliente (<em>Entregada</em>)</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <h3>Otras funciones de la OT</h3>
+      <h4>Descuentos</h4>
+      <p>Puedes aplicar descuentos al total de la OT. Si el descuento supera el límite configurado por la empresa, el sistema puede requerir <strong>aprobación de un supervisor</strong> antes de continuar.</p>
+
+      <h4>Archivos adjuntos</h4>
+      <p>Cada OT permite adjuntar fotos, documentos o informes técnicos. Dentro de la OT, ve a la sección <strong>Archivos</strong> y arrastra o selecciona los archivos.</p>
+
+      <h4>Enlace público para el cliente</h4>
+      <div class="callout callout-tip">
+        <span class="callout-icon">💡</span>
+        <div>Cada OT genera un <strong>enlace público</strong> que puedes enviar al cliente para que consulte el estado del trabajo sin necesidad de ingresar al sistema.</div>
+      </div>
+
+      <h3>Botones del listado</h3>
+      <div class="btn-row">
+        <span class="btn-chip bc-primary">Exportar</span>
+        <span class="btn-chip bc-light">Crear Presupuesto</span>
+        <span class="btn-chip bc-light">Crear Venta de Mostrador</span>
+      </div>
+      <div class="btn-row">
+        <span class="btn-chip bc-ol-primary">Revisar OT</span>
+        <span class="btn-chip bc-ol-info">Ver</span>
+        <span class="btn-chip bc-ol-warning">Editar</span>
+        <span class="btn-chip bc-ol-danger">Eliminar</span>
+      </div>
+      <div class="tbl-wrap btn-ref-table">
+        <table>
+          <thead><tr><th>Botón</th><th>Función</th></tr></thead>
+          <tbody>
+            <tr><td><span class="btn-chip bc-primary">Exportar</span></td><td>Descarga el listado de OTs en Excel</td></tr>
+            <tr><td><span class="btn-chip bc-light">Crear Presupuesto</span></td><td>Crea un nuevo presupuesto sin OT previa</td></tr>
+            <tr><td><span class="btn-chip bc-light">Crear Venta de Mostrador</span></td><td>Crea una venta de mesón directa sin recepción de vehículo</td></tr>
+            <tr><td><span class="btn-chip bc-ol-primary">Revisar OT</span></td><td>Accede a la vista de revisión mecánica de esa OT (para mecánicos)</td></tr>
+            <tr><td><span class="btn-chip bc-ol-info">Ver</span></td><td>Abre el detalle completo de la OT</td></tr>
+            <tr><td><span class="btn-chip bc-ol-warning">Editar</span></td><td>Permite editar los datos generales de la OT</td></tr>
+            <tr><td><span class="btn-chip bc-ol-danger">Eliminar</span></td><td>Elimina la OT (solo si no tiene documentos activos)</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- Presupuestos -->
+    <div class="section">
+      <div id="presupuestos" class="section-anchor"></div>
+      <h2>Presupuestos</h2>
+      <p>Cotizaciones formales enviadas al cliente antes de iniciar un trabajo, especialmente para reparaciones mayores o cuando el cliente necesita aprobación previa.</p>
+
+      <h3>Crear un presupuesto</h3>
+      <div class="steps">
+        <div class="step"><div class="step-num">1</div><div class="step-text">Ir a <strong>Taller → Presupuestos</strong> → <strong>Crear Presupuesto</strong>.</div></div>
+        <div class="step"><div class="step-num">2</div><div class="step-text">Seleccionar cliente y vehículo.</div></div>
+        <div class="step"><div class="step-num">3</div><div class="step-text">Agregar los trabajos y repuestos cotizados con sus precios.</div></div>
+        <div class="step"><div class="step-num">4</div><div class="step-text">Guardar y hacer clic en <strong>Enviar</strong> para enviarlo al cliente por email.</div></div>
+      </div>
+
+      <h3>Estados del presupuesto</h3>
+      <div class="tbl-wrap">
+        <table>
+          <thead><tr><th>Estado</th><th>Descripción</th></tr></thead>
+          <tbody>
+            <tr><td><span class="badge badge-blue">En Proceso</span></td><td>Creado y en preparación</td></tr>
+            <tr><td><span class="badge badge-orange">Ppto. Enviado</span></td><td>Enviado al cliente por email, esperando respuesta</td></tr>
+            <tr><td><span class="badge badge-green">Ppto. Aprobado</span></td><td>El cliente aceptó el presupuesto</td></tr>
+            <tr><td><span class="badge badge-red">Rechazado</span></td><td>El cliente rechazó el presupuesto</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="callout callout-tip">
+        <span class="callout-icon">💡</span>
+        <div>Cuando el cliente aprueba, haz clic en <strong>Generar OT</strong> desde la vista del presupuesto para crear automáticamente la Orden de Trabajo con todos sus datos.</div>
+      </div>
+
+      <h3>Botones del listado</h3>
+      <div class="btn-row">
+        <span class="btn-chip bc-ol-info">Ver</span>
+        <span class="btn-chip bc-ol-warning">Editar</span>
+        <span class="btn-chip bc-ol-danger">Eliminar</span>
+      </div>
+      <div class="tbl-wrap btn-ref-table">
+        <table>
+          <thead><tr><th>Botón</th><th>Función</th></tr></thead>
+          <tbody>
+            <tr><td><span class="btn-chip bc-ol-info">Ver</span></td><td>Abre la vista detallada del presupuesto</td></tr>
+            <tr><td><span class="btn-chip bc-ol-warning">Editar</span></td><td>Edita el presupuesto directamente</td></tr>
+            <tr><td><span class="btn-chip bc-ol-danger">Eliminar</span></td><td>Elimina el presupuesto</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- Tareas asignadas -->
+    <div class="section">
+      <div id="tareas-asignadas" class="section-anchor"></div>
+      <h2>Tareas asignadas</h2>
+      <p>Vista de tareas específicas asignadas a cada mecánico o colaborador dentro de las OTs activas. Permite hacer seguimiento del trabajo pendiente por persona sin necesidad de revisar cada OT individualmente.</p>
+      <div class="btn-row">
+        <span class="btn-chip bc-ol-info">Revisar OT</span>
+      </div>
+      <div class="tbl-wrap btn-ref-table">
+        <table>
+          <thead><tr><th>Botón</th><th>Función</th></tr></thead>
+          <tbody>
+            <tr><td><span class="btn-chip bc-ol-info">Revisar OT</span></td><td>Navega a la vista de revisión mecánica de la OT asociada a esa tarea</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- Histórico de OTs -->
+    <div class="section">
+      <div id="historico-ots" class="section-anchor"></div>
+      <h2>Histórico de OTs</h2>
+      <p>Registro completo de todas las órdenes de trabajo finalizadas y entregadas.</p>
+      <div class="steps">
+        <div class="step"><div class="step-num">→</div><div class="step-text">Busca por <strong>cliente, vehículo, fecha o mecánico</strong> para localizar cualquier OT pasada.</div></div>
+        <div class="step"><div class="step-num">→</div><div class="step-text">Ve el <strong>detalle completo</strong> de cualquier OT: trabajos realizados, ítems usados, totales.</div></div>
+        <div class="step"><div class="step-num">→</div><div class="step-text"><strong>Exporta a Excel</strong> para análisis externos o reportes personalizados.</div></div>
+      </div>
+
+      <h3>Botones del listado</h3>
+      <div class="btn-row">
+        <span class="btn-chip bc-primary">Exportar</span>
+        <span class="btn-chip bc-ol-info">Ver</span>
+      </div>
+      <div class="tbl-wrap btn-ref-table">
+        <table>
+          <thead><tr><th>Botón</th><th>Función</th></tr></thead>
+          <tbody>
+            <tr><td><span class="btn-chip bc-primary">Exportar</span></td><td>Descarga el listado del histórico en Excel</td></tr>
+            <tr><td><span class="btn-chip bc-ol-info">Ver</span></td><td>Abre el detalle completo de la OT histórica</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- Incidencias -->
+    <div class="section">
+      <div id="incidencias" class="section-anchor"></div>
+      <h2>Incidencias</h2>
+      <p>Registra problemas o situaciones especiales detectadas durante la ejecución de un trabajo: daños previos no declarados, piezas faltantes, problemas no reportados por el cliente, etc. Sirven como respaldo ante posibles reclamos.</p>
+
+      <h3>Registrar una incidencia</h3>
+      <div class="steps">
+        <div class="step"><div class="step-num">1</div><div class="step-text">Dentro de una OT, ir a la sección <strong>Incidencias</strong> → <strong>Nueva incidencia</strong>.</div></div>
+        <div class="step"><div class="step-num">2</div><div class="step-text">Seleccionar el <strong>Tipo de incidencia</strong> (configurado en Administración → Tipos de incidencias).</div></div>
+        <div class="step"><div class="step-num">3</div><div class="step-text">Describir el problema y adjuntar fotos si es necesario.</div></div>
+        <div class="step"><div class="step-num">4</div><div class="step-text">Guardar.</div></div>
+      </div>
+
+      <h3>Botones del listado</h3>
+      <div class="btn-row">
+        <span class="btn-chip bc-ol-info">Ver</span>
+        <span class="btn-chip bc-ol-warning">Editar</span>
+      </div>
+      <div class="tbl-wrap btn-ref-table">
+        <table>
+          <thead><tr><th>Botón</th><th>Función</th></tr></thead>
+          <tbody>
+            <tr><td><span class="btn-chip bc-ol-info">Ver</span></td><td>Abre el detalle de la incidencia</td></tr>
+            <tr><td><span class="btn-chip bc-ol-warning">Editar</span></td><td>Modifica la descripción o tipo de la incidencia</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- Horas de trabajo -->
+    <div class="section">
+      <div id="horas-trabajo" class="section-anchor"></div>
+      <h2>Horas de trabajo</h2>
+      <p>Registra el tiempo que cada mecánico o colaborador dedica a cada OT.</p>
+      <div class="tbl-wrap">
+        <table>
+          <thead><tr><th>Función</th><th>Descripción</th></tr></thead>
+          <tbody>
+            <tr><td>Registro de tiempo</td><td>Inicio y término de tareas por OT y colaborador</td></tr>
+            <tr><td>Costo de mano de obra</td><td>Cálculo automático del costo por OT según horas trabajadas</td></tr>
+            <tr><td>Productividad</td><td>Reportes de rendimiento por colaborador y período</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <h3>Botones del listado</h3>
+      <div class="btn-row">
+        <span class="btn-chip bc-secondary">Exportar</span>
+        <span class="btn-chip bc-ol-warning">Editar</span>
+      </div>
+      <div class="tbl-wrap btn-ref-table">
+        <table>
+          <thead><tr><th>Botón</th><th>Función</th></tr></thead>
+          <tbody>
+            <tr><td><span class="btn-chip bc-secondary">Exportar</span></td><td>Descarga el listado de horas en Excel</td></tr>
+            <tr><td><span class="btn-chip bc-ol-warning">Editar</span></td><td>Modifica el registro de horas de una fila</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- Clientes -->
+    <div class="section">
+      <div id="clientes" class="section-anchor"></div>
+      <h2>Clientes</h2>
+      <p>Directorio de todos los clientes del taller: personas naturales y empresas.</p>
+
+      <h3>Crear un cliente</h3>
+      <div class="steps">
+        <div class="step"><div class="step-num">1</div><div class="step-text">Ir a <strong>Taller → Clientes</strong> → <strong>Nuevo cliente</strong>.</div></div>
+        <div class="step"><div class="step-num">2</div><div class="step-text">Completar: nombre o razón social, RUT/ID fiscal, email, teléfono.</div></div>
+        <div class="step"><div class="step-num">3</div><div class="step-text">Indicar si es <strong>empresa</strong> (persona jurídica) y seleccionar el <strong>vendedor</strong> asignado si corresponde.</div></div>
+        <div class="step"><div class="step-num">4</div><div class="step-text">Guardar.</div></div>
+      </div>
+
+      <div class="callout callout-info">
+        <span class="callout-icon">ℹ️</span>
+        <div>Desde la ficha de un cliente puedes ver: todos sus vehículos, historial completo de OTs y presupuestos, pagos realizados y notas.</div>
+      </div>
+
+      <h3>Botones del listado</h3>
+      <div class="btn-row">
+        <span class="btn-chip bc-secondary">Exportar</span>
+      </div>
+      <div class="btn-row">
+        <span class="btn-chip bc-ol-success">Crear Vehículo</span>
+        <span class="btn-chip bc-ol-info">Ver</span>
+        <span class="btn-chip bc-ol-warning">Editar</span>
+      </div>
+      <div class="tbl-wrap btn-ref-table">
+        <table>
+          <thead><tr><th>Botón</th><th>Función</th></tr></thead>
+          <tbody>
+            <tr><td><span class="btn-chip bc-secondary">Exportar</span></td><td>Descarga el listado de clientes en Excel</td></tr>
+            <tr><td><span class="btn-chip bc-ol-success">Crear Vehículo</span></td><td>Crea un vehículo y lo asocia directamente al cliente</td></tr>
+            <tr><td><span class="btn-chip bc-ol-info">Ver</span></td><td>Abre la ficha completa del cliente</td></tr>
+            <tr><td><span class="btn-chip bc-ol-warning">Editar</span></td><td>Modifica los datos del cliente</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- Vehículos -->
+    <div class="section">
+      <div id="vehiculos" class="section-anchor"></div>
+      <h2>Vehículos</h2>
+      <p>Registro de cada vehículo atendido en el taller.</p>
+      <div class="tbl-wrap">
+        <table>
+          <thead><tr><th>Campo</th><th>Descripción</th></tr></thead>
+          <tbody>
+            <tr><td>Patente / Código</td><td>Identificador único del vehículo</td></tr>
+            <tr><td>Tipo</td><td>Tipo de vehículo</td></tr>
+            <tr><td>Marca</td><td>Fabricante del vehículo</td></tr>
+            <tr><td>Modelo</td><td>Versión o línea del vehículo</td></tr>
+            <tr><td>Año</td><td>Año de fabricación</td></tr>
+            <tr><td>Tipo de combustible</td><td>Gasolina, diésel, eléctrico, etc.</td></tr>
+            <tr><td>Fecha de ingreso</td><td>Primera vez que el vehículo fue registrado en el sistema</td></tr>
+            <tr><td>Última mantención</td><td>Fecha del último servicio registrado</td></tr>
+            <tr><td>Cliente</td><td>Propietario del vehículo</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="callout callout-info">
+        <span class="callout-icon">ℹ️</span>
+        <div>Desde la ficha del vehículo puedes consultar el <strong>historial completo de servicios</strong>: trabajos realizados, ítems utilizados y fechas de atención.</div>
+      </div>
+
+      <h3>Botones del listado</h3>
+      <div class="btn-row">
+        <span class="btn-chip bc-ol-info">Ver</span>
+        <span class="btn-chip bc-ol-warning">Editar</span>
+        <span class="btn-chip bc-ol-success">Editar Propietario</span>
+      </div>
+      <div class="tbl-wrap btn-ref-table">
+        <table>
+          <thead><tr><th>Botón</th><th>Función</th></tr></thead>
+          <tbody>
+            <tr><td><span class="btn-chip bc-ol-info">Ver</span></td><td>Abre la ficha completa del vehículo e historial de servicios</td></tr>
+            <tr><td><span class="btn-chip bc-ol-warning">Editar</span></td><td>Modifica los datos del vehículo</td></tr>
+            <tr><td><span class="btn-chip bc-ol-success">Editar Propietario</span></td><td>Cambia o reasigna el cliente propietario del vehículo</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- Reportes por mecánico -->
+    <div class="section">
+      <div id="reportes-mecanico" class="section-anchor"></div>
+      <h2>Reportes por mecánico</h2>
+      <p>Vista de rendimiento individual por mecánico o colaborador en el período seleccionado:</p>
+      <div class="tbl-wrap">
+        <table>
+          <thead><tr><th>Columna</th><th>Descripción</th></tr></thead>
+          <tbody>
+            <tr><td>Fecha</td><td>Fecha del registro de horas</td></tr>
+            <tr><td>Código del proyecto</td><td>OT a la que corresponden las horas</td></tr>
+            <tr><td>Patente / Código del vehículo</td><td>Vehículo de la OT</td></tr>
+            <tr><td>Nombre del trabajo</td><td>Tipo de trabajo ejecutado</td></tr>
+            <tr><td>Responsable</td><td>Colaborador que realizó el trabajo</td></tr>
+            <tr><td>Horas Registradas</td><td>Horas ingresadas por el colaborador</td></tr>
+            <tr><td>Horas Aprobadas</td><td>Horas validadas por el jefe de taller</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <p style="font-size:13px;color:var(--text-muted)">Puedes filtrar por usuario y descargar los datos en Excel. El responsable puede filtrar por estado de aprobación: todas las horas, aprobadas o no aprobadas.</p>
+    </div>
+
+  </main>
+</div>
+<script src="nav.js"></script>
+<script>initNav('taller');</script>
+</body>
+</html>

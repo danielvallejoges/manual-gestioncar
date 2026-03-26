@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Reportes — Manual GestionCar</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet"/>
+  <link rel="stylesheet" href="styles.css"/>
+</head>
+<body>
+<div class="layout">
+  <main class="main">
+
+    <div class="page-header">
+      <div class="page-header-icon" style="background:rgba(245,111,75,.1)">📊</div>
+      <div class="page-header-text">
+        <h1>Reportes</h1>
+        <p>Herramientas de análisis para tomar decisiones basadas en datos del taller.</p>
+      </div>
+    </div>
+
+    <!-- Dashboard General -->
+    <div class="section">
+      <div id="dashboard-general" class="section-anchor"></div>
+      <h2>Dashboard General</h2>
+      <p>Vista ejecutiva con los principales indicadores del taller para el período seleccionado. Es el punto de partida para el análisis de desempeño del negocio.</p>
+
+      <h3>Tarjetas KPI</h3>
+      <div class="tbl-wrap">
+        <table>
+          <thead><tr><th>Indicador</th><th>Descripción</th></tr></thead>
+          <tbody>
+            <tr><td>OT Ingresadas</td><td>Cantidad de OTs recibidas en el período, con variación vs. período anterior</td></tr>
+            <tr><td>OT Entregadas</td><td>Cantidad de OTs entregadas en el período, con variación vs. período anterior</td></tr>
+            <tr><td>Ventas</td><td>Monto neto de ventas en el período, con variación porcentual</td></tr>
+            <tr><td>Ticket Promedio</td><td>Valor promedio por OT en el período, con variación porcentual</td></tr>
+            <tr><td>Ventas en Carpeta</td><td>Monto de OTs o presupuestos activos aún no entregados</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <h3>Gráficos</h3>
+      <div class="tbl-wrap">
+        <table>
+          <thead><tr><th>Gráfico</th><th>Descripción</th></tr></thead>
+          <tbody>
+            <tr><td>Ventas</td><td>Evolución del monto neto de ventas por día o mes</td></tr>
+            <tr><td>OTs</td><td>Evolución de la cantidad de OTs por día o mes</td></tr>
+            <tr><td>Ticket Promedio</td><td>Evolución del ticket promedio por día o mes</td></tr>
+            <tr><td>Trabajos Generales</td><td>Comparativa de tipos de trabajo: período actual vs. anterior</td></tr>
+            <tr><td>Marcas de Vehículos</td><td>Comparativa de ventas por marca de vehículo</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <h3>Filtros disponibles</h3>
+      <div class="tbl-wrap">
+        <table>
+          <thead><tr><th>Filtro</th><th>Opciones</th></tr></thead>
+          <tbody>
+            <tr><td>Rango de fechas</td><td>Desde / Hasta (selector de fecha)</td></tr>
+            <tr><td>Tipo de fecha</td><td>Según Entrega o Según Inicio de la OT</td></tr>
+            <tr><td>Agrupación</td><td>Por Día o Por Mes</td></tr>
+            <tr><td>Comparación</td><td>Vs. mes anterior o vs. año anterior</td></tr>
+            <tr><td>Estado OT</td><td>En Proceso, Ppto. Enviado, Ppto. Aprobado, Ppto. Parcial, OT Finalizada, Entregada, Garantía, Garantía y Entregado, Rechazada</td></tr>
+            <tr><td>Estado de cobro</td><td>Pagada, Por cobrar, Pendiente</td></tr>
+            <tr><td>Tipo de proyecto</td><td>Orden con Recepción, Orden con Recepción y Seguro, Venta de Mesón</td></tr>
+            <tr><td>Sucursal</td><td>Una o varias sucursales</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- Tabla General -->
+    <div class="section">
+      <div id="tabla-general" class="section-anchor"></div>
+      <h2>Tabla General</h2>
+      <p>Desglose de ventas por categoría de ítem, con datos de costo, margen y cantidad para el período seleccionado.</p>
+
+      <h3>Columnas de la tabla</h3>
+      <div class="tbl-wrap">
+        <table>
+          <thead><tr><th>Columna</th><th>Descripción</th></tr></thead>
+          <tbody>
+            <tr><td>Categoría</td><td>Categoría del ítem (expandible para ver subcategorías)</td></tr>
+            <tr><td>Subcategoría</td><td>Subcategoría dentro de la categoría (expandible para ver ítems)</td></tr>
+            <tr><td>Ítem</td><td>Nombre del repuesto, insumo o servicio</td></tr>
+            <tr><td>Ventas</td><td>Monto vendido de ese ítem en el período</td></tr>
+            <tr><td>Costo</td><td>Costo total de ese ítem en el período</td></tr>
+            <tr><td>Margen</td><td>Diferencia entre ventas y costo (en rojo si es negativo)</td></tr>
+            <tr><td>Cantidad</td><td>Unidades vendidas en el período</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="callout callout-tip">
+        <span class="callout-icon">💡</span>
+        <div>Las filas de Categoría y Subcategoría se pueden expandir con el botón +/− para ver el detalle de cada nivel. La fila de totales al pie suma todos los ítems del período.</div>
+      </div>
+    </div>
+
+  </main>
+</div>
+<script src="nav.js"></script>
+<script>initNav('reportes');</script>
+</body>
+</html>

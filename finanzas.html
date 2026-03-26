@@ -1,0 +1,385 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Finanzas — Manual GestionCar</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet"/>
+  <link rel="stylesheet" href="styles.css"/>
+</head>
+<body>
+<div class="layout">
+  <main class="main">
+
+    <div class="page-header">
+      <div class="page-header-icon" style="background:rgba(123,189,117,.12)">💰</div>
+      <div class="page-header-text">
+        <h1>Finanzas</h1>
+        <p>Centraliza toda la información económica del taller: ingresos, gastos, remuneraciones, cuentas por pagar y reportes financieros.</p>
+      </div>
+    </div>
+
+    <!-- Ingresos de ventas -->
+    <div class="section">
+      <div id="ingresos-ventas" class="section-anchor"></div>
+      <h2>Ingresos de ventas</h2>
+      <p>Corresponde a los ingresos generados por OTs y presupuestos aprobados. Se registran <strong>automáticamente</strong> al emitir una factura o boleta, y también se pueden registrar de forma manual.</p>
+      <div class="steps">
+        <div class="step"><div class="step-num">→</div><div class="step-text">Ver el listado de documentos emitidos (tipo, N° doc, emisión, vencimiento, OT asociada, cliente).</div></div>
+        <div class="step"><div class="step-num">→</div><div class="step-text">Filtrar por tipo de documento, fecha de emisión, fecha de vencimiento, OT, cliente y estado de pago.</div></div>
+        <div class="step"><div class="step-num">→</div><div class="step-text">Ver tarjetas resumen: Venta Neta, Venta Total, Total Abonado, Deuda Total.</div></div>
+        <div class="step"><div class="step-num">→</div><div class="step-text">Descargar PDF o XML de cada documento, o emitir una Nota de Crédito desde el registro.</div></div>
+        <div class="step"><div class="step-num">→</div><div class="step-text">Exportar el listado a Excel.</div></div>
+      </div>
+
+      <h3>Botones del listado</h3>
+      <div class="btn-row">
+        <span class="btn-chip bc-primary">Exportar</span>
+      </div>
+      <div class="btn-row">
+        <span class="btn-chip bc-ol-info">Ir a Proyecto</span>
+        <span class="btn-chip bc-warning">Descargar</span>
+        <span class="btn-chip bc-ol-danger">NC</span>
+      </div>
+      <div class="tbl-wrap btn-ref-table">
+        <table>
+          <thead><tr><th>Botón</th><th>Función</th></tr></thead>
+          <tbody>
+            <tr><td><span class="btn-chip bc-primary">Exportar</span></td><td>Descarga el listado de ingresos en Excel</td></tr>
+            <tr><td><span class="btn-chip bc-ol-info">Ir a Proyecto</span></td><td>Navega a la OT o presupuesto asociado al documento</td></tr>
+            <tr><td><span class="btn-chip bc-warning">Descargar</span></td><td>Descarga el documento en PDF o XML</td></tr>
+            <tr><td><span class="btn-chip bc-ol-danger">NC</span></td><td>Emite una nota de crédito sobre ese documento</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- Otros ingresos -->
+    <div class="section">
+      <div id="otros-ingresos" class="section-anchor"></div>
+      <h2>Otros ingresos</h2>
+      <p>Para ingresos que no corresponden a ventas de OTs: arriendos, ventas de activos, subsidios, etc.</p>
+
+      <h3>Registrar un ingreso</h3>
+      <div class="steps">
+        <div class="step"><div class="step-num">1</div><div class="step-text">Ir a <strong>Finanzas → Otros ingresos</strong> → <strong>Nuevo ingreso</strong>.</div></div>
+        <div class="step"><div class="step-num">2</div><div class="step-text">Seleccionar la <strong>cuenta</strong> del plan de cuentas correspondiente.</div></div>
+        <div class="step"><div class="step-num">3</div><div class="step-text">Ingresar monto, descripción y fecha.</div></div>
+        <div class="step"><div class="step-num">4</div><div class="step-text">Guardar.</div></div>
+      </div>
+
+      <h3>Botones del listado</h3>
+      <div class="btn-row">
+        <span class="btn-chip bc-primary">Crear</span>
+      </div>
+      <div class="btn-row">
+        <span class="btn-chip bc-ol-success">Ver</span>
+        <span class="btn-chip bc-ol-primary">Editar</span>
+        <span class="btn-chip bc-ol-danger">Eliminar</span>
+      </div>
+      <div class="tbl-wrap btn-ref-table">
+        <table>
+          <thead><tr><th>Botón</th><th>Función</th></tr></thead>
+          <tbody>
+            <tr><td><span class="btn-chip bc-primary">Crear</span></td><td>Registra un nuevo ingreso adicional</td></tr>
+            <tr><td><span class="btn-chip bc-ol-success">Ver</span></td><td>Abre el detalle del ingreso</td></tr>
+            <tr><td><span class="btn-chip bc-ol-primary">Editar</span></td><td>Modifica los datos del ingreso</td></tr>
+            <tr><td><span class="btn-chip bc-ol-danger">Eliminar</span></td><td>Elimina el registro de ingreso</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- Abonos -->
+    <div class="section">
+      <div id="abonos" class="section-anchor"></div>
+      <h2>Abonos</h2>
+      <p>Registra los <strong>pagos parciales o anticipos</strong> realizados por clientes sobre OTs o presupuestos pendientes de pago.</p>
+      <div class="tbl-wrap">
+        <table>
+          <thead><tr><th>Columna</th><th>Descripción</th></tr></thead>
+          <tbody>
+            <tr><td>Fecha</td><td>Fecha del abono registrado</td></tr>
+            <tr><td>N° OT / Ppto</td><td>OT o presupuesto al que corresponde el pago</td></tr>
+            <tr><td>Forma de Pago</td><td>Efectivo, transferencia, tarjeta, etc.</td></tr>
+            <tr><td>Monto</td><td>Valor del abono</td></tr>
+            <tr><td>Total Abonos</td><td>Suma de todos los abonos para esa OT</td></tr>
+            <tr><td>Total Pendiente</td><td>Saldo que aún debe el cliente</td></tr>
+            <tr><td>Total Facturado</td><td>Monto total de la OT o presupuesto</td></tr>
+            <tr><td>Observaciones</td><td>Notas del abono</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <h3>Botones del listado</h3>
+      <div class="btn-row">
+        <span class="btn-chip bc-secondary">Exportar</span>
+        <span class="btn-chip bc-ol-info">Ir a Proyecto</span>
+      </div>
+      <div class="tbl-wrap btn-ref-table">
+        <table>
+          <thead><tr><th>Botón</th><th>Función</th></tr></thead>
+          <tbody>
+            <tr><td><span class="btn-chip bc-secondary">Exportar</span></td><td>Descarga el listado de abonos en Excel</td></tr>
+            <tr><td><span class="btn-chip bc-ol-info">Ir a Proyecto</span></td><td>Navega a la OT o presupuesto asociado al abono</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- Listado de cobranzas -->
+    <div class="section">
+      <div id="cobranzas" class="section-anchor"></div>
+      <h2>Listado de cobranzas</h2>
+      <p>Muestra las <strong>cuentas por cobrar pendientes</strong>: OTs o facturas emitidas que aún no han sido pagadas en su totalidad.</p>
+      <div class="steps">
+        <div class="step"><div class="step-num">→</div><div class="step-text">Filtrar por tipo de documento, cliente, fecha de emisión o fecha de vencimiento.</div></div>
+        <div class="step"><div class="step-num">→</div><div class="step-text">Ver tarjetas resumen: Monto Neto, Monto Total, Total Abonado, Deuda Total.</div></div>
+        <div class="step"><div class="step-num">→</div><div class="step-text">Acceder directamente a la OT o presupuesto desde el listado para registrar un pago.</div></div>
+      </div>
+
+      <h3>Botones del listado</h3>
+      <div class="btn-row">
+        <span class="btn-chip bc-ol-info">Ir a Proyecto</span>
+      </div>
+      <div class="tbl-wrap btn-ref-table">
+        <table>
+          <thead><tr><th>Botón</th><th>Función</th></tr></thead>
+          <tbody>
+            <tr><td><span class="btn-chip bc-ol-info">Ir a Proyecto</span></td><td>Abre la OT o presupuesto para registrar pagos o ver el detalle</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- Libro de venta -->
+    <div class="section">
+      <div id="libro-venta" class="section-anchor"></div>
+      <h2>Libro de venta</h2>
+      <p>Consolidado de todas las facturas emitidas en un período, compatible con los requerimientos tributarios de cada país.</p>
+      <div class="callout callout-tip">
+        <span class="callout-icon">💡</span>
+        <div>Selecciona el período (mes/año) y exporta a <strong>Excel</strong> para presentar ante el organismo tributario de tu país. También puedes descargar el PDF o XML de cada documento individual desde el listado.</div>
+      </div>
+
+      <h3>Botones del listado</h3>
+      <div class="btn-row">
+        <span class="btn-chip bc-primary">Exportar</span>
+      </div>
+      <div class="tbl-wrap btn-ref-table">
+        <table>
+          <thead><tr><th>Botón</th><th>Función</th></tr></thead>
+          <tbody>
+            <tr><td><span class="btn-chip bc-primary">Exportar</span></td><td>Descarga el libro de venta del período seleccionado en Excel</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- Gastos -->
+    <div class="section">
+      <div id="gastos" class="section-anchor"></div>
+      <h2>Gastos</h2>
+      <p>Registra todos los egresos operacionales del taller que no corresponden a compras de inventario: arriendo, servicios básicos, mantenciones, marketing, etc.</p>
+
+      <h3>Registrar un gasto</h3>
+      <div class="steps">
+        <div class="step"><div class="step-num">1</div><div class="step-text">Ir a <strong>Finanzas → Gastos</strong> → <strong>Nuevo gasto</strong>.</div></div>
+        <div class="step"><div class="step-num">2</div><div class="step-text">Seleccionar el <strong>tipo de gasto</strong> y la cuenta del plan de cuentas.</div></div>
+        <div class="step"><div class="step-num">3</div><div class="step-text">Ingresar monto, proveedor (si aplica), fecha y descripción.</div></div>
+        <div class="step"><div class="step-num">4</div><div class="step-text">Guardar.</div></div>
+      </div>
+
+      <h3>Botones del listado</h3>
+      <div class="btn-row">
+        <span class="btn-chip bc-primary">Crear</span>
+        <span class="btn-chip bc-info">Importar</span>
+      </div>
+      <div class="btn-row">
+        <span class="btn-chip bc-ol-success">Ver</span>
+        <span class="btn-chip bc-ol-primary">Editar</span>
+        <span class="btn-chip bc-ol-danger">Eliminar</span>
+      </div>
+      <div class="tbl-wrap btn-ref-table">
+        <table>
+          <thead><tr><th>Botón</th><th>Función</th></tr></thead>
+          <tbody>
+            <tr><td><span class="btn-chip bc-primary">Crear</span></td><td>Registra un nuevo gasto</td></tr>
+            <tr><td><span class="btn-chip bc-info">Importar</span></td><td>Carga gastos en lote desde un archivo</td></tr>
+            <tr><td><span class="btn-chip bc-ol-success">Ver</span></td><td>Abre el detalle del gasto</td></tr>
+            <tr><td><span class="btn-chip bc-ol-primary">Editar</span></td><td>Modifica los datos del gasto</td></tr>
+            <tr><td><span class="btn-chip bc-ol-danger">Eliminar</span></td><td>Elimina el registro de gasto</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- Remuneraciones -->
+    <div class="section">
+      <div id="remuneraciones" class="section-anchor"></div>
+      <h2>Remuneraciones</h2>
+      <p>Gestiona los sueldos y pagos al personal del taller mes a mes.</p>
+      <div class="tbl-wrap">
+        <table>
+          <thead><tr><th>Campo</th><th>Descripción</th></tr></thead>
+          <tbody>
+            <tr><td>Período</td><td>Mes al que corresponde la remuneración</td></tr>
+            <tr><td>Empleado</td><td>Colaborador al que se le liquida el sueldo</td></tr>
+            <tr><td>Líquido a recibir</td><td>Monto final que recibe el colaborador</td></tr>
+            <tr><td>Previsión (AFP)</td><td>Descuento previsional según normativa local</td></tr>
+            <tr><td>Isapre</td><td>Descuento de salud según normativa local</td></tr>
+            <tr><td>Cesantía</td><td>Aporte del trabajador al seguro de cesantía</td></tr>
+            <tr><td>Cesantía empleador</td><td>Aporte del empleador al seguro de cesantía</td></tr>
+            <tr><td>Impuesto único</td><td>Impuesto de segunda categoría (si aplica)</td></tr>
+            <tr><td>Mutual</td><td>Cotización accidentes del trabajo</td></tr>
+            <tr><td>Seguro invalidez</td><td>Seguro de invalidez y sobrevivencia</td></tr>
+            <tr><td>Comisión</td><td>Monto de comisiones del período</td></tr>
+            <tr><td>Clasificación</td><td>Distribución del costo de la remuneración en las cuentas del plan de cuentas</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <h3>Botones del listado</h3>
+      <div class="btn-row">
+        <span class="btn-chip bc-primary">Crear</span>
+        <span class="btn-chip bc-info">Importar</span>
+      </div>
+      <div class="btn-row">
+        <span class="btn-chip bc-ol-success">Ver</span>
+        <span class="btn-chip bc-ol-primary">Editar</span>
+        <span class="btn-chip bc-ol-danger">Eliminar</span>
+      </div>
+      <div class="tbl-wrap btn-ref-table">
+        <table>
+          <thead><tr><th>Botón</th><th>Función</th></tr></thead>
+          <tbody>
+            <tr><td><span class="btn-chip bc-primary">Crear</span></td><td>Registra una nueva liquidación de remuneración</td></tr>
+            <tr><td><span class="btn-chip bc-info">Importar</span></td><td>Carga liquidaciones en lote desde un archivo</td></tr>
+            <tr><td><span class="btn-chip bc-ol-success">Ver</span></td><td>Abre el detalle de la remuneración</td></tr>
+            <tr><td><span class="btn-chip bc-ol-primary">Editar</span></td><td>Modifica los datos de la remuneración</td></tr>
+            <tr><td><span class="btn-chip bc-ol-danger">Eliminar</span></td><td>Elimina el registro de remuneración</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- Facturas de compras / CxP -->
+    <div class="section">
+      <div id="facturas-cxp" class="section-anchor"></div>
+      <h2>Facturas de compras / CxP</h2>
+      <p><strong>Cuentas por Pagar (CxP)</strong>: facturas recibidas de proveedores que están pendientes de pago.</p>
+      <div class="steps">
+        <div class="step"><div class="step-num">→</div><div class="step-text">Ver el listado de facturas de proveedores pendientes de pago.</div></div>
+        <div class="step"><div class="step-num">→</div><div class="step-text">Registrar pagos <strong>parciales o totales</strong> sobre cada factura.</div></div>
+        <div class="step"><div class="step-num">→</div><div class="step-text">Consultar <strong>fechas de vencimiento</strong> y alertas de pagos próximos.</div></div>
+      </div>
+
+      <h3>Botones del listado</h3>
+      <div class="btn-row">
+        <span class="btn-chip bc-primary">Crear documento</span>
+        <span class="btn-chip bc-secondary">Recargar folios</span>
+      </div>
+      <div class="btn-row">
+        <span class="btn-chip bc-ol-success">Ver</span>
+        <span class="btn-chip bc-ol-primary">Editar</span>
+        <span class="btn-chip bc-ol-danger">Anular</span>
+      </div>
+      <div class="tbl-wrap btn-ref-table">
+        <table>
+          <thead><tr><th>Botón</th><th>Función</th></tr></thead>
+          <tbody>
+            <tr><td><span class="btn-chip bc-primary">Crear documento</span></td><td>Registra una nueva factura de proveedor</td></tr>
+            <tr><td><span class="btn-chip bc-secondary">Recargar folios</span></td><td>Actualiza los folios disponibles para la emisión de documentos</td></tr>
+            <tr><td><span class="btn-chip bc-ol-success">Ver</span></td><td>Abre el detalle de la factura de proveedor</td></tr>
+            <tr><td><span class="btn-chip bc-ol-primary">Editar</span></td><td>Modifica los datos del documento</td></tr>
+            <tr><td><span class="btn-chip bc-ol-danger">Anular</span></td><td>Anula el documento de compra</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- Libros de compra -->
+    <div class="section">
+      <div id="libros-compra" class="section-anchor"></div>
+      <h2>Libros de compra</h2>
+      <p>Consolidado de todas las facturas de proveedores recibidas en un período, para efectos tributarios. Selecciona el período y exporta a <strong>Excel</strong>.</p>
+
+      <h3>Botones del listado</h3>
+      <div class="btn-row">
+        <span class="btn-chip bc-secondary">Exportar</span>
+        <span class="btn-chip bc-ol-success">Ver Documento</span>
+      </div>
+      <div class="tbl-wrap btn-ref-table">
+        <table>
+          <thead><tr><th>Botón</th><th>Función</th></tr></thead>
+          <tbody>
+            <tr><td><span class="btn-chip bc-secondary">Exportar</span></td><td>Descarga el libro de compra en Excel</td></tr>
+            <tr><td><span class="btn-chip bc-ol-success">Ver Documento</span></td><td>Abre el detalle del documento de compra</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- Notas de crédito -->
+    <div class="section">
+      <div id="notas-credito" class="section-anchor"></div>
+      <h2>Notas de crédito</h2>
+      <p>Registra devoluciones o ajustes sobre facturas emitidas al cliente. Se generan directamente desde el listado de <strong>Ingresos de ventas</strong> o <strong>Libro de venta</strong>, en la fila del documento al que corresponden.</p>
+      <div class="steps">
+        <div class="step"><div class="step-num">1</div><div class="step-text">Ir a <strong>Finanzas → Ingresos de ventas</strong> y localizar la factura a anular.</div></div>
+        <div class="step"><div class="step-num">2</div><div class="step-text">Hacer clic en el botón <strong>NC</strong> que aparece en la fila del documento elegible.</div></div>
+        <div class="step"><div class="step-num">3</div><div class="step-text">Ingresar la <strong>Fecha de emisión</strong> y el <strong>Motivo de la anulación</strong>.</div></div>
+        <div class="step"><div class="step-num">4</div><div class="step-text">Confirmar. La nota de crédito queda asociada a la factura original.</div></div>
+      </div>
+    </div>
+
+    <!-- Estado de resultados -->
+    <div class="section">
+      <div id="eerr" class="section-anchor"></div>
+      <h2>Estado de resultados</h2>
+      <p>Resumen financiero completo del taller en un período determinado. Selecciona el período y la sucursal para ver el resultado.</p>
+      <p>Muestra una <strong>estructura jerárquica de cuentas</strong> organizada en árbol, con una columna por mes para el rango de períodos seleccionado. Las filas de cuentas padre se pueden expandir o colapsar.</p>
+      <div class="tbl-wrap">
+        <table>
+          <thead><tr><th>Elemento</th><th>Descripción</th></tr></thead>
+          <tbody>
+            <tr><td>Desde / Hasta</td><td>Selector de rango de meses a analizar</td></tr>
+            <tr><td>Columnas de meses</td><td>Una columna por mes en el rango seleccionado (formato MMM AAAA)</td></tr>
+            <tr><td>Cuentas de ingreso</td><td>Agrupadas en jerarquía según el plan de cuentas</td></tr>
+            <tr><td>Cuentas de gasto</td><td>Agrupadas en jerarquía según el plan de cuentas</td></tr>
+            <tr><td>Valores negativos</td><td>Se muestran en rojo</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="callout callout-tip">
+        <span class="callout-icon">💡</span>
+        <div>Haz clic en el monto de cualquier celda para ver el detalle de los ingresos o costos que componen ese total en el período seleccionado.</div>
+      </div>
+    </div>
+
+    <!-- Plan de cuentas -->
+    <div class="section">
+      <div id="plan-cuentas" class="section-anchor"></div>
+      <h2>Plan de cuentas</h2>
+      <p>Define la <strong>estructura contable</strong> del taller: todas las cuentas de ingresos, costos y gastos sobre las que se clasifican las transacciones.</p>
+      <div class="tbl-wrap">
+        <table>
+          <thead><tr><th>Tipo de cuenta</th><th>Uso</th></tr></thead>
+          <tbody>
+            <tr><td>Cuentas de ingreso</td><td>Para clasificar entradas de dinero (ventas, arriendos, etc.)</td></tr>
+            <tr><td>Cuentas de gasto</td><td>Para clasificar salidas de dinero (sueldos, servicios, etc.)</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="callout callout-tip">
+        <span class="callout-icon">💡</span>
+        <div>Las cuentas del plan de cuentas son las que aparecen al registrar <strong>Gastos, Otros ingresos y Remuneraciones</strong>. Mantenlo actualizado para una clasificación precisa.</div>
+      </div>
+    </div>
+
+  </main>
+</div>
+<script src="nav.js"></script>
+<script>initNav('finanzas');</script>
+</body>
+</html>
