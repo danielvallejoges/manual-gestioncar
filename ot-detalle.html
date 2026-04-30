@@ -202,6 +202,11 @@
 
           <hr class="section-divider"/>
 
+          <div class="callout callout-warning">
+            <span class="callout-icon">⚠️</span>
+            <div><strong>OT bloqueada por facturación completa:</strong> Si la empresa tiene activada la opción <em>Bloquear edición de OT al estar completamente facturada</em> en Configuración General, cuando las facturas emitidas igualan el total de la OT el sistema impide editar la cotización y redirige a la vista de detalle. Los usuarios con rol Administrador o superior verán un campo de contraseña para desbloquear temporalmente la OT.</div>
+          </div>
+
           <!-- Pagos y facturas -->
           <h2>Pagos y facturas</h2>
           <div class="tbl-wrap">
@@ -321,7 +326,7 @@
                 <tr><td>Cantidad</td><td>Cantidad incluida en la cotización</td></tr>
                 <tr><td>Costo Neto Total</td><td>Costo total neto (Costo Unit × Cantidad)</td></tr>
                 <tr><td>P. Venta Unit</td><td>Precio de venta unitario</td></tr>
-                <tr><td>Descuento</td><td>Porcentaje de descuento aplicado al ítem</td></tr>
+                <tr><td>Descuento</td><td>Porcentaje de descuento aplicado al ítem. El sistema valida que no supere el máximo autorizado para el usuario ni el límite configurado por categoría</td></tr>
                 <tr><td>P. Venta Total</td><td>Precio de venta total después de descuento</td></tr>
                 <tr><td>Margen</td><td>Porcentaje de margen entre costo y precio de venta</td></tr>
               </tbody>
@@ -329,6 +334,11 @@
           </div>
 
           <hr class="section-divider"/>
+
+          <div class="callout callout-info">
+            <span class="callout-icon">ℹ️</span>
+            <div><strong>Rango de descuento y precio por categoría:</strong> Cada categoría de producto puede tener configurado un porcentaje máximo de descuento y un porcentaje máximo de aumento sobre el precio base. Si el usuario intenta superar estos límites, el sistema muestra un aviso de error y revierte automáticamente el valor al máximo permitido.</div>
+          </div>
 
           <!-- Botones del presupuesto -->
           <h2>Botones de acción del presupuesto</h2>

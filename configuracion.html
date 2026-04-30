@@ -131,6 +131,7 @@
             <tr><td>Requiere aprobación de descuento para vendedores</td><td>Los descuentos aplicados por vendedores requieren aprobación del Jefe de Taller</td></tr>
             <tr><td>Ocultar subcategoría en PDFs y vista pública</td><td>No muestra la subcategoría de los ítems en los documentos enviados al cliente</td></tr>
             <tr><td>Formato del PDF presupuesto</td><td>Selección entre PDF presupuesto completo o PDF resumen/caja</td></tr>
+            <tr><td>Bloquear edición de OT al estar completamente facturada</td><td>Cuando las facturas emitidas igualan el total de la OT, el sistema impide editar la cotización. Los usuarios con permisos de administrador pueden ingresar una contraseña para desbloquear temporalmente la edición</td></tr>
             <tr><td>Condiciones Checklist Recepción</td><td>Texto de condiciones que aparece al pie del checklist de recepción</td></tr>
             <tr><td>Comprimir imágenes de checklists</td><td>Reduce el tamaño de las fotos adjuntas en los checklists</td></tr>
             <tr><td>Ocultar checklists en vista pública</td><td>Configurable por tipo de checklist. Impide que el cliente vea los checklists desde el enlace público</td></tr>
@@ -282,6 +283,35 @@
         </table>
       </div>
 
+      <div class="btn-row">
+        <span class="btn-chip bc-primary">Actualizar</span>
+      </div>
+    </div>
+
+    <!-- ── PDF ───────────────────────────────────────────────────────── -->
+    <div class="section">
+      <div id="config-pdf" class="section-anchor"></div>
+      <h2>PDF</h2>
+      <p>Pestaña <strong>PDF</strong> dentro de Configuración. Controla qué información de precios se incluye en el <strong>PDF Checklist de Trabajos</strong> que se entrega a los técnicos mecánicos.</p>
+
+      <h3>Configuración de Categorías</h3>
+      <p>Selecciona las categorías de productos cuya información de precios quieres que aparezca en el PDF. Solo las categorías marcadas mostrarán el detalle de precios.</p>
+
+      <h3>Información de Precios a Mostrar</h3>
+      <p>Una vez seleccionada al menos una categoría, elige qué columnas de precios se incluirán en el checklist para esas categorías:</p>
+      <div class="tbl-wrap">
+        <table>
+          <thead><tr><th>Campo</th><th>Descripción</th></tr></thead>
+          <tbody>
+            <tr><td>Precio Venta</td><td>Precio de venta unitario del ítem</td></tr>
+            <tr><td>Precio Total</td><td>Precio de venta total (unitario × cantidad)</td></tr>
+            <tr><td>Costo Neto (Comisión)</td><td>Costo neto del ítem, útil para cálculo de comisiones</td></tr>
+            <tr><td>Unidades</td><td>Cantidad de unidades del ítem en la OT</td></tr>
+            <tr><td>Precio Unitario</td><td>Precio unitario base antes de descuento</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <p>La configuración aplica a todas las categorías seleccionadas simultáneamente. Hay una <strong>Vista Previa</strong> en tiempo real que muestra cómo quedará el PDF antes de guardar.</p>
       <div class="btn-row">
         <span class="btn-chip bc-primary">Actualizar</span>
       </div>
