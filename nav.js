@@ -1,6 +1,21 @@
 // ── Navigation config ──────────────────────────────────────────────
 const NAV = [
   {
+    id: 'onboarding', label: 'Primeros pasos', icon: '🚀', file: 'onboarding.html',
+    color: 'rgba(0,131,143,.1)', iconColor: '#00838f',
+    sections: [
+      { id: 'paso-1', label: '1. Datos de empresa' },
+      { id: 'paso-2', label: '2. Invita al equipo' },
+      { id: 'paso-3', label: '3. Categorías' },
+      { id: 'paso-4', label: '4. Trabajos' },
+      { id: 'paso-5', label: '5. Catálogo de productos' },
+      { id: 'paso-6', label: '6. Configuración general' },
+      { id: 'paso-7', label: '7. Calendario' },
+      { id: 'paso-8', label: '8. Notificaciones' },
+      { id: 'paso-9', label: '9. Primera OT' },
+    ]
+  },
+  {
     id: 'flujo-ot', label: 'Flujo Completo de una OT', icon: '🔄', file: 'flujo-ot.html',
     color: 'rgba(46,61,79,.12)', iconColor: '#2E3D4F',
     sections: [
@@ -158,6 +173,16 @@ const NAV = [
 
 // ── Global search index ────────────────────────────────────────────
 const SEARCH_INDEX = [
+  // Onboarding
+  { module: 'Primeros pasos', title: '1. Datos de empresa', file: 'onboarding.html', hash: 'paso-1', text: 'Verificar RUT, razón social, nombre fantasía, giro, dirección, sitio web, email, celular, WhatsApp, logo. Precargado al contratar.' },
+  { module: 'Primeros pasos', title: '2. Invitar al equipo', file: 'onboarding.html', hash: 'paso-2', text: 'Crear usuarios y asignar roles: Jefe de Taller, Vendedor, Recepcionista, Mecánico, Encargado de Inventario, Encargado de Compras.' },
+  { module: 'Primeros pasos', title: '3. Categorías de productos', file: 'onboarding.html', hash: 'paso-3', text: 'Revisar jerarquía de categorías y subcategorías predefinidas. Renombrar, agregar o eliminar según el taller. Precargado.' },
+  { module: 'Primeros pasos', title: '4. Trabajos predefinidos', file: 'onboarding.html', hash: 'paso-4', text: 'Revisar trabajos de mecánica general precargados. Actualizar precios, agregar trabajos propios del taller, eliminar los que no apliquen.' },
+  { module: 'Primeros pasos', title: '5. Catálogo de productos', file: 'onboarding.html', hash: 'paso-5', text: 'Cargar ítems: repuestos, insumos, servicios. Precio costo y venta. Activar inventario. Carga masiva por Excel.' },
+  { module: 'Primeros pasos', title: '6. Configuración general', file: 'onboarding.html', hash: 'paso-6', text: 'IVA, campos requeridos clientes y vehículos, estados de inventario para reserva y descuento de stock, reglas de descuento vendedores.' },
+  { module: 'Primeros pasos', title: '7. Calendario', file: 'onboarding.html', hash: 'paso-7', text: 'Hora inicial y final de atención, días hábiles. Agendamiento online: horarios, límite de citas, URL para compartir con clientes.' },
+  { module: 'Primeros pasos', title: '8. Notificaciones', file: 'onboarding.html', hash: 'paso-8', text: 'Conectar WhatsApp Business. Activar mensajes automáticos: confirmación cita, recepción, presupuesto enviado, OT finalizada, entrega. Personalizar con parámetros.' },
+  { module: 'Primeros pasos', title: '9. Primera OT de prueba', file: 'onboarding.html', hash: 'paso-9', text: 'Flujo completo de prueba: crear cita, recepcionar vehículo, inspección técnica, elaborar presupuesto, enviar, aprobar, ejecutar trabajos, finalizar y entregar.' },
   // Flujo Completo OT
   { module: 'Flujo OT', title: '1. Agendar la cita', file: 'flujo-ot.html', hash: 'paso-1', text: 'Crear cita en el Calendario. Tipo de cita: Orden de Trabajo, Seguro, Mesón, Componentes, Presupuesto. Cliente, vehículo, mecánico asignado, servicio solicitado.' },
   { module: 'Flujo OT', title: '2. Recepción del vehículo', file: 'flujo-ot.html', hash: 'paso-2', text: 'Recepcionar Cliente desde el Calendario. Kilometraje de ingreso. Checklist de recepción: carrocería, líquidos, neumáticos, luces, interior. Omitir Recepción.' },

@@ -1,0 +1,510 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Onboarding — Primeros pasos — Manual GestionCar</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet"/>
+  <link rel="stylesheet" href="styles.css"/>
+  <style>
+    /* ── Step quick-nav ── */
+    .step-nav {
+      display: flex;
+      gap: 6px;
+      flex-wrap: wrap;
+      margin-bottom: 32px;
+    }
+    .step-nav a {
+      font-size: 12px;
+      font-weight: 600;
+      padding: 5px 12px;
+      border-radius: 20px;
+      background: #f5f6f8;
+      color: var(--text-muted);
+      text-decoration: none;
+      border: 1px solid var(--border);
+      transition: all .15s;
+    }
+    .step-nav a:hover,
+    .step-nav a.active {
+      background: var(--dark);
+      color: #fff;
+      border-color: var(--dark);
+    }
+
+    /* ── Flow card ── */
+    .flow-card {
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      overflow: hidden;
+      margin-bottom: 32px;
+    }
+    .flow-head {
+      display: flex;
+      align-items: flex-start;
+      gap: 16px;
+      padding: 20px 24px 18px;
+      background: linear-gradient(135deg, var(--dark) 0%, #3d5166 100%);
+    }
+    .flow-head.fh-review {
+      background: linear-gradient(135deg, #006064 0%, #00838f 100%);
+    }
+    .flow-num {
+      width: 46px;
+      height: 46px;
+      border-radius: 50%;
+      background: rgba(255,255,255,.18);
+      color: #fff;
+      font-size: 20px;
+      font-weight: 800;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+    }
+    .flow-head-text { flex: 1; }
+    .flow-head-text h2 {
+      font-size: 17px;
+      font-weight: 700;
+      color: #fff;
+      margin: 0 0 6px;
+    }
+    .flow-head-chips { display: flex; gap: 6px; flex-wrap: wrap; margin-top: 6px; }
+    .fchip {
+      font-size: 11px;
+      font-weight: 600;
+      padding: 3px 10px;
+      border-radius: 20px;
+      white-space: nowrap;
+    }
+    .fchip-screen {
+      background: rgba(255,255,255,.2);
+      color: rgba(255,255,255,.95);
+    }
+    .fchip-precfg {
+      background: rgba(255,255,255,.12);
+      color: rgba(255,255,255,.8);
+      border: 1px solid rgba(255,255,255,.25);
+    }
+    .flow-body {
+      padding: 24px 26px;
+      background: #fff;
+    }
+
+    /* ── Sub-steps inside step 9 ── */
+    .substep-list {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      margin: 16px 0;
+    }
+    .substep {
+      display: flex;
+      gap: 14px;
+      align-items: flex-start;
+      background: #f8f9fb;
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 13px 16px;
+    }
+    .substep-num {
+      font-size: 11px;
+      font-weight: 800;
+      color: #fff;
+      background: var(--dark);
+      border-radius: 6px;
+      padding: 3px 7px;
+      flex-shrink: 0;
+      margin-top: 1px;
+      letter-spacing: .3px;
+    }
+    .substep-body { flex: 1; }
+    .substep-title {
+      font-size: 13px;
+      font-weight: 700;
+      color: var(--dark);
+      margin: 0 0 4px;
+    }
+    .substep-desc {
+      font-size: 13px;
+      color: var(--text);
+      margin: 0;
+      line-height: 1.5;
+    }
+
+    /* ── Legend ── */
+    .legend {
+      display: flex;
+      gap: 18px;
+      flex-wrap: wrap;
+      margin-bottom: 28px;
+      padding: 12px 16px;
+      background: #fff;
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      font-size: 12px;
+    }
+    .legend-item { display: flex; align-items: center; gap: 7px; font-weight: 600; color: var(--text-muted); }
+    .legend-dot {
+      width: 12px; height: 12px; border-radius: 50%; flex-shrink: 0;
+    }
+    .legend-dot.ld-review { background: #00838f; }
+    .legend-dot.ld-action { background: var(--dark); }
+
+    @media (max-width: 640px) {
+      .flow-head { flex-direction: column; }
+    }
+  </style>
+</head>
+<body>
+<div class="layout">
+  <main class="main">
+
+    <div class="page-header">
+      <div class="page-header-icon" style="background:linear-gradient(135deg,rgba(0,131,143,.15) 0%,rgba(0,131,143,.05) 100%)">🚀</div>
+      <div class="page-header-text">
+        <h1>Primeros pasos en GestionCar</h1>
+        <p>Guía de configuración inicial para poner tu taller en marcha. Algunos pasos ya vienen precargados — solo necesitas revisarlos y ajustarlos a tu taller.</p>
+      </div>
+    </div>
+
+    <!-- Leyenda -->
+    <div class="legend">
+      <div class="legend-item"><div class="legend-dot ld-review"></div>Paso precargado — revisar y ajustar</div>
+      <div class="legend-item"><div class="legend-dot ld-action"></div>Paso nuevo — completar desde cero</div>
+    </div>
+
+    <!-- Quick nav -->
+    <div class="step-nav" id="step-nav">
+      <a href="#paso-1">1. Datos empresa</a>
+      <a href="#paso-2">2. Equipo</a>
+      <a href="#paso-3">3. Categorías</a>
+      <a href="#paso-4">4. Trabajos</a>
+      <a href="#paso-5">5. Productos</a>
+      <a href="#paso-6">6. Config. general</a>
+      <a href="#paso-7">7. Calendario</a>
+      <a href="#paso-8">8. Notificaciones</a>
+      <a href="#paso-9">9. Primera OT</a>
+    </div>
+
+    <!-- ═══ PASO 1 ═══════════════════════════════════════════════════════ -->
+    <div class="flow-card">
+      <div id="paso-1" class="section-anchor"></div>
+      <div class="flow-head fh-review">
+        <div class="flow-num">1</div>
+        <div class="flow-head-text">
+          <h2>Revisa los datos de tu empresa</h2>
+          <div class="flow-head-chips">
+            <span class="fchip fchip-screen">🛠️ Configuración → Perfil de empresa</span>
+            <span class="fchip fchip-precfg">✓ Precargado</span>
+          </div>
+        </div>
+      </div>
+      <div class="flow-body">
+        <p>Tu perfil de empresa ya está creado con los datos entregados en la contratación. Verifica que todo esté correcto y completa lo que falte — estos datos aparecen en todos los documentos enviados a clientes.</p>
+        <div class="steps">
+          <div class="step"><div class="step-num">1</div><div class="step-text">Ve a <strong>Configuración → Perfil de empresa</strong>.</div></div>
+          <div class="step"><div class="step-num">2</div><div class="step-text">Verifica <strong>RUT, Razón Social, Nombre de Fantasía, Giro y Dirección</strong>. Estos campos no son editables directamente — contáctanos si necesitas corregirlos.</div></div>
+          <div class="step"><div class="step-num">3</div><div class="step-text">Agrega o actualiza <strong>Sitio Web, Email, Celular y WhatsApp</strong> del taller.</div></div>
+          <div class="step"><div class="step-num">4</div><div class="step-text">Sube el <strong>logo</strong> de tu empresa (620×400 px recomendado). Aparecerá en cotizaciones, facturas y checklists.</div></div>
+          <div class="step"><div class="step-num">5</div><div class="step-text">Haz clic en <strong>Actualizar</strong> para guardar los cambios.</div></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ═══ PASO 2 ═══════════════════════════════════════════════════════ -->
+    <div class="flow-card">
+      <div id="paso-2" class="section-anchor"></div>
+      <div class="flow-head">
+        <div class="flow-num">2</div>
+        <div class="flow-head-text">
+          <h2>Invita a tu equipo</h2>
+          <div class="flow-head-chips">
+            <span class="fchip fchip-screen">⚙️ Administración → Usuarios</span>
+          </div>
+        </div>
+      </div>
+      <div class="flow-body">
+        <p>Ya existe un usuario administrador. Agrega al resto del personal, asignando a cada uno el rol que corresponda a su función en el taller.</p>
+        <div class="steps">
+          <div class="step"><div class="step-num">1</div><div class="step-text">Ve a <strong>Administración → Usuarios</strong> y haz clic en <strong>Nuevo usuario</strong>.</div></div>
+          <div class="step"><div class="step-num">2</div><div class="step-text">Ingresa el <strong>email</strong> del colaborador. Recibirá una invitación para crear su contraseña.</div></div>
+          <div class="step"><div class="step-num">3</div><div class="step-text">Asigna uno o más <strong>roles</strong>: <em>Jefe de Taller, Vendedor, Recepcionista, Mecánico, Encargado de Inventario</em> o <em>Encargado de Compras</em>.</div></div>
+          <div class="step"><div class="step-num">4</div><div class="step-text">Repite para cada miembro del equipo. Consulta <a href="roles-permisos.html">Roles y Permisos</a> si tienes dudas sobre qué puede hacer cada rol.</div></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ═══ PASO 3 ═══════════════════════════════════════════════════════ -->
+    <div class="flow-card">
+      <div id="paso-3" class="section-anchor"></div>
+      <div class="flow-head fh-review">
+        <div class="flow-num">3</div>
+        <div class="flow-head-text">
+          <h2>Revisa las categorías de productos</h2>
+          <div class="flow-head-chips">
+            <span class="fchip fchip-screen">⚙️ Administración → Categorías</span>
+            <span class="fchip fchip-precfg">✓ Precargado</span>
+          </div>
+        </div>
+      </div>
+      <div class="flow-body">
+        <p>El sistema trae una jerarquía de categorías y subcategorías estándar para mecánica general. Revisa si se ajusta a la forma en que organizas tus trabajos y repuestos.</p>
+        <div class="steps">
+          <div class="step"><div class="step-num">1</div><div class="step-text">Ve a <strong>Administración → Categorías</strong> y recorre el listado de categorías padre y sus subcategorías.</div></div>
+          <div class="step"><div class="step-num">2</div><div class="step-text"><strong>Renombra</strong> las que necesites adaptar al vocabulario de tu taller.</div></div>
+          <div class="step"><div class="step-num">3</div><div class="step-text"><strong>Agrega</strong> las categorías que usen en tu taller y que no estén en la lista.</div></div>
+          <div class="step"><div class="step-num">4</div><div class="step-text"><strong>Elimina</strong> las que no apliquen para tu tipo de negocio.</div></div>
+        </div>
+        <div class="callout callout-info" style="margin-top:16px">
+          <span class="callout-icon">ℹ️</span>
+          <div>Las categorías determinan cómo se agrupan los ítems en la cotización y en los PDFs enviados al cliente. Vale la pena dejarlas bien definidas antes de empezar a cargar productos.</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ═══ PASO 4 ═══════════════════════════════════════════════════════ -->
+    <div class="flow-card">
+      <div id="paso-4" class="section-anchor"></div>
+      <div class="flow-head fh-review">
+        <div class="flow-num">4</div>
+        <div class="flow-head-text">
+          <h2>Revisa los trabajos predefinidos</h2>
+          <div class="flow-head-chips">
+            <span class="fchip fchip-screen">⚙️ Administración → Trabajos</span>
+            <span class="fchip fchip-precfg">✓ Precargado</span>
+          </div>
+        </div>
+      </div>
+      <div class="flow-body">
+        <p>Vienen cargados los trabajos más comunes de mecánica general (cambio de aceite, revisión de frenos, alineación, etc.). Revisa si los utilizas, ajusta los precios a tu tarifa y adapta el catálogo a tu taller.</p>
+        <div class="steps">
+          <div class="step"><div class="step-num">1</div><div class="step-text">Ve a <strong>Administración → Trabajos</strong> y recorre el listado.</div></div>
+          <div class="step"><div class="step-num">2</div><div class="step-text">Actualiza los <strong>precios</strong> de cada trabajo según las tarifas de tu taller.</div></div>
+          <div class="step"><div class="step-num">3</div><div class="step-text">Agrega los trabajos frecuentes de tu taller que no estén en la lista.</div></div>
+          <div class="step"><div class="step-num">4</div><div class="step-text">Elimina o desactiva los que no uses para mantener el catálogo limpio.</div></div>
+        </div>
+        <div class="callout callout-info" style="margin-top:16px">
+          <span class="callout-icon">ℹ️</span>
+          <div>Los trabajos se pueden cargar directamente en la pestaña <strong>Editar Cotización</strong> de una OT con el botón <strong>Cargar trabajo</strong>, agilizando la cotización sin tener que escribir cada ítem desde cero.</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ═══ PASO 5 ═══════════════════════════════════════════════════════ -->
+    <div class="flow-card">
+      <div id="paso-5" class="section-anchor"></div>
+      <div class="flow-head">
+        <div class="flow-num">5</div>
+        <div class="flow-head-text">
+          <h2>Carga tu catálogo de productos</h2>
+          <div class="flow-head-chips">
+            <span class="fchip fchip-screen">⚙️ Administración → Ítems</span>
+          </div>
+        </div>
+      </div>
+      <div class="flow-body">
+        <p>Agrega los repuestos e insumos que usas habitualmente. Estos ítems estarán disponibles para agregar en las cotizaciones de las OTs.</p>
+        <div class="steps">
+          <div class="step"><div class="step-num">1</div><div class="step-text">Ve a <strong>Administración → Ítems</strong> y haz clic en <strong>Nuevo ítem</strong>.</div></div>
+          <div class="step"><div class="step-num">2</div><div class="step-text">Completa el nombre, categoría, precio de costo y precio de venta.</div></div>
+          <div class="step"><div class="step-num">3</div><div class="step-text">Si el ítem lleva control de stock, activa la opción <strong>Lleva inventario</strong> e ingresa el stock inicial en <strong>Inventario → Movimientos</strong>.</div></div>
+          <div class="step"><div class="step-num">4</div><div class="step-text">Para cargar varios ítems a la vez, usa la opción <strong>Carga masiva</strong> con el formato Excel disponible en la misma pantalla.</div></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ═══ PASO 6 ═══════════════════════════════════════════════════════ -->
+    <div class="flow-card">
+      <div id="paso-6" class="section-anchor"></div>
+      <div class="flow-head">
+        <div class="flow-num">6</div>
+        <div class="flow-head-text">
+          <h2>Configuración general</h2>
+          <div class="flow-head-chips">
+            <span class="fchip fchip-screen">🛠️ Configuración → Configuración General</span>
+          </div>
+        </div>
+      </div>
+      <div class="flow-body">
+        <p>Ajusta los parámetros de operación del taller: impuestos, reglas de descuento, campos obligatorios y preferencias de inventario.</p>
+        <div class="steps">
+          <div class="step"><div class="step-num">1</div><div class="step-text">Ve a <strong>Configuración → Configuración General</strong>.</div></div>
+          <div class="step"><div class="step-num">2</div><div class="step-text">Verifica el <strong>IVA</strong> configurado para tu país.</div></div>
+          <div class="step"><div class="step-num">3</div><div class="step-text">Define los <strong>campos requeridos</strong> para crear clientes y vehículos según las necesidades del taller.</div></div>
+          <div class="step"><div class="step-num">4</div><div class="step-text">Configura los <strong>estados de inventario</strong>: en qué estado de la OT se reserva el stock y en cuál se descuenta definitivamente.</div></div>
+          <div class="step"><div class="step-num">5</div><div class="step-text">Define si los <strong>descuentos de vendedores</strong> requieren aprobación del Jefe de Taller.</div></div>
+          <div class="step"><div class="step-num">6</div><div class="step-text">Haz clic en <strong>Actualizar</strong> para guardar.</div></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ═══ PASO 7 ═══════════════════════════════════════════════════════ -->
+    <div class="flow-card">
+      <div id="paso-7" class="section-anchor"></div>
+      <div class="flow-head">
+        <div class="flow-num">7</div>
+        <div class="flow-head-text">
+          <h2>Configura tu calendario</h2>
+          <div class="flow-head-chips">
+            <span class="fchip fchip-screen">🛠️ Configuración → Configuración General</span>
+          </div>
+        </div>
+      </div>
+      <div class="flow-body">
+        <p>Define el horario de atención del taller y, si lo deseas, activa el portal para que los clientes puedan agendar solos desde internet.</p>
+        <div class="steps">
+          <div class="step"><div class="step-num">1</div><div class="step-text">En la sección <strong>Calendario</strong> de Configuración General, define la <strong>Hora Inicial</strong> y <strong>Hora Final</strong> de atención y los <strong>días hábiles</strong> de la semana.</div></div>
+          <div class="step"><div class="step-num">2</div><div class="step-text">En la sección <strong>Agendamiento online</strong>, configura los horarios disponibles para que los clientes agenden y define el límite de citas por franja horaria.</div></div>
+          <div class="step"><div class="step-num">3</div><div class="step-text">Copia la <strong>URL de agendamiento</strong> y compártela en tu sitio web o redes sociales para que los clientes puedan agendar directamente.</div></div>
+          <div class="step"><div class="step-num">4</div><div class="step-text">Haz clic en <strong>Actualizar</strong> para guardar.</div></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ═══ PASO 8 ═══════════════════════════════════════════════════════ -->
+    <div class="flow-card">
+      <div id="paso-8" class="section-anchor"></div>
+      <div class="flow-head">
+        <div class="flow-num">8</div>
+        <div class="flow-head-text">
+          <h2>Activa las notificaciones</h2>
+          <div class="flow-head-chips">
+            <span class="fchip fchip-screen">🛠️ Configuración → Notificaciones</span>
+          </div>
+        </div>
+      </div>
+      <div class="flow-body">
+        <p>Conecta WhatsApp y elige qué mensajes automáticos recibirán tus clientes en cada etapa del proceso.</p>
+        <div class="steps">
+          <div class="step"><div class="step-num">1</div><div class="step-text">Ve a <strong>Configuración → Notificaciones</strong>.</div></div>
+          <div class="step"><div class="step-num">2</div><div class="step-text">En la sección <strong>WhatsApp</strong>, conecta tu número de WhatsApp Business siguiendo las instrucciones en pantalla.</div></div>
+          <div class="step"><div class="step-num">3</div><div class="step-text">Activa los eventos que quieres notificar: confirmación de cita, recepción del vehículo, presupuesto enviado, OT finalizada, entrega, entre otros.</div></div>
+          <div class="step"><div class="step-num">4</div><div class="step-text">Personaliza los mensajes usando los parámetros disponibles (<code>{{cliente}}</code>, <code>{{auto}}</code>, <code>{{patente}}</code>, <code>{{link}}</code>, etc.).</div></div>
+          <div class="step"><div class="step-num">5</div><div class="step-text">Haz clic en <strong>Actualizar</strong> para guardar.</div></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ═══ PASO 9 ═══════════════════════════════════════════════════════ -->
+    <div class="flow-card">
+      <div id="paso-9" class="section-anchor"></div>
+      <div class="flow-head">
+        <div class="flow-num">9</div>
+        <div class="flow-head-text">
+          <h2>Haz tu primera OT de prueba</h2>
+          <div class="flow-head-chips">
+            <span class="fchip fchip-screen">📅 Calendario → 🔧 Taller</span>
+          </div>
+        </div>
+      </div>
+      <div class="flow-body">
+        <p>Recorre el flujo completo con un caso de prueba antes de atender clientes reales. Así verificas que la configuración es correcta y que el equipo conoce el sistema.</p>
+
+        <div class="substep-list">
+          <div class="substep">
+            <div class="substep-num">9.1</div>
+            <div class="substep-body">
+              <p class="substep-title">Crea una cita en el Calendario</p>
+              <p class="substep-desc">Ve al <strong>Calendario</strong>, haz clic sobre el día y hora deseados y selecciona el tipo <em>Orden de Trabajo</em>. Ingresa un cliente y vehículo de prueba, el motivo de la visita y guarda la cita.</p>
+            </div>
+          </div>
+
+          <div class="substep">
+            <div class="substep-num">9.2</div>
+            <div class="substep-body">
+              <p class="substep-title">Recepciona el vehículo</p>
+              <p class="substep-desc">Haz clic sobre la cita en el Calendario y selecciona <strong>Abrir OT</strong>. En el modal que aparece, haz clic en <strong>Recepcionar</strong> para registrar la entrada del vehículo y completa el checklist de recepción.</p>
+            </div>
+          </div>
+
+          <div class="substep">
+            <div class="substep-num">9.3</div>
+            <div class="substep-body">
+              <p class="substep-title">Realiza la inspección técnica</p>
+              <p class="substep-desc">Dentro de la OT, ve a la pestaña <strong>Revisión Mecánica</strong>. Califica cada ítem del checklist (Bueno, Malo, 25%, 50%, 75%) y sube fotos como evidencia de los problemas detectados.</p>
+            </div>
+          </div>
+
+          <div class="substep">
+            <div class="substep-num">9.4</div>
+            <div class="substep-body">
+              <p class="substep-title">Elabora el presupuesto</p>
+              <p class="substep-desc">En la pestaña <strong>Editar Cotización</strong>, agrega los trabajos a realizar y los repuestos necesarios. Ajusta cantidades y precios, y haz clic en <strong>Vista Previa</strong> para ver cómo quedará el documento antes de enviarlo.</p>
+            </div>
+          </div>
+
+          <div class="substep">
+            <div class="substep-num">9.5</div>
+            <div class="substep-body">
+              <p class="substep-title">Envía el presupuesto al cliente</p>
+              <p class="substep-desc">Cambia el estado de la OT a <strong>Ppto. Enviado</strong>. El cliente recibirá el presupuesto por email con un enlace para revisarlo y aprobarlo.</p>
+            </div>
+          </div>
+
+          <div class="substep">
+            <div class="substep-num">9.6</div>
+            <div class="substep-body">
+              <p class="substep-title">Registra la aprobación</p>
+              <p class="substep-desc">Una vez que el cliente aprueba, cambia el estado a <strong>Ppto. Aprobado</strong>. Si aprobó solo una parte, ajusta la cotización antes de continuar.</p>
+            </div>
+          </div>
+
+          <div class="substep">
+            <div class="substep-num">9.7</div>
+            <div class="substep-body">
+              <p class="substep-title">Ejecuta los trabajos</p>
+              <p class="substep-desc">Asigna los trabajos al mecánico correspondiente en la pestaña <strong>Editar Cotización</strong>. El mecánico los verá en <strong>Tareas asignadas</strong> y puede registrar el avance y las horas de trabajo desde su vista.</p>
+            </div>
+          </div>
+
+          <div class="substep">
+            <div class="substep-num">9.8</div>
+            <div class="substep-body">
+              <p class="substep-title">Finaliza la OT</p>
+              <p class="substep-desc">Cuando todos los trabajos estén listos, cambia el estado a <strong>OT Finalizada</strong> para indicar que el vehículo está listo para entregar.</p>
+            </div>
+          </div>
+
+          <div class="substep">
+            <div class="substep-num">9.9</div>
+            <div class="substep-body">
+              <p class="substep-title">Entrega el vehículo</p>
+              <p class="substep-desc">Registra el pago, emite el documento tributario si corresponde, y cambia el estado a <strong>Entregada</strong>. El cliente recibirá una notificación automática avisando que su vehículo está listo.</p>
+            </div>
+          </div>
+        </div>
+
+        <div class="callout callout-success" style="margin-top:8px">
+          <span class="callout-icon">✅</span>
+          <div>¡Listo! Con esta prueba completa puedes verificar que el flujo funciona correctamente. Para más detalle sobre cada etapa, consulta la guía <a href="flujo-ot.html">Flujo Completo de una OT</a>.</div>
+        </div>
+      </div>
+    </div>
+
+  </main>
+</div>
+<script src="nav.js"></script>
+<script>
+  initNav('onboarding');
+
+  // Scroll-spy para el step-nav
+  const stepIds = ['paso-1','paso-2','paso-3','paso-4','paso-5','paso-6','paso-7','paso-8','paso-9'];
+  const stepLinks = document.querySelectorAll('#step-nav a');
+  const observer = new IntersectionObserver(entries => {
+    entries.forEach(e => {
+      if (e.isIntersecting) {
+        const id = e.target.id;
+        stepLinks.forEach(l => {
+          l.classList.toggle('active', l.getAttribute('href') === '#' + id);
+        });
+      }
+    });
+  }, { rootMargin: '-20% 0px -70% 0px' });
+  stepIds.forEach(id => {
+    const el = document.getElementById(id);
+    if (el) observer.observe(el);
+  });
+</script>
+</body>
+</html>
